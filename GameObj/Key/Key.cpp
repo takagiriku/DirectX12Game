@@ -29,7 +29,7 @@ bool Key::Initialize()
 	}
 	
 	stage = new Stage();
-	stage->Initialize();
+	//stage->Initialize();
 	
     return true;
 }

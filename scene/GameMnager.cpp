@@ -65,7 +65,7 @@ void GameMnager::Draw()
 	post->PostDrawScene(dxCommon->GetCommandList());
 	
 	dxCommon->PreDraw();
-	SceneManager::GetInstance()->DrawImGui();
+	//SceneManager::GetInstance()->DrawImGui();
 	if (post->GetPostFlag()||post->GetStartFlag())
 	{
 		post->Draw(dxCommon->GetCommandList());
