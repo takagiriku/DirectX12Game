@@ -1,0 +1,224 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    -16.95468521118164,
+                    -6.925790786743164,
+                    4.958309173583984
+                ],
+                "rotation": [
+                    63.559303283691406,
+                    -2.664711473698844e-06,
+                    46.69194793701172
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "wall2-90°.002",
+            "transform": {
+                "translation": [
+                    23.082876205444336,
+                    3.1411404609680176,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall2Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.013",
+            "transform": {
+                "translation": [
+                    4.43755578994751,
+                    3.1411404609680176,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall1Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.012",
+            "transform": {
+                "translation": [
+                    13.792699813842773,
+                    3.1411404609680176,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall1Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.002",
+            "transform": {
+                "translation": [
+                    32.51260757446289,
+                    3.1411404609680176,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall3Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "tile.006",
+            "transform": {
+                "translation": [
+                    31.96160888671875,
+                    0.5024838447570801,
+                    1.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    25.700000762939453,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "tile"
+        },
+        {
+            "type": "MESH",
+            "name": "wall2-90°.003",
+            "transform": {
+                "translation": [
+                    23.082876205444336,
+                    -2.0547914505004883,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall2Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.004",
+            "transform": {
+                "translation": [
+                    4.43755578994751,
+                    -2.0547914505004883,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall1Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.005",
+            "transform": {
+                "translation": [
+                    13.792699813842773,
+                    -2.0547914505004883,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall1Rot90"
+        },
+        {
+            "type": "MESH",
+            "name": "wall1-90°.007",
+            "transform": {
+                "translation": [
+                    32.51260757446289,
+                    -2.0547914505004883,
+                    3.086172103881836
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "SpaceWall3Rot90"
+        }
+    ]
+}
