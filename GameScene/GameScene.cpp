@@ -235,7 +235,7 @@ void GameScene::Update()
 	
 	for (int i = 0; i < 10; i++)
 	{
-		Battery[i]->Update();
+		Battery[i]->Update(particleMan, post);
 		Battery[i]->GetPos(PBodyPosition);
 		Battery[i]->SetPosition(BatteryPosition[i]);
 	}
@@ -271,14 +271,11 @@ void GameScene::Update()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (Battery[i]->BatFlag == false)
-		{
-
-		}
+		
 		if (Battery[i]->BatFlag)
 		{
 			AlphaFlag = false;
-			Battery[i]->SetBatFlag(false);
+			
 		}
 	}
 	float speed = 0.005;

@@ -55,6 +55,7 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		XMFLOAT4 color;
 	};
 
 public: // 静的メンバ関数
@@ -119,8 +120,10 @@ public: // メンバ関数
 
 	// スケールの設定
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
-
-
+	//アルファ値の設定
+	void SetAlpha(float alpha) { color.w = alpha; }
+	
+	float GetAlpha() { return color.w; }
 
 	// ビルボードフラグのセット
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }

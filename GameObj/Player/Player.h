@@ -41,7 +41,9 @@ public:
 	bool GetStartFlag() const { return StartFlag; }
 	
 	void SetMoveFlags(bool Flag) { this->MoveFlags = Flag; }
-	bool GetMoveFlags() const { return MoveFlags; }
+	bool GetMoveFlag() const {
+		return this->MoveFlags;
+	}
 	
 	bool MoveFlags = false;
 

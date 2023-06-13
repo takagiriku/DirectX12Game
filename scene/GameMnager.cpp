@@ -1,5 +1,6 @@
 #include "GameMnager.h"
 #include "SceneFactory.h"
+#include <iostream>
 GameMnager* GameMnager::GetInstance()
 {
 	static GameMnager instance;
@@ -14,7 +15,7 @@ void GameMnager::Initialize()
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
 	SceneManager::GetInstance()->ChangeScene("TITLE");
-	audio->SoundLoadWave("test.wav");
+	//audio->SoundLoadWave("Alarm01.wav");
 }
 
 void GameMnager::Finalize()
@@ -27,7 +28,7 @@ void GameMnager::Update()
 	GameBase::Update();
 	SceneManager::GetInstance()->Update(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 	
-	/*if (input->Push(DIK_0))
+	if (input->Push(DIK_0))
 	{
 		Times += 0.1f;
 		post->SetStartFlag(true);
@@ -35,11 +36,9 @@ void GameMnager::Update()
 	if (input->Push(DIK_1))
 	{
 		
-		post->ResetTime();
+		post->ClearTime();
 	}
 	
-	
-	*/
 	if (post->GetStartFlag()==false)
 	{
 
@@ -52,7 +51,10 @@ void GameMnager::Update()
 	}
 	
 	post->Update(Times);
+	std::cout << "SoundPlayWave called" << std::endl;
 	audio->SoundPlayWave("test.wav",true);
+	std::cout << "SoundPlayWave called" << std::endl;
+
 }
 
 void GameMnager::Draw()

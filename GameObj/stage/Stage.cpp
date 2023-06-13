@@ -218,6 +218,7 @@ void Stage::StageChange()
 void Stage::StageObjDraw0()
 {
 	for (int i = 0; i < GetNames.size(); ++i) {
+		float alpha = objects[i]->GetAlpha();  // 現在のalpha値を取得
 		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileSlope) {
 			objects[i]->Draw();
 		}
@@ -229,6 +230,7 @@ void Stage::StageObjDraw0()
 			{
 				objects[i]->Draw();
 			}
+		
 		}
 		if (GetNames[i] == skipFileWall2) {
 			if (StagePos.z < 7 || DrawFlag)
@@ -264,6 +266,13 @@ void Stage::StageObjDraw0()
 		if (GetNames[i] == skipFileWall1Rot90) {
 			if (StagePos.z < 7 || DrawFlag)
 			{
+				objects[i]->Draw();
+			}
+			else
+			{
+				
+				alpha -= 0.1;  // alpha値を減算
+				objects[i]->SetAlpha(alpha);  // 新しいalpha値をセット
 				objects[i]->Draw();
 			}
 		}

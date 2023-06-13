@@ -241,7 +241,7 @@ void GameScene2::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		Battery[i]->Update();
+		Battery[i]->Update(particleMan, post);
 		Battery[i]->GetPos(PBodyPosition);
 		Battery[i]->SetPosition(BatteryPosition[i]);
 		Box[i]->Update();
@@ -267,14 +267,11 @@ void GameScene2::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (Battery[i]->BatFlag == false)
-		{
-
-		}
+		
 		if (Battery[i]->BatFlag)
 		{
 			AlphaFlag = false;
-			Battery[i]->SetBatFlag(false);
+			
 		}
 	}
 
@@ -337,7 +334,7 @@ void GameScene2::Update()
 	Black->SetAlpha(alpha[0]);
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
-
+	particleMan->Update();
 }
 
 void GameScene2::Draw()
@@ -360,6 +357,7 @@ void GameScene2::Draw()
 
 	stage->StageObjDraw2();
 	Dome->Draw();
+	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
 
 

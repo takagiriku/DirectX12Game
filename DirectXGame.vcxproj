@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)enemy;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

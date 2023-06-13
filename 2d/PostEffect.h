@@ -60,11 +60,13 @@ public:
 		return this->Starrt;
 	}
 	void SetEndFlag(bool Endflag) { this->End = Endflag; }
-	void GetEndFlag(bool Endflag) {  Endflag; }
+	bool GetEndFlag() const {
+		return this->End;
+	}
 	void ResetTime();
 	void ClearTime();
 	float Time;
-
+	bool ClearFlag = false;
 	bool PostFlag = false;
 	// テクスチャバッファ
 	ComPtr<ID3D12Resource>texBuff;

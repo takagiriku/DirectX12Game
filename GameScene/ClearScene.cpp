@@ -68,6 +68,8 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayerBody->SetStartFlag(true);
 	objPlayer->SetStartFlag(true);
 	post->SetPostFlag(true);
+	objPlayerBody->SetMoveFlags(true);
+	objPlayer->SetMoveFlags(true);
 }
 
 void ClearScene::Finalize()

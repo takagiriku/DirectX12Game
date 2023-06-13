@@ -41,15 +41,13 @@ void Key::Update(ParticleManager* particleMan)
 	if (abs(position.x - pos.x) <= 1.0f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.0f)
 	{
 		KeyFlag = true;
-	}
-	if (KeyFlag)
-	{
-		time += 1;
-		if (time < 25)
+		if (time < 10)
 		{
+			time += 1;
 			CreateParticle(particleMan);
 		}
 	}
+	
 	stage->SetKeyFlag(KeyFlag);
 	
 }

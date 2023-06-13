@@ -130,4 +130,5 @@ private:
 
 	bool objMoveflag = false;
 	float MaxPos = 0;
+	float alpha = 1;
 };

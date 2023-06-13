@@ -230,8 +230,26 @@ void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 
 void PostEffect::Update(float Times)
 {
+	if (ClearFlag)
+	{
+		if (Time > 10)
+		{
+
+		}
+		if (Time > 0.1)
+		{
+			Time -= 0.2;
+		}
+		else
+		{
+			ClearFlag = false;
+		}
+	}
+	else
+	{
+		Time += Times;
+	}
 	
-	Time += Times;
 
 }
 
@@ -371,8 +389,6 @@ void PostEffect::ResetTime()
 
 void PostEffect::ClearTime()
 {
-	if (Time > 0.1)
-	{
-		Time -= 0.2;
-	}
+	ClearFlag = true;
+	Time = 10;
 }

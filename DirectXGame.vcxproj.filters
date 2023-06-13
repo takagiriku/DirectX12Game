@@ -338,30 +338,6 @@
     <ClInclude Include="audio\Audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\BC.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\BCDirectCompute.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\d3dx12.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\DDS.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\DirectXTex.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\DirectXTexP.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\filters.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\DirectXTex\include\scoped.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />
@@ -371,9 +347,6 @@
     <None Include="Resources\shaders\Particle.hlsli" />
     <None Include="Resources\shaders\PostEffectTest.hlsli" />
     <None Include="Resources\shaders\SpriteShaderHeader.hlsli" />
-    <None Include="lib\DirectXTex\include\DirectXTex.inl">
-      <Filter>ヘッダー ファイル</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl" />

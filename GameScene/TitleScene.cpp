@@ -286,7 +286,7 @@ void TitleScene::Update()
 	objPlayerBody->Update();
 	objPlayer->Update();
 	Key->Update(particleMan);
-	Battery->Update();
+	Battery->Update(particleMan, post);
 	stage->GetCameraPos(CameraPosition);
 	for (int i = 0; i < 9; i++)
 	{
@@ -367,9 +367,6 @@ void TitleScene::Draw()
     ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	Object3d::PreDraw(cmdList);
-    objPlayerBody->Draw();
-    objPlayer->Draw();
-	Key->Draw();
 	if (StartFlag == false)
 	{
 		for (int i = 0; i < 9; i++)
@@ -382,9 +379,14 @@ void TitleScene::Draw()
 		TitleMove[0]->Draw();
 		TitleMove[1]->Draw();
 	}
-	
-	Battery->Draw();
-    stage->StageObjDraw0();
+	if (StartFlag)
+	{
+		stage->StageObjDraw0();
+		Battery->Draw();
+		objPlayerBody->Draw();
+		objPlayer->Draw();
+		Key->Draw();
+	}
     Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
