@@ -244,8 +244,8 @@ void Object3d::Update()
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
-	constMap->cameraPos = cameraPos;
 	constMap->color = color;
+	constMap->cameraPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
 
 	// 当たり判定更新

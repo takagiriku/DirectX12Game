@@ -271,7 +271,7 @@ void Stage::StageObjDraw0()
 			else
 			{
 				
-				alpha -= 0.1;  // alpha値を減算
+				alpha -= 0.01;  // alpha値を減算
 				objects[i]->SetAlpha(alpha);  // 新しいalpha値をセット
 				objects[i]->Draw();
 			}

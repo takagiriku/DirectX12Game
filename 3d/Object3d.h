@@ -54,8 +54,9 @@ public: // サブクラス
 	{
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
-		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		XMFLOAT4 color;
+		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		
 	};
 
 public: // 静的メンバ関数

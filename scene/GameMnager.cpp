@@ -51,10 +51,8 @@ void GameMnager::Update()
 	}
 	
 	post->Update(Times);
-	std::cout << "SoundPlayWave called" << std::endl;
-	audio->SoundPlayWave("test.wav",true);
-	std::cout << "SoundPlayWave called" << std::endl;
-
+	//audio->SoundPlayWave("Alarm01.wav",true);
+	
 }
 
 void GameMnager::Draw()

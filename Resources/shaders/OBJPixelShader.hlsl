@@ -123,9 +123,6 @@ float4 main(VSOutput input) : SV_TARGET
 			shadecolor.rgb -= atten;
 		}
 	}
-	// 色を乗算
-	//shadecolor *= Color;
-	texcolor* color;
-	// シェーディングによる色で描画
-	return shadecolor * texcolor;
+	
+	return shadecolor * texcolor * color;
 }
