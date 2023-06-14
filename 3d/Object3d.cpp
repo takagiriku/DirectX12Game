@@ -14,7 +14,6 @@
 using namespace DirectX;
 
 // 静的メンバ変数の実体
-ID3D12Device* Object3d::device = nullptr;
 ID3D12GraphicsCommandList* Object3d::cmdList = nullptr;
 Object3d::Base* Object3d::base = nullptr;
 
@@ -71,17 +70,17 @@ void Object3d::Base::GraphicsPipeline(DirectXCommon* dxCommon)
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{ // xy座標
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
+		{ // 法線ベクトル
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{ // uv座標
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
@@ -213,7 +212,6 @@ Object3d::~Object3d()
 bool Object3d::Initialize()
 {
 
-
 	HRESULT result;
 	// 定数バッファの生成
 	result = base->dxcommon->GetDevice()->CreateCommittedResource(
@@ -244,7 +242,7 @@ void Object3d::Update()
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
-	constMap->color = color;
+	constMap->alpha = color.w;
 	constMap->cameraPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
 

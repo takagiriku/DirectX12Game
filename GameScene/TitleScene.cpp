@@ -31,10 +31,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(light);
 	light->SetSpotLightActive(0, true);
-	light->SetSpotLightActive(1, true);
 	light->SetCircleShadowActive(0, true);
-	light->SetCircleShadowActive(1, true);
-    //Object3d::SetLightGroup(light);
+	//Object3d::SetLightGroup(light);
     mDome = Model::CreateOBJ("skydome");
     Dome = Object3d::Create(mDome);
 	Dome->SetPosition({ 180,0,0 });
@@ -181,8 +179,8 @@ void TitleScene::Update()
 			{//ラグの問題でxに+1する
 				//BodyとHeadの回転
 				objPlayer->SetRotation({ 0,90,0 });
-				PlayerBodyRotz -= 5;
-				PlayerBodyRotx = 0;
+				PBodyRotation.z -= 5;
+				PBodyRotation.x = 0;
 				PlayerShadow[0] = -0.5;
 				PlayerLight[0] = -0.5;
 				PlayerShadowDir[0] = -0.5;
@@ -191,8 +189,8 @@ void TitleScene::Update()
 			{//ラグの問題でxに-1する
 				//Bodyの回転
 				objPlayer->SetRotation({ 0,270,0 });
-				PlayerBodyRotz += 5;
-				PlayerBodyRotx = 0;
+				PBodyRotation.z += 5;
+				PBodyRotation.x = 0;
 				PlayerShadow[0] = 0.5;
 				PlayerLight[0] = 0.5;
 				PlayerShadowDir[0] = 0.5;
@@ -213,8 +211,8 @@ void TitleScene::Update()
 			{//ラグの問題でzに+1する
 				//BodyとHeadの回転
 				objPlayer->SetRotation({ 0,0,0 });
-				PlayerBodyRotx += 5;
-				PlayerBodyRotz = 90;
+				PBodyRotation.x += 5;
+				PBodyRotation.z = 90;
 
 				PlayerShadow[2] = -0.5;
 				PlayerLight[2] = -0.5;
@@ -225,8 +223,8 @@ void TitleScene::Update()
 			{//ラグの問題でzに-1する
 				//BodyとHeadの回転
 				objPlayer->SetRotation({ 0,180,0 });
-				PlayerBodyRotz = 90;
-				PlayerBodyRotx -= 5;
+				PBodyRotation.z = 90;
+				PBodyRotation.x -= 5;
 
 				PlayerShadow[2] = +0.5;
 				PlayerLight[2] = +0.5;
@@ -245,15 +243,7 @@ void TitleScene::Update()
 
 
 	}
-	else if (objPlayerBody->MoveCount == 0)
-	{
-		PlayerShadow[0] = 0;
-		PlayerShadow[2] = 0;
-		PlayerLight[0] = 0;
-		PlayerLight[2] = 0;
-		PlayerShadowDir[0] = 0;
-		PlayerShadowDir[2] = 0;
-	}
+	
 	
 	
 	PlayerPos[0] = PBodyPosition.x;
@@ -276,7 +266,7 @@ void TitleScene::Update()
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
 
-	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
+	objPlayerBody->SetRotation({ PBodyRotation });
 	objPlayerBody->SetPosition({ PBodyPosition });
 	Key->SetPosition(KeyPosition);
 	Battery->SetPosition(BatteryPosition);
@@ -296,7 +286,7 @@ void TitleScene::Update()
 	{
 		TitleMove[0]->SetRotation({ 0,0,45 });
 		TitleMove[1]->SetRotation({ 0,180,45 });
-		if (a[0] < 0.5)
+		if (a[0] < 0.3)
 		{
 			a[0] += 0.05;
 		}	

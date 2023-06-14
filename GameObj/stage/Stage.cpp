@@ -268,13 +268,13 @@ void Stage::StageObjDraw0()
 			{
 				objects[i]->Draw();
 			}
-			else
-			{
-				
-				alpha -= 0.01;  // alpha値を減算
-				objects[i]->SetAlpha(alpha);  // 新しいalpha値をセット
-				objects[i]->Draw();
-			}
+			//else
+			//{
+			//	
+			//	alpha -= 0.01;  // alpha値を減算
+			//	objects[i]->SetAlpha(alpha);  // 新しいalpha値をセット
+			//	objects[i]->Draw();
+			//}
 		}
 		if (GetNames[i] == skipFileWall2Rot90) {
 			if (StagePos.z < 28 || DrawFlag)

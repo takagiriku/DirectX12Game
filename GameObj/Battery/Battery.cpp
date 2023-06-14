@@ -40,7 +40,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post)
 {
 	if (LifeFlag == false)
 	{
-		if (abs(position.x - pos.x) <= 1.0f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.0f)
+		if (abs(position.x - pos.x) <= 0.9f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.9f)
 		{
 			LifeFlag = true;
 			BatFlag = true;

@@ -233,17 +233,12 @@ void Player::Move()
 
 void Player::Update()
 {
-
-
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	if (StartFlag)
 	{
 		Foll();
 	}
-
-	
-	
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	collider->Update();

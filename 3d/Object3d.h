@@ -54,9 +54,8 @@ public: // サブクラス
 	{
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
-		XMFLOAT4 color;
+		float alpha;
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
-		
 	};
 
 public: // 静的メンバ関数
@@ -125,6 +124,11 @@ public: // メンバ関数
 	void SetAlpha(float alpha) { color.w = alpha; }
 	
 	float GetAlpha() { return color.w; }
+	
+	//色の設定
+	void SetColor(XMFLOAT3 color) { color = color; }
+	
+	const XMFLOAT4& GetColor() { return color; }
 
 	// ビルボードフラグのセット
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }

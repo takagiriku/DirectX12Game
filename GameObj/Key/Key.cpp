@@ -38,7 +38,7 @@ void Key::Update(ParticleManager* particleMan)
 {
 	Object3d::Update();
 	
-	if (abs(position.x - pos.x) <= 1.0f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.0f)
+	if (abs(position.x - pos.x) <= 0.8f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.8f)
 	{
 		KeyFlag = true;
 		if (time < 10)

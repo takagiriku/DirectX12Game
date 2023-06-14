@@ -48,7 +48,7 @@ private:
     bool AlphaFlag = true;
     bool anyTrue = false; // true‚Ì—v‘f‚ª‘¶İ‚·‚é‚©‚ğ¦‚·•Ï”
     float alpha[3] = { 0,0,0 };
-    XMFLOAT3 PBodyPosition = { 0,55,-2 };
+    XMFLOAT3 PBodyPosition = { 6,2,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
     XMFLOAT3 CameraPosition = { -15,15,-15 };
     XMFLOAT3 KeyPosition = { 60,15,10 };

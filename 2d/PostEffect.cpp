@@ -242,6 +242,11 @@ void PostEffect::Update(float Times)
 		}
 		else
 		{
+			ClearTimeer += 1;
+		}
+		if (ClearTimeer > 10)
+		{
+			ClearTimeer = 0;
 			ClearFlag = false;
 		}
 	}
@@ -295,12 +300,12 @@ void PostEffect::CreateGraphicsPipelineState()
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{ // xy座標
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{ // uv座標
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0

@@ -108,6 +108,7 @@ private:
 	static const float clearColor[4];
 	
 	float Times;
+	float ClearTimeer;
 	bool Starrt = false;
 	bool End = false;
 };

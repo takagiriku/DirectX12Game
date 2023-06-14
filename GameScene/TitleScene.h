@@ -49,6 +49,7 @@ private:
     bool StartFlag = false;
     float a[3] = { 0,0,0 };
     XMFLOAT3 PBodyPosition = { 0,70,7 };
+    XMFLOAT3 PBodyRotation = { 0,0,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
     XMFLOAT3 CameraPosition = { -15,15,-15 };
     XMFLOAT3 KeyPosition = { -8,5,66 };
