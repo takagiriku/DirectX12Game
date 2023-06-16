@@ -29,7 +29,6 @@ bool Key::Initialize()
 	}
 	
 	stage = new Stage();
-	//stage->Initialize();
 	
     return true;
 }
@@ -41,15 +40,16 @@ void Key::Update(ParticleManager* particleMan)
 	if (abs(position.x - pos.x) <= 0.8f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.8f)
 	{
 		KeyFlag = true;
+	}
+	if (KeyFlag)
+	{
 		if (time < 10)
 		{
 			time += 1;
 			CreateParticle(particleMan);
 		}
 	}
-	
 	stage->SetKeyFlag(KeyFlag);
-	
 }
 
 void Key::CreateParticle(ParticleManager* particleMan)
@@ -68,18 +68,18 @@ void Key::CreateParticle(ParticleManager* particleMan)
 		float radius = (float)rand() / RAND_MAX * rnd_posx;     // ランダムな半径を生成
 
 		pos.x = radius * cos(angle) + position.x;
-		pos.y = (float)rand() / RAND_MAX * rnd_posy - rnd_posy / 2.0f + position.y;
+		pos.y = radius * sin(angle) + position.y-2;
 		pos.z = radius * sin(angle) + position.z;
 
 		// 初速度をランダムに生成
 		XMFLOAT3 vel{};
 		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel * 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
 		// 初加速度をランダムに生成
 		XMFLOAT3 acc{};
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
 		// パーティクルを追加
 		particleMan->Add(20, pos, vel, acc, 0.4f, 0.0f);
@@ -92,7 +92,6 @@ void Key::Draw()
 	{
 		Object3d::Draw();
 	}
-	//stage->StageObjDraw();
 }
 
 

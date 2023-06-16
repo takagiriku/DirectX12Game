@@ -244,7 +244,7 @@ void PostEffect::Update(float Times)
 		{
 			ClearTimeer += 1;
 		}
-		if (ClearTimeer > 10)
+		if (ClearTimeer > 100)
 		{
 			ClearTimeer = 0;
 			ClearFlag = false;
@@ -254,8 +254,6 @@ void PostEffect::Update(float Times)
 	{
 		Time += Times;
 	}
-	
-
 }
 
 void PostEffect::CreateGraphicsPipelineState()

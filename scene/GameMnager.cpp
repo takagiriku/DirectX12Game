@@ -14,8 +14,8 @@ void GameMnager::Initialize()
 
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
-	SceneManager::GetInstance()->ChangeScene("GAME2");
-	//audio->SoundLoadWave("Alarm01.wav");
+	SceneManager::GetInstance()->ChangeScene("TITLE");
+	audio->SoundLoadWave("digitalworld.wav");
 }
 
 void GameMnager::Finalize()
@@ -51,7 +51,7 @@ void GameMnager::Update()
 	}
 	
 	post->Update(Times);
-	//audio->SoundPlayWave("Alarm01.wav",true);
+	audio->SoundPlayWave("digitalworld.wav",true);
 	
 }
 
@@ -65,7 +65,7 @@ void GameMnager::Draw()
 	post->PostDrawScene(dxCommon->GetCommandList());
 	
 	dxCommon->PreDraw();
-	SceneManager::GetInstance()->DrawImGui();
+	//SceneManager::GetInstance()->DrawImGui();
 	if (post->GetPostFlag()||post->GetStartFlag())
 	{
 		post->Draw(dxCommon->GetCommandList());

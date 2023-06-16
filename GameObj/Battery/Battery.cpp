@@ -40,7 +40,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post)
 {
 	if (LifeFlag == false)
 	{
-		if (abs(position.x - pos.x) <= 0.9f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.9f)
+		if (abs(position.x - pos.x) <= 1.f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.f)
 		{
 			LifeFlag = true;
 			BatFlag = true;
@@ -50,7 +50,6 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post)
 				Time += 1;
 				CreateParticle(particleMan);
 			}
-
 		}
 	}
 		
@@ -66,7 +65,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post)
 void Battery::CreateParticle(ParticleManager* particleMan)
 {
 	const float rnd_posx = 1.0f;
-	const float rnd_posy = 1.0f;
+	const float rnd_posy = 2.0f;
 	const float rnd_posz = 1.0f;
 
 	const float rnd_vel = 0.4f;
@@ -79,20 +78,20 @@ void Battery::CreateParticle(ParticleManager* particleMan)
 		float radius = (float)rand() / RAND_MAX * rnd_posx;     // ランダムな半径を生成
 
 		pos.x = radius * cos(angle) + position.x;
-		pos.y = (float)rand() / RAND_MAX * rnd_posy - rnd_posy / 2.0f + position.y;
+		pos.y = radius * sin(angle) + position.y - 2;
 		pos.z = radius * sin(angle) + position.z;
 
 		// 初速度をランダムに生成
 		XMFLOAT3 vel{};
 		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel * 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
 		// 初加速度をランダムに生成
 		XMFLOAT3 acc{};
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-		// パーティクルを追加
+			// パーティクルを追加
 		particleMan->Add(20, pos, vel, acc, 0.4f, 0.0f);
 	}
 }
