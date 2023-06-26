@@ -2,10 +2,9 @@
 #include "Input.h"
 #include "DebugText.h"
 #include "SphereCollider.h"
-#include "ParticleManager.h"
 #include "CollisionManager.h"
 #include "CollisionAttribute.h"
-
+#include"light.h"
 using namespace DirectX;
 
 Player* Player::Create(Model* model)
@@ -78,7 +77,9 @@ void Player::Move()
 
 	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
 	assert(sphereCollider);
-	const float threshold = cosf(XMConvertToRadians(60.0f));
+	
+	//const float threshold = cosf(XMConvertToRadians(60.0f));
+
 	// クエリーコールバッククラス
 	class PlayerQueryCallback : public QueryCallback
 	{
@@ -130,12 +131,19 @@ void Player::Move()
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 0.2f;
+
+		//移動変数
+		float moveDistance = 0.5;
+		//戻り
+		float BackmoveDistance = 0.5;
 		// 接地を維持
 		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_GROUND, &raycastHit, sphereCollider->GetRadius() * 3.0f + adsDistance)) {
 			onGround = true;
 			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
 			if (MoveFlags)
 			{
+				
+
 				if (input->Push(DIK_D) || input->Push(DIK_A))
 				{
 					if (MoveFlag != 5)
@@ -231,16 +239,24 @@ void Player::Move()
 }
 
 
-void Player::Update()
+void Player::Update(Light* light)
 {
-	// ワールド行列更新
-	UpdateWorldMatrix();
+	//影
+	light->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0] , circleShadowDir[1], circleShadowDir[2], 0 }));
+	light->SetCircleShadowCasterPos(0, XMFLOAT3({ position }));
+	light->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+	light->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
+
+	//光
+	light->SetSpotLightPos(0, XMFLOAT3(position.x, position.y+ spotLightPos[1], position.z));
+	light->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0], spotLightDir[1], spotLightDir[2] , 0 }));
+	light->SetSpotLightColor(0, XMFLOAT3(spotLightColor));
+	light->SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
+	light->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
 	if (StartFlag)
 	{
 		Foll();
 	}
-	// ワールド行列更新
-	UpdateWorldMatrix();
 	collider->Update();
 	Move();
 	// 行列の更新など

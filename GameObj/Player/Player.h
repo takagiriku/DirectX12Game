@@ -1,10 +1,8 @@
 #pragma once
-#include"ParticleManager.h"
 #include "Object3d.h"
 #include"Input.h"
 
-class Game;
-
+class Light;
 class Player:
 	public Object3d
 {
@@ -17,13 +15,9 @@ public:
 	bool Initialize() override;
 
 	// 毎フレーム処理
-	void Update() override;
+	void Update(Light* light);
 
 
-
-	//DirectX::XMFLOAT3 GetPosition() const { return position; }
-
-	ParticleManager* particleMan = nullptr;
 
 	int GetMoveCount() const { return MoveCount; }
 
@@ -31,6 +25,8 @@ public:
 	void Foll();
 
 	void Move();
+
+
 
 	int scene = 0;
 
@@ -50,23 +46,31 @@ public:
 	int MoveCount = 0;
 
 private:
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 0,1,0 };
+	//方向
+	float lightDir1[3] = { 1,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+	float spotLightDir[3] = { 0,-5,0 };
+	float spotLightPos[3] = { 0,5,0 };
+	float spotLightColor[3] = { 0.7f,0.8f,1 };
+	float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
+	float spotLightFactorAngle[2] = { 20.0f, 30.0f };
+
+	float circleShadowDir[3] = { 0,-1,0 };
+	float circleShadowPos[3] = { 1,7,0 };
+	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
+	float circleShadowFactorAngle[2] = { 0.0f, 0.5f };
 
 	bool onGround = true;
 
 	// 落下ベクトル
 	float fallV[4] = { 0,0,0,0 };
-
-	int gameCount = 0;
-
 	int MoveFlag = 0;
 	
-	//移動変数
-	float moveDistance = 0.5;
-	//戻り
-	float BackmoveDistance = 0.5;
 
-
-	ParticleManager* particleManager = nullptr;
 };
 
 

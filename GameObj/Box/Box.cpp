@@ -71,7 +71,6 @@ void Box::Update()
 	
 	for (int i = 0; i < 4; i++)
 	{
-		
 		if (abs(position.x - posx[i]) <= 1 && abs(position.z - posz[i]) <= 1)
 		{
 			BoxFlag = true;
@@ -79,8 +78,6 @@ void Box::Update()
 			{
 				position.y -= 0.1;
 			}
-
-
 		}
 	}
 	Object3d::Update();

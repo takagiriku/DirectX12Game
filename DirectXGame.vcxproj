@@ -166,6 +166,7 @@
     <ClCompile Include="GameScene\GameScene.cpp" />
     <ClCompile Include="GameScene\GameScene2.cpp" />
     <ClCompile Include="GameScene\TitleScene.cpp" />
+    <ClCompile Include="GameObj\Player\PlayerHead.cpp" />
     <ClCompile Include="scene\GameBase.cpp" />
     <ClCompile Include="scene\GameMnager.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="GameScene\GameScene2.h" />
     <ClInclude Include="GameScene\TitleScene.h" />
+    <ClInclude Include="GameObj\Player\PlayerHead.h" />
     <ClInclude Include="scene\AbstractSceneFactory.h" />
     <ClInclude Include="scene\GameBase.h" />
     <ClInclude Include="scene\GameMnager.h" />

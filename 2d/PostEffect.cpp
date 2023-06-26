@@ -22,7 +22,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	HRESULT result = this->constBuff->Map(0, nullptr, reinterpret_cast<void**>(&constMap));
 	if (SUCCEEDED(result)) {
 		constMap->time = Time;
-		constMap->StartFlag = Starrt;
+		constMap->StartFlag = Start;
 		this->constBuff->Unmap(0, nullptr);
 	}
 
@@ -244,9 +244,10 @@ void PostEffect::Update(float Times)
 		{
 			ClearTimeer += 1;
 		}
-		if (ClearTimeer > 100)
+		if (ClearTimeer > 300)
 		{
 			ClearTimeer = 0;
+			Time = 0;
 			ClearFlag = false;
 		}
 	}

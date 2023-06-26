@@ -25,9 +25,18 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(light);
 	light->SetSpotLightActive(0, true);
-	light->SetSpotLightActive(1, true);
+	light->SetPointLightActive(0, true);
+	
+	
+	
 	light->SetCircleShadowActive(0, true);
 	light->SetCircleShadowActive(1, true);
+
+	for (int i = 2; i < 5; i++)
+	{
+		light->SetPointLightActive(i, true);
+		light->SetCircleShadowActive(i, true);
+	}
 	Object3d::SetLightGroup(light);
 	mDome = Model::CreateOBJ("skydome");
 	modelPlayerBody = Model::CreateOBJ("playerbody");
@@ -73,7 +82,7 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	objPlayerBody->SetStartFlag(true);
 	objPlayer->SetStartFlag(true);
-	post->SetPostFlag(true);
+	
 	post->SetStartFlag(true);
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
@@ -87,7 +96,6 @@ void GameScene2::Finalize()
 	safe_delete(mDome);
 	safe_delete(mKey);
 	safe_delete(mBattery);
-	safe_delete(light);
 	safe_delete(light);
 	safe_delete(stage);
 	safe_delete(objPlayerBody);
@@ -128,9 +136,6 @@ void GameScene2::Update()
 				PlayerBodyRotz -= 5;
 				PlayerBodyRotx = 0;
 
-				PlayerShadow[0] = -0.5;
-				PlayerLight[0] = -0.5;
-				PlayerShadowDir[0] = -0.5;
 			}
 			if (input->Push(DIK_A))
 			{//ラグの問題でxに-1する
@@ -138,19 +143,8 @@ void GameScene2::Update()
 				objPlayer->SetRotation({ 0,270,0 });
 				PlayerBodyRotz += 5;
 				PlayerBodyRotx = 0;
-				PlayerShadow[0] = 0.5;
-				PlayerLight[0] = 0.5;
-				PlayerShadowDir[0] = 0.5;
 			}
-			if (input->Push(DIK_A) && input->Push(DIK_D))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+		
 		}
 		else if (input->Push(DIK_S) || input->Push(DIK_W))
 		{
@@ -160,11 +154,6 @@ void GameScene2::Update()
 				objPlayer->SetRotation({ 0,0,0 });
 				PlayerBodyRotx += 5;
 				PlayerBodyRotz = 90;
-
-				PlayerShadow[2] = -0.5;
-				PlayerLight[2] = -0.5;
-				PlayerShadowDir[2] = -0.5;
-
 			}
 			if (input->Push(DIK_S))
 			{//ラグの問題でzに-1する
@@ -172,33 +161,13 @@ void GameScene2::Update()
 				objPlayer->SetRotation({ 0,180,0 });
 				PlayerBodyRotz = 90;
 				PlayerBodyRotx -= 5;
-
-				PlayerShadow[2] = +0.5;
-				PlayerLight[2] = +0.5;
-				PlayerShadowDir[2] = +0.5;
 			}
-			if (input->Push(DIK_S) && input->Push(DIK_W))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+			
 		}
 
 
 	}
-	else if (objPlayerBody->MoveCount == 0)
-	{
-		PlayerShadow[0] = 0;
-		PlayerShadow[2] = 0;
-		PlayerLight[0] = 0;
-		PlayerLight[2] = 0;
-		PlayerShadowDir[0] = 0;
-		PlayerShadowDir[2] = 0;
-	}
+
 
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
@@ -219,21 +188,7 @@ void GameScene2::Update()
 	BatPos[0] = BoxPosition[0].x;
 	BatPos[1] = BoxPosition[0].y;
 	BatPos[2] = BoxPosition[0].z;
-	//影
-	light->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0] + PlayerShadowDir[0], circleShadowDir[1], circleShadowDir[2] + PlayerShadowDir[2], 0 }));
-	light->SetCircleShadowCasterPos(0, XMFLOAT3({ PBodyPosition.x - PlayerShadow[0],PBodyPosition.y,PBodyPosition.z - PlayerShadow[2] }));
-	light->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	light->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
 
-	//光
-	light->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0] - PlayerLight[0], spotLightDir[1], spotLightDir[2] - PlayerLight[2], 0 }));
-	light->SetSpotLightPos(0, XMFLOAT3(PBodyPosition.x, PBodyPosition.y + spotLightPos[1], PBodyPosition.z));
-	light->SetSpotLightColor(0, XMFLOAT3(spotLightColor));
-	light->SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
-	light->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
-	inputCamera->SetTarget(CameraPosition);
-	inputCamera->SetEye(XMFLOAT3(Eye));
-	inputCamera->Update();
 
 	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
 	Dome->Update();
@@ -241,7 +196,7 @@ void GameScene2::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		Battery[i]->Update(particleMan, post);
+		Battery[i]->Update(particleMan, post, light,i+2);
 		Battery[i]->GetPos(PBodyPosition);
 		Battery[i]->SetPosition(BatteryPosition[i]);
 		Box[i]->Update();
@@ -251,23 +206,36 @@ void GameScene2::Update()
 	}
 
 	Key->SetPosition(KeyPosition);
-	Key->Update(particleMan);
+	Key->Update(particleMan, light);
 	Key->GetPos(PBodyPosition);
 
-	objPlayerBody->Update();
-	objPlayer->Update();
+	objPlayerBody->Update(light);
+	objPlayer->Update(light);
 
-	stage->Stage3();
-	stage->GetCameraPos(CameraPosition);
+	
 	if (Key->KeyFlag)
 	{
+		Time += 1;
+		if (Time < 200)
+		{
+			
+			CameraPosition.x = 62;
+			CameraPosition.y = 16;
+			CameraPosition.z = 58;
+			objPlayerBody->SetStartFlag(false);
+			objPlayer->SetStartFlag(false);
+		}
+		else
+		{
+			objPlayerBody->SetStartFlag(true);
+			objPlayer->SetStartFlag(true);
+		}
 		stage->SetKeyFlag(Key->KeyFlag);
 	}
 	
 
 	for (int i = 0; i < 4; i++)
 	{
-		
 		if (Battery[i]->BatFlag)
 		{
 			AlphaFlag = false;
@@ -280,6 +248,7 @@ void GameScene2::Update()
 		if (Box[i]->GetBoxFlag())
 		{
 			FlagCount[i] = 1;
+			
 		}
 		else
 		{
@@ -335,6 +304,11 @@ void GameScene2::Update()
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	particleMan->Update();
+	stage->Stage3();
+	stage->GetCameraPos(CameraPosition);
+	inputCamera->SetTarget(CameraPosition);
+	inputCamera->SetEye(XMFLOAT3(Eye));
+	inputCamera->Update();
 }
 
 void GameScene2::Draw()
@@ -353,7 +327,6 @@ void GameScene2::Draw()
 		Box[i]->Draw();
 		BBox[i]->Draw();
 	}
-
 
 	stage->StageObjDraw2();
 	Dome->Draw();

@@ -55,22 +55,24 @@ private:
     XMFLOAT3 KeyPosition = { 0,-10,0 };
     XMFLOAT3 BatteryPosition[4] = {
     { 101,13,17 },
-    { 25,13,17 },
-    { 26,13,54 },
+    { 25, 13,17 },
+    { 26, 13,54 },
     { 101,13,54 }
     };
     XMFLOAT3 BoxPosition[4] = {
     { 107,12,38 },
     { 124,12,25 },
-    { 25,12,73 },
-    { 10,12,1 }
+    { 25, 12,73 },
+    { 10, 12,1 }
     };
     XMFLOAT3 BBoxPosition[4] = {
-    { 1,10,1 },
+    { 1,  10,1 },
     { 124,10,1 },
-    { 1,10,73 },
+    { 1,  10,73 },
     { 124,10,73 },
     };
+
+    float Time = 0;
     float FlagCount[4] = { 0,0,0,0 };
     bool allFlagsTrue = true;
 

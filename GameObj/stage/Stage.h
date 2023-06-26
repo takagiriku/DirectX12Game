@@ -68,7 +68,7 @@ public:
 	void GetCameraPos(XMFLOAT3 camerapos);
 	XMFLOAT3 camerapos = { 0,0,0 };
 
-
+	float Gimmick = 0;
 
 	
 	bool KeyFlag = false;

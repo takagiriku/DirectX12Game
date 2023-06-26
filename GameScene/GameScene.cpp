@@ -26,8 +26,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* i
 	Object3d::SetLightGroup(light);
 	light->SetSpotLightActive(0, true);
 	light->SetSpotLightActive(1, true);
+	
+
+	
 	light->SetCircleShadowActive(0, true);
 	light->SetCircleShadowActive(1, true);
+	for (int i = 2; i < 11; i++)
+	{
+		light->SetPointLightActive(i, true);
+		light->SetCircleShadowActive(i, true);
+	}
+	
+
 	Object3d::SetLightGroup(light);
 	mDome = Model::CreateOBJ("skydome");
 	Dome = Object3d::Create(mDome);
@@ -66,7 +76,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* i
 	
 	objPlayerBody->SetStartFlag(true);
 	objPlayer->SetStartFlag(true);
-	post->SetPostFlag(true);
 	post->SetStartFlag(true);
 
 	objPlayerBody->SetMoveFlags(true);
@@ -82,7 +91,6 @@ void GameScene::Finalize()
 	safe_delete(mDome);
 	safe_delete(mKey);
 	safe_delete(mBattery);
-	safe_delete(light);
 	safe_delete(light);
 	safe_delete(stage);
 	safe_delete(objPlayerBody);
@@ -122,9 +130,6 @@ void GameScene::Update()
 				PlayerBodyRotz -= 5;
 				PlayerBodyRotx = 0;
 
-				PlayerShadow[0] = -0.5;
-				PlayerLight[0] = -0.5;
-				PlayerShadowDir[0] = -0.5;
 			}
 			if (input->Push(DIK_A))
 			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
@@ -132,19 +137,9 @@ void GameScene::Update()
 				objPlayer->SetRotation({ 0,270,0 });
 				PlayerBodyRotz += 5;
 				PlayerBodyRotx = 0;
-				PlayerShadow[0] = 0.5;
-				PlayerLight[0] = 0.5;
-				PlayerShadowDir[0] = 0.5;
+			
 			}
-			if (input->Push(DIK_A) && input->Push(DIK_D))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+			
 		}
 		else if (input->Push(DIK_S) || input->Push(DIK_W))
 		{
@@ -155,9 +150,6 @@ void GameScene::Update()
 				PlayerBodyRotx += 5;
 				PlayerBodyRotz = 90;
 
-				PlayerShadow[2] = -0.5;
-				PlayerLight[2] = -0.5;
-				PlayerShadowDir[2] = -0.5;
 
 			}
 			if (input->Push(DIK_S))
@@ -167,32 +159,14 @@ void GameScene::Update()
 				PlayerBodyRotz = 90;
 				PlayerBodyRotx -= 5;
 
-				PlayerShadow[2] = +0.5;
-				PlayerLight[2] = +0.5;
-				PlayerShadowDir[2] = +0.5;
+				
 			}
-			if (input->Push(DIK_S) && input->Push(DIK_W))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+			
 		}
 
 
 	}
-	else if (objPlayerBody->MoveCount == 0)
-	{
-		PlayerShadow[0] = 0;
-		PlayerShadow[2] = 0;
-		PlayerLight[0] = 0;
-		PlayerLight[2] = 0;
-		PlayerShadowDir[0] = 0;
-		PlayerShadowDir[2] = 0;
-	}
+	
 
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
@@ -213,18 +187,7 @@ void GameScene::Update()
 	//BatPos[0] = BatteryPosition.x;
 	//BatPos[1] = BatteryPosition.y;
 	//BatPos[2] = BatteryPosition.z;
-	//‰e
-	light->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0] + PlayerShadowDir[0], circleShadowDir[1], circleShadowDir[2] + PlayerShadowDir[2], 0 }));
-	light->SetCircleShadowCasterPos(0, XMFLOAT3({ PBodyPosition.x - PlayerShadow[0],PBodyPosition.y,PBodyPosition.z - PlayerShadow[2] }));
-	light->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	light->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
 
-	//Œõ
-	light->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0] - PlayerLight[0], spotLightDir[1], spotLightDir[2] - PlayerLight[2], 0 }));
-	light->SetSpotLightPos(0, XMFLOAT3(PBodyPosition.x, PBodyPosition.y + spotLightPos[1], PBodyPosition.z));
-	light->SetSpotLightColor(0, XMFLOAT3(spotLightColor));
-	light->SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
-	light->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
@@ -235,16 +198,16 @@ void GameScene::Update()
 	
 	for (int i = 0; i < 10; i++)
 	{
-		Battery[i]->Update(particleMan, post);
+		Battery[i]->Update(particleMan, post, light,i+2);
 		Battery[i]->GetPos(PBodyPosition);
 		Battery[i]->SetPosition(BatteryPosition[i]);
 	}
 	Key->SetPosition(KeyPosition);
-	Key->Update(particleMan);
+	Key->Update(particleMan, light);
 	Key->GetPos(PBodyPosition);
 	particleMan->Update();
-	objPlayerBody->Update();
-	objPlayer->Update();
+	objPlayerBody->Update(light);
+	objPlayer->Update(light);
 
 	stage->Stage1();
 	stage->GetCameraPos(CameraPosition);

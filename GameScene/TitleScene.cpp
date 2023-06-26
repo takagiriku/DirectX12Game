@@ -2,6 +2,7 @@
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
 #include"GameObj/Player/Player.h"
+#include"GameObj/Player/PlayerHead.h"
 #include"GameObj/stage/stage.h"
 #include"GameObj/key/Key.h"
 #include"GameObj/Battery/Battery.h"
@@ -31,7 +32,12 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(light);
 	light->SetSpotLightActive(0, true);
+	light->SetPointLightActive(0, true);
+	light->SetPointLightActive(2, true);
+	
 	light->SetCircleShadowActive(0, true);
+	light->SetCircleShadowActive(1, true);
+	light->SetCircleShadowActive(2, true);
 	//Object3d::SetLightGroup(light);
     mDome = Model::CreateOBJ("skydome");
     Dome = Object3d::Create(mDome);
@@ -85,7 +91,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayerBody->SetPosition(PBodyPosition);
 	objPlayer->SetPosition(PBodyPosition);
 	post->SetStartFlag(false);
-	post->SetPostFlag(false);
+	
 	post->ResetTime();
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
@@ -102,8 +108,6 @@ void TitleScene::Finalize()
    safe_delete(Dome);
    safe_delete(mDome);
    safe_delete(particleMan);
-   
-   
    safe_delete(light);
    safe_delete(stage);
    for (int i = 0; i < 9; i++)
@@ -111,14 +115,11 @@ void TitleScene::Finalize()
 	   safe_delete(TitleObjs[i]);
    }
    safe_delete(objPlayerBody);
-   
    safe_delete(objPlayer);
    safe_delete(Key);
    safe_delete(Battery);
-
    safe_delete(modelPlayerBody);
    safe_delete(modelPlayer);
-   
    safe_delete(mKey);
    safe_delete(mBattery);
    safe_delete(mTitleMove);
@@ -154,18 +155,7 @@ void TitleScene::Update()
 		CameraPosition.x = PBodyPosition.x;
 		CameraPosition.y = PBodyPosition.y + 5;
 		CameraPosition.z = PBodyPosition.z - 15;
-		//影
-		light->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0] + PlayerShadowDir[0], circleShadowDir[1], circleShadowDir[2] + PlayerShadowDir[2], 0 }));
-		light->SetCircleShadowCasterPos(0, XMFLOAT3({ PBodyPosition.x - PlayerShadow[0],PBodyPosition.y,PBodyPosition.z - PlayerShadow[2] }));
-		light->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-		light->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
-
-		//光
-		light->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0] - PlayerLight[0], spotLightDir[1], spotLightDir[2] - PlayerLight[2], 0 }));
-		light->SetSpotLightPos(0, XMFLOAT3(PBodyPosition.x, PBodyPosition.y + spotLightPos[1], PBodyPosition.z));
-		light->SetSpotLightColor(0, XMFLOAT3(spotLightColor));
-		light->SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
-		light->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+		
 
 	}
 
@@ -181,9 +171,6 @@ void TitleScene::Update()
 				objPlayer->SetRotation({ 0,90,0 });
 				PBodyRotation.z -= 5;
 				PBodyRotation.x = 0;
-				PlayerShadow[0] = -0.5;
-				PlayerLight[0] = -0.5;
-				PlayerShadowDir[0] = -0.5;
 			}
 			if (input->Push(DIK_A))
 			{//ラグの問題でxに-1する
@@ -191,19 +178,8 @@ void TitleScene::Update()
 				objPlayer->SetRotation({ 0,270,0 });
 				PBodyRotation.z += 5;
 				PBodyRotation.x = 0;
-				PlayerShadow[0] = 0.5;
-				PlayerLight[0] = 0.5;
-				PlayerShadowDir[0] = 0.5;
 			}
-			if (input->Push(DIK_A) && input->Push(DIK_D))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+			
 		}
 		else if (input->Push(DIK_S) || input->Push(DIK_W))
 		{
@@ -213,11 +189,6 @@ void TitleScene::Update()
 				objPlayer->SetRotation({ 0,0,0 });
 				PBodyRotation.x += 5;
 				PBodyRotation.z = 90;
-
-				PlayerShadow[2] = -0.5;
-				PlayerLight[2] = -0.5;
-				PlayerShadowDir[2] = -0.5;
-
 			}
 			if (input->Push(DIK_S))
 			{//ラグの問題でzに-1する
@@ -225,42 +196,12 @@ void TitleScene::Update()
 				objPlayer->SetRotation({ 0,180,0 });
 				PBodyRotation.z = 90;
 				PBodyRotation.x -= 5;
-
-				PlayerShadow[2] = +0.5;
-				PlayerLight[2] = +0.5;
-				PlayerShadowDir[2] = +0.5;
 			}
-			if (input->Push(DIK_S) && input->Push(DIK_W))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+			
 		}
 
 
 	}
-	
-	
-	
-	PlayerPos[0] = PBodyPosition.x;
-	PlayerPos[1] = PBodyPosition.y;
-	PlayerPos[2] = PBodyPosition.z;
-
-	CameraPos[0] = CameraPosition.x;
-	CameraPos[1] = CameraPosition.y;
-	CameraPos[2] = CameraPosition.z;
-
-	KeyPos[0] = KeyPosition.x;
-	KeyPos[1] = KeyPosition.y;
-	KeyPos[2] = KeyPosition.z;
-	
-	BatPos[0] = BatteryPosition.x;
-	BatPos[1] = BatteryPosition.y;
-	BatPos[2] = BatteryPosition.z;
 	
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
@@ -271,13 +212,15 @@ void TitleScene::Update()
 	Key->SetPosition(KeyPosition);
 	Battery->SetPosition(BatteryPosition);
 	Dome->Update();
-	light->Update();
 	
-	objPlayerBody->Update();
-	objPlayer->Update();
-	Key->Update(particleMan);
-	Battery->Update(particleMan, post);
+	
+	objPlayerBody->Update(light);
+	objPlayer->Update(light);
+	Key->Update(particleMan, light);
+	Battery->Update(particleMan, post, light,2);
 	stage->GetCameraPos(CameraPosition);
+	
+	light->Update();
 	for (int i = 0; i < 9; i++)
 	{
 		TitleObjs[i]->Update();
@@ -305,7 +248,7 @@ void TitleScene::Update()
 		stage->SetKeyFlag(Key->KeyFlag);
 	}
 
-	if (Key->KeyFlag && PlayerPos[0] > 3 && PlayerPos[2] > 68)
+	if (Key->KeyFlag && PBodyPosition.x > 3 && PBodyPosition.z > 68)
 	{
 		objPlayerBody->SetMoveFlags(false);
 		objPlayer->SetMoveFlags(false);
@@ -377,6 +320,7 @@ void TitleScene::Draw()
 		objPlayer->Draw();
 		Key->Draw();
 	}
+	
     Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
@@ -397,7 +341,6 @@ void TitleScene::FirstDraw2D()
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-	//
 	Sprite::PreDraw(cmdList);
 	if (StartFlag == false)
 	{
@@ -409,17 +352,5 @@ void TitleScene::FirstDraw2D()
 }
 void TitleScene::DrawImGui()
 {
-	ImGui::Begin("pos");
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::InputFloat3("PlayerPosition", PlayerPos);
-	ImGui::InputFloat3("CameraPosition", CameraPos);
-	ImGui::InputFloat3("Battery", BatPos);
-	ImGui::InputFloat3("KeyPosition", KeyPos);
-	ImGui::InputFloat2("al",a );
-	ImGui::InputFloat("al",alpha );
-	
-
-	ImGui::End();
 }
 

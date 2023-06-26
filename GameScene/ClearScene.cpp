@@ -67,7 +67,6 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	objPlayerBody->SetStartFlag(true);
 	objPlayer->SetStartFlag(true);
-	post->SetPostFlag(true);
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
 }
@@ -77,6 +76,7 @@ void ClearScene::Finalize()
 	safe_delete(spriteSceneChenge);
 	safe_delete(Dome);
 	safe_delete(mDome);
+	safe_delete(light);
 	safe_delete(objPlayerBody);
 	safe_delete(objPlayer);
 	safe_delete(modelPlayerBody);
@@ -114,10 +114,6 @@ void ClearScene::Update()
 				objPlayer->SetRotation({ 0,90,0 });
 				PlayerBodyRotz -= 5;
 				PlayerBodyRotx = 0;
-
-				PlayerShadow[0] = -0.5;
-				PlayerLight[0] = -0.5;
-				PlayerShadowDir[0] = -0.5;
 			}
 			if (input->Push(DIK_A))
 			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
@@ -125,18 +121,6 @@ void ClearScene::Update()
 				objPlayer->SetRotation({ 0,270,0 });
 				PlayerBodyRotz += 5;
 				PlayerBodyRotx = 0;
-				PlayerShadow[0] = 0.5;
-				PlayerLight[0] = 0.5;
-				PlayerShadowDir[0] = 0.5;
-			}
-			if (input->Push(DIK_A) && input->Push(DIK_D))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
 			}
 		}
 		else if (input->Push(DIK_S) || input->Push(DIK_W))
@@ -147,11 +131,6 @@ void ClearScene::Update()
 				objPlayer->SetRotation({ 0,0,0 });
 				PlayerBodyRotx += 5;
 				PlayerBodyRotz = 90;
-
-				PlayerShadow[2] = -0.5;
-				PlayerLight[2] = -0.5;
-				PlayerShadowDir[2] = -0.5;
-
 			}
 			if (input->Push(DIK_S))
 			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É-1‚·‚é
@@ -160,45 +139,14 @@ void ClearScene::Update()
 				PlayerBodyRotz = 90;
 				PlayerBodyRotx -= 5;
 
-				PlayerShadow[2] = +0.5;
-				PlayerLight[2] = +0.5;
-				PlayerShadowDir[2] = +0.5;
 			}
-			if (input->Push(DIK_S) && input->Push(DIK_W))
-			{
-				PlayerShadow[0] = 0;
-				PlayerShadow[2] = 0;
-				PlayerLight[0] = 0;
-				PlayerLight[2] = 0;
-				PlayerShadowDir[0] = 0;
-				PlayerShadowDir[2] = 0;
-			}
+		
 		}
 
 
 	}
-	else if (objPlayerBody->MoveCount == 0)
-	{
-		PlayerShadow[0] = 0;
-		PlayerShadow[2] = 0;
-		PlayerLight[0] = 0;
-		PlayerLight[2] = 0;
-		PlayerShadowDir[0] = 0;
-		PlayerShadowDir[2] = 0;
-	}
-
-	//‰e
-	light->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0] + PlayerShadowDir[0], circleShadowDir[1], circleShadowDir[2] + PlayerShadowDir[2], 0 }));
-	light->SetCircleShadowCasterPos(0, XMFLOAT3({ PBodyPosition.x - PlayerShadow[0],PBodyPosition.y,PBodyPosition.z - PlayerShadow[2] }));
-	light->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	light->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
-
-	//Œõ
-	light->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0] - PlayerLight[0], spotLightDir[1], spotLightDir[2] - PlayerLight[2], 0 }));
-	light->SetSpotLightPos(0, XMFLOAT3(PBodyPosition.x, PBodyPosition.y + spotLightPos[1], PBodyPosition.z));
-	light->SetSpotLightColor(0, XMFLOAT3(spotLightColor));
-	light->SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
-	light->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+	
+	
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
@@ -207,8 +155,8 @@ void ClearScene::Update()
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
-	objPlayerBody->Update();
-	objPlayer->Update();
+	objPlayerBody->Update(light);
+	objPlayer->Update(light);
 
 	Dome->Update();
 	stage->Stage4();
@@ -216,7 +164,7 @@ void ClearScene::Update()
 
 	if (PBodyPosition.z > 35)
 	{
-		post->SetPostFlag(false);
+		post->SetStartFlag(false);
 
 	}
 	if (PBodyPosition.z > 60)

@@ -50,14 +50,10 @@ public:
 
 	//パイプライン生成
 	void CreateGraphicsPipelineState();
-	void SetPostFlag(bool StartFlag) { this->PostFlag = StartFlag; }
-	bool GetPostFlag() const {
-		return this->PostFlag;
-	}
-	
-	void SetStartFlag(bool StartFlag) { this->Starrt = StartFlag; }
+
+	void SetStartFlag(bool StartFlag) { this->Start = StartFlag; }
 	bool GetStartFlag() const {
-		return this->Starrt;
+		return this->Start;
 	}
 	void SetEndFlag(bool Endflag) { this->End = Endflag; }
 	bool GetEndFlag() const {
@@ -67,7 +63,6 @@ public:
 	void ClearTime();
 	float Time;
 	bool ClearFlag = false;
-	bool PostFlag = false;
 	// テクスチャバッファ
 	ComPtr<ID3D12Resource>texBuff;
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
@@ -109,7 +104,7 @@ private:
 	
 	float Times;
 	float ClearTimeer;
-	bool Starrt = false;
+	bool Start = false;
 	bool End = false;
 };
 

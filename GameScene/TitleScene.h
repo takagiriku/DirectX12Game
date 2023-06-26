@@ -11,6 +11,7 @@
 //#include "PlayerObj.h"
 
 class Player;
+class PlayerHead;
 class GameManager;
 
 class TitleScene : public BaseScene
@@ -52,7 +53,7 @@ private:
     XMFLOAT3 PBodyRotation = { 0,0,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
     XMFLOAT3 CameraPosition = { -15,15,-15 };
-    XMFLOAT3 KeyPosition = { -8,5,66 };
+    XMFLOAT3 KeyPosition = { -8,5,67 };
     XMFLOAT3 BatteryPosition = { 8,3,45};
    
     float PlayerBodyRotx = 0;

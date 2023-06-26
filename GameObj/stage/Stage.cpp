@@ -4,17 +4,14 @@
 
 Stage::Stage()
 {
+
 }
 
 Stage::~Stage()
 {
-
-
 	safe_delete(modelGround);
-	
 	safe_delete(modelSpaceWall);
 	safe_delete(modelSpaceWall2);
-
 }
 
 void Stage::Initialize()
@@ -43,11 +40,6 @@ void Stage::Initialize()
 	models.insert(std::make_pair("SpaceWall4Rot90", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWall5Rot90", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWallsousa", modelSpaceWall2));
-
-
-
-
-
 
 }
 void Stage::Generation()
@@ -157,7 +149,8 @@ void Stage::Update()
 				DirectX::XMFLOAT3 currentPosition = objects[i]->GetPosition();
 				float speed = 0.1;
 				float MoveY = currentPosition.y + speed; // ˆê’è‚Ì‘¬“x‚Å“®‚­
-
+				
+				
 				if (MoveY < MaxPos)
 				{
 					objects[i]->SetPosition({ currentPosition.x, MoveY, currentPosition.z });

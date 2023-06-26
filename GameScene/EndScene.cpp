@@ -20,7 +20,7 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* in
 	spriteSPACE = new Sprite();
 	spriteSPACE->Create(2);
 	spriteSPACE->SetPosition({ 0,200 });
-	post->SetPostFlag(true);
+	
 }
 
 void EndScene::Finalize()

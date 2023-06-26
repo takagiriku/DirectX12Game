@@ -33,13 +33,15 @@ bool Key::Initialize()
     return true;
 }
 
-void Key::Update(ParticleManager* particleMan)
+void Key::Update(ParticleManager* particleMan, Light* light)
 {
 	Object3d::Update();
 	
 	if (abs(position.x - pos.x) <= 0.8f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.8f)
 	{
 		KeyFlag = true;
+		light->SetPointLightActive(0, false);
+		light->SetCircleShadowActive(1, false);
 	}
 	if (KeyFlag)
 	{
@@ -50,6 +52,22 @@ void Key::Update(ParticleManager* particleMan)
 		}
 	}
 	stage->SetKeyFlag(KeyFlag);
+
+	if (Input::GetInstance()->Push(DIK_L))
+	{
+		light->SetPointLightActive(0, false);
+	}
+	else
+	{
+		light->SetPointLightActive(0, true);
+	}
+	light->SetPointLightPos(0, XMFLOAT3(position.x, position.y, position.z - 1));
+	light->SetPointLightColor(0, XMFLOAT3(spotLightColor));
+	
+	light->SetCircleShadowCasterPos(1, XMFLOAT3(position.x, position.y-3, position.z));
+	light->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2], 0}));
+	light->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
+	light->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 }
 
 void Key::CreateParticle(ParticleManager* particleMan)
