@@ -145,8 +145,35 @@ void ClearScene::Update()
 
 
 	}
-	
-	
+	float speed = 0.005;
+	if (post->Time > 170)
+	{
+		AlphaFlag = true;
+	}
+	else
+	{
+		AlphaFlag = false;
+	}
+	if (AlphaFlag)
+	{
+		if (alpha[0] < 1)
+		{
+			alpha[0] += speed;
+		}
+
+	}
+	if (AlphaFlag == false)
+	{
+		if (alpha[0] > 0.005)
+		{
+			alpha[0] -= speed;
+		}
+	}
+	if (alpha[0] > 1)
+	{
+		stage->StageChange();
+		SceneManager::GetInstance()->ChangeScene("END");
+	}
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
@@ -164,7 +191,7 @@ void ClearScene::Update()
 
 	if (PBodyPosition.z > 35)
 	{
-		post->SetStartFlag(false);
+		post->ClearTime();
 
 	}
 	if (PBodyPosition.z > 60)

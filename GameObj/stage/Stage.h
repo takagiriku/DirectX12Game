@@ -1,6 +1,6 @@
 #include"Object3d.h"
 #include"SafeDelete.h"
-#include"GameObj/TouchableObject.h"
+#include"TouchableObject.h"
 #include"SphereCollider.h"
 #include <map>
 #include"input.h"
@@ -59,13 +59,9 @@ public:
 	bool GetKeyFlag() const { return KeyFlag; }
 	
 
-	void GetStageCount(int stagecount);
 	int stagecount = 0;
 
-	void GetPos(XMFLOAT3 pos);
-	XMFLOAT3 pos = { 0,0,0 };
-
-	void GetCameraPos(XMFLOAT3 camerapos);
+	void GetCameraPos(XMFLOAT3 camerapos){ this->camerapos = camerapos; };
 	XMFLOAT3 camerapos = { 0,0,0 };
 
 	float Gimmick = 0;
@@ -73,26 +69,20 @@ public:
 	
 	bool KeyFlag = false;
 
+	float BoxCount = 0;
+
 private:
 	LevelData* levelData = nullptr;
 	
-
 	Input* input = nullptr;
-
 	Player* player = nullptr;
-
+	
 	Model* model = nullptr;
-
 	Model* modelGround = nullptr;
 	Model* modelSpaceWall = nullptr;
 	Model* modelSpaceWall2 = nullptr;
 
-
-
-	Light* light = nullptr;
-
-
-
+	
 	std::map<std::string, Model*> models;
 	std::map<std::string, LevelData*> fileData;
 	std::vector<Object3d*> objects;
@@ -100,6 +90,7 @@ private:
 	//オブジェトの名前
 	std::vector<std::string> GetNames;
 	const std::string skipFileTile = "tile";
+	const std::string skipFileTile2 = "tile2";
 	const std::string skipFileSlope = "slope";
 	const std::string skipFileWall0 = "SpaceWall0";
 	const std::string skipFileWall1 = "SpaceWall1";

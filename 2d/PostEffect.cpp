@@ -238,15 +238,15 @@ void PostEffect::Update(float Times)
 		}
 		if (Time > 0.1)
 		{
-			Time -= 0.2;
+			Time -= 1;
 		}
 		else
 		{
-			ClearTimeer += 1;
+			ClearTimer += 1;
 		}
-		if (ClearTimeer > 300)
+		if (ClearTimer > 300)
 		{
-			ClearTimeer = 0;
+			ClearTimer = 0;
 			Time = 0;
 			ClearFlag = false;
 		}
@@ -394,5 +394,5 @@ void PostEffect::ResetTime()
 void PostEffect::ClearTime()
 {
 	ClearFlag = true;
-	Time = 10;
+	ClearTimer = 0;
 }

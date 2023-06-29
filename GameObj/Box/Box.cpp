@@ -36,7 +36,7 @@ void Box::Update()
 	float posx[4] = { 1,124,1,124 };
 	float posz[4] = { 1,1,73,73 };
 
-	float distanceThresholdX = 1.5f;  // X軸方向の距離閾値
+	float distanceThresholdX = 2.f;  // X軸方向の距離閾値
 	float distanceThresholdY = 2.f;  // Y軸方向の距離閾値
 	float distanceThresholdZ = 2.f;  // Z軸方向の距離閾値
 	int minX = 1;  // X座標の最小値
@@ -56,11 +56,11 @@ void Box::Update()
 				// 逆方向に移動する
 				if (abs(directionX) >= abs(directionZ))
 				{
-					position.x -= directionX;
+					position.x -= directionX * 0.4f;
 				}
 				else
 				{
-					position.z -= directionZ;
+					position.z -= directionZ * 0.4f;
 				}
 
 				position.x = (position.x < minX) ? minX : (position.x > maxX) ? maxX : position.x;
@@ -89,7 +89,7 @@ void Box::Draw()
 	Object3d::Draw();
 }
 
-void Box::GetPos(XMFLOAT3 pos)
+void Box::SetPos(XMFLOAT3 pos)
 {
 	this->pos = pos;
 }

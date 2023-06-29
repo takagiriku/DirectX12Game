@@ -37,7 +37,7 @@ void Key::Update(ParticleManager* particleMan, Light* light)
 {
 	Object3d::Update();
 	
-	if (abs(position.x - pos.x) <= 0.8f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 0.8f)
+	if (abs(position.x - pos.x) <= 1.0f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.0f)
 	{
 		KeyFlag = true;
 		light->SetPointLightActive(0, false);
@@ -114,7 +114,7 @@ void Key::Draw()
 
 
 
-void Key::GetPos(XMFLOAT3 pos)
+void Key::SetPos(XMFLOAT3 pos)
 {
 	this->pos = pos;
 }

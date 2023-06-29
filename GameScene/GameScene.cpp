@@ -199,12 +199,12 @@ void GameScene::Update()
 	for (int i = 0; i < 10; i++)
 	{
 		Battery[i]->Update(particleMan, post, light,i+2);
-		Battery[i]->GetPos(PBodyPosition);
+		Battery[i]->SetPos(PBodyPosition);
 		Battery[i]->SetPosition(BatteryPosition[i]);
 	}
 	Key->SetPosition(KeyPosition);
 	Key->Update(particleMan, light);
-	Key->GetPos(PBodyPosition);
+	Key->SetPos(PBodyPosition);
 	particleMan->Update();
 	objPlayerBody->Update(light);
 	objPlayer->Update(light);
@@ -231,18 +231,14 @@ void GameScene::Update()
 			SceneManager::GetInstance()->ChangeScene("GAME2");
 		}
 	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		
-		if (Battery[i]->BatFlag)
-		{
-			AlphaFlag = false;
-			
-		}
-	}
+	Time[0] = post->Time;
+	
 	float speed = 0.005;
-	if (input->Push(DIK_V))
+	if (post->Time >170)
+	{
+		AlphaFlag = true;
+	}
+	else
 	{
 		AlphaFlag = false;
 	}
@@ -250,22 +246,15 @@ void GameScene::Update()
 	{
 		if (alpha[0] < 1)
 		{
-			alpha[0] += speed /12;
+			alpha[0] += speed;
 		}
-		if (alpha[0] > 0.5)
-		{
-			alpha[0] += speed / 5;
-		}
+		
 	}
 	if (AlphaFlag == false)
 	{
-		if (alpha[0] > 0.05)
+		if (alpha[0] > 0.005)
 		{
 			alpha[0] -= speed;
-		}
-		else
-		{
-			AlphaFlag = true;
 		}
 	}
 	if (alpha[0] > 1)
@@ -276,7 +265,7 @@ void GameScene::Update()
 	Black->SetAlpha(alpha[0]);
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
-	
+
 }
 
 void GameScene::Draw()
@@ -331,5 +320,6 @@ void GameScene::DrawImGui()
 	ImGui::InputFloat3("PlayerPosition", PlayerPos);
 	ImGui::InputFloat3("CameraPosition", CameraPos);
 	ImGui::InputFloat("al", alpha);
+	ImGui::InputFloat("time", Time);
 	ImGui::End();
 }

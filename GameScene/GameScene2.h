@@ -6,6 +6,7 @@
 #include"GameObj/Key/Key.h"
 #include"GameObj/Battery/Battery.h"
 #include"GameObj/Box/Box.h"
+#include"GameObj/Tile/Tile.h"
 #include"ParticleManager.h"
 //#include "PlayerObj.h"
 
@@ -70,6 +71,15 @@ private:
     { 124,10,1 },
     { 1,  10,73 },
     { 124,10,73 },
+    }; XMFLOAT3 TilePosition[8] = {
+    { 1,  11.1,1 },
+    { 1,  11.1,1 },
+    { 124,11.1,1 },
+    { 124,11.1,1 },
+    { 1,  11.1,73 },
+    { 1,  11.1,73 },
+    { 124,11.1,73 },
+    { 124,11.1,73 },
     };
 
     float Time = 0;
@@ -110,7 +120,8 @@ private:
     float circleShadowPos[3] = { 1,7,0 };
     float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
     float circleShadowFactorAngle[2] = { 0.0f, 0.5f };
-
+    float tests[3] = { 0,0,0 };
+    XMFLOAT3 test = { 0,0,0 };
 
     float SpriteX[2] = { 1280,1280 };
     float SpriteY[2] = { 740,0 };
@@ -122,11 +133,15 @@ private:
     Model* mBattery = nullptr;
     Model* mBox = nullptr;
     Model* mBBox = nullptr;
+    Model* mTile = nullptr;
     Player* objPlayerBody = nullptr;
     Player* objPlayer = nullptr;
     Key* Key = nullptr;
     Box* Box[4];
     Object3d* BBox[4];
+    
+    Tile* Tile[8];
+
     Battery* Battery[4];
     Stage* stage = nullptr;
     Light* light = nullptr;

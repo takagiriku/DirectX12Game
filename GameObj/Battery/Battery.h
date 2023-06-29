@@ -28,7 +28,7 @@ public:
 	void CreateParticle(ParticleManager* particleMan);
 
 	void Draw()override;
-	void GetPos(XMFLOAT3 pos);
+	void SetPos(XMFLOAT3 pos);
 	void SetBatFlag(bool StartFlag) { this->BatFlag = StartFlag; }
 	bool GetBatFlag() const {
 		return this->BatFlag;

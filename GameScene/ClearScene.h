@@ -41,6 +41,7 @@ public:
 private:
     bool StartFlag = false;
     bool EndFlag = false;
+    bool AlphaFlag = true;
     XMFLOAT3 PBodyPosition = { 1,1,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
     XMFLOAT3 CameraPosition = { -15,15,-15 };

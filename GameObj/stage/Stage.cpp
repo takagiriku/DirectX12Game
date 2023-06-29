@@ -23,6 +23,7 @@ void Stage::Initialize()
 
 
 	models.insert(std::make_pair("tile", modelGround));
+	models.insert(std::make_pair("tile2", modelGround));
 	models.insert(std::make_pair("SpaceWall0", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWall1", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWall2", modelSpaceWall));
@@ -102,7 +103,7 @@ void Stage::Generation()
 			// モデルを指定して3Dオブジェクトを生成
 			Object3d* newObject;
 
-			if (objectData.fileName == skipFileTile || objectData.fileName == skipFileSlope) {
+			if (objectData.fileName == skipFileTile || objectData.fileName == skipFileTile2) {
 				newObject = TouchableObject::Create(model);
 			}
 			else {
@@ -140,20 +141,30 @@ void Stage::Update()
 		Generation();
 	}
 
-	if (KeyFlag)
+	if (KeyFlag || BoxCount > 0)
 	{
 		for (int i = 0; i < GetNames.size(); ++i)
 		{
 			if (GetNames[i] == skipFileMoveWallRot90)
 			{
-				DirectX::XMFLOAT3 currentPosition = objects[i]->GetPosition();
-				float speed = 0.1;
-				float MoveY = currentPosition.y + speed; // 一定の速度で動く
-				
-				
+				DirectX::XMFLOAT3 Position = objects[i]->GetPosition();
+				float speed = 0.05;
+				float MoveY = Position.y + speed; // 一定の速度で動く
+
+
 				if (MoveY < MaxPos)
 				{
-					objects[i]->SetPosition({ currentPosition.x, MoveY, currentPosition.z });
+					objects[i]->SetPosition({ Position.x, MoveY, Position.z });
+				}
+				else if (BoxCount == 2)
+				{
+					MaxPos = 0; // MaxPosを0に設定
+
+					if (MoveY > MaxPos)
+					{
+						MoveY -= speed; // 一定の速度で下に移動
+						objects[i]->SetPosition({ Position.x, MoveY, Position.z });
+					}
 				}
 			}
 			objects[i]->Update();
@@ -188,7 +199,7 @@ void Stage::Stage3()
 {
 	stagecount = 3;
 
-	MaxPos = 22;
+	MaxPos = 14 + 2 * BoxCount;
 	Stage::Update();
 }
 void Stage::Stage4()
@@ -211,7 +222,6 @@ void Stage::StageChange()
 void Stage::StageObjDraw0()
 {
 	for (int i = 0; i < GetNames.size(); ++i) {
-		float alpha = objects[i]->GetAlpha();  // 現在のalpha値を取得
 		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileSlope) {
 			objects[i]->Draw();
 		}
@@ -219,14 +229,14 @@ void Stage::StageObjDraw0()
 			//objects[i]->Draw();
 		}
 		if (GetNames[i] == skipFileWall1) {
-			if (StagePos.z < -10 || DrawFlag)
+			if (StagePos.z < -9 || DrawFlag)
 			{
 				objects[i]->Draw();
 			}
 		
 		}
 		if (GetNames[i] == skipFileWall2) {
-			if (StagePos.z < 7 || DrawFlag)
+			if (StagePos.z < 6 || DrawFlag)
 			{
 				objects[i]->Draw();
 			}
@@ -257,17 +267,10 @@ void Stage::StageObjDraw0()
 		}
 		
 		if (GetNames[i] == skipFileWall1Rot90) {
-			if (StagePos.z < 7 || DrawFlag)
+			if (StagePos.z < 6 || DrawFlag)
 			{
 				objects[i]->Draw();
 			}
-			//else
-			//{
-			//	
-			//	alpha -= 0.01;  // alpha値を減算
-			//	objects[i]->SetAlpha(alpha);  // 新しいalpha値をセット
-			//	objects[i]->Draw();
-			//}
 		}
 		if (GetNames[i] == skipFileWall2Rot90) {
 			if (StagePos.z < 28 || DrawFlag)
@@ -302,14 +305,14 @@ void Stage::StageObjDraw()
 {
 
 	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileSlope) {
+		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileTile2) {
 			objects[i]->Draw();
 		}
 		if (GetNames[i] == skipFileWall0) {
 			//objects[i]->Draw();
 		}
 		if (GetNames[i] == skipFileWall1) {
-			if (StagePos.z < -10 || DrawFlag)
+			if (StagePos.z < -11 || DrawFlag)
 			{
 				objects[i]->Draw();
 			}
@@ -321,7 +324,7 @@ void Stage::StageObjDraw()
 			}
 		}
 		if (GetNames[i] == skipFileWall3) {
-			if (StagePos.z < 15 || DrawFlag)
+			if (StagePos.z < 14 || DrawFlag)
 			{
 				objects[i]->Draw();
 			}
@@ -382,7 +385,6 @@ void Stage::StageObjDraw()
 		
 	}
 }
-
 void Stage::StageObjDraw2()
 {
 	for (int i = 0; i < GetNames.size(); ++i) {
@@ -472,20 +474,3 @@ void Stage::StageObjDraw2()
 		}
 	}
 }
-
-
-void Stage::GetStageCount(int stagecount)
-{
-	this->stagecount = stagecount;
-}
-
-void Stage::GetPos(XMFLOAT3 pos)
-{
-	this->pos = pos;
-}
-
-void Stage::GetCameraPos(XMFLOAT3 camerapos)
-{
-	this->camerapos = camerapos;
-}
-

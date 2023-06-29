@@ -45,6 +45,8 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	mBattery = Model::CreateOBJ("battery");
 	mBox = Model::CreateOBJ("Box");
 	mBBox = Model::CreateOBJ("blackBox");
+	
+	mTile = Model::CreateOBJ("Gole");
 
 	objPlayerBody = Player::Create(modelPlayerBody);
 	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
@@ -67,7 +69,12 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 		BBox[i] = Object3d::Create(mBBox);
 		BBox[i]->SetPosition(BBoxPosition[i]);
 	}
-	
+	for (int i = 0; i < 8; i++)
+	{
+		Tile[i] = Tile::Create(mTile);
+		Tile[i]->SetPosition(TilePosition[i]);
+		Tile[i]->SetScale({ 1.1,1.1,1.1 });
+	}
 	Key = Key::Create(mKey);
 	Key->SetScale({ 5,5,5 });
 	Key->SetPosition(KeyPosition);
@@ -108,6 +115,9 @@ void GameScene2::Finalize()
 		safe_delete(BBox[i]);
 		safe_delete(Battery[i]);
 	}
+	for (int i = 0; i < 8; i++) {
+		safe_delete(Tile[i]);
+	}
 }
 
 void GameScene2::Update()
@@ -121,12 +131,8 @@ void GameScene2::Update()
 		}
 	}
 
-	
-
 	PBodyPosition = objPlayerBody->GetPosition();
-	if (objPlayerBody->MoveCount == 1)
-		//プレイヤーの処理
-	{
+	
 		if (input->Push(DIK_A) || input->Push(DIK_D))
 		{
 			if (input->Push(DIK_D))
@@ -165,10 +171,6 @@ void GameScene2::Update()
 			
 		}
 
-
-	}
-
-
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
@@ -197,38 +199,50 @@ void GameScene2::Update()
 	for (int i = 0; i < 4; i++)
 	{
 		Battery[i]->Update(particleMan, post, light,i+2);
-		Battery[i]->GetPos(PBodyPosition);
-		Battery[i]->SetPosition(BatteryPosition[i]);
+		Battery[i]->SetPos(PBodyPosition);
+		//Battery[i]->SetPosition(BatteryPosition[i]);
 		Box[i]->Update();
-		Box[i]->GetPos(PBodyPosition);
+		Box[i]->SetPos(PBodyPosition);
 		//Box[i]->SetPosition(BoxPosition[i]);
 		BBox[i]->Update();
+	}
+	
+	for (int i = 0; i < 8; i++)
+	{
+		Tile[i]->Update(i);
+		Tile[i]->SetPos(PBodyPosition);
+		
 	}
 
 	Key->SetPosition(KeyPosition);
 	Key->Update(particleMan, light);
-	Key->GetPos(PBodyPosition);
+	Key->SetPos(PBodyPosition);
 
 	objPlayerBody->Update(light);
 	objPlayer->Update(light);
 
-	
+	test = Tile[0]->GetPosition();
+
+	tests[0] = test.x;
+	tests[1] = test.y;
+	tests[2] = test.z;
+
 	if (Key->KeyFlag)
 	{
 		Time += 1;
-		if (Time < 200)
+		if (Time < 150)
 		{
 			
 			CameraPosition.x = 62;
 			CameraPosition.y = 16;
 			CameraPosition.z = 58;
-			objPlayerBody->SetStartFlag(false);
-			objPlayer->SetStartFlag(false);
+			objPlayerBody->SetMoveFlags(false);
+			objPlayer->SetMoveFlags(false);
 		}
 		else
 		{
-			objPlayerBody->SetStartFlag(true);
-			objPlayer->SetStartFlag(true);
+			objPlayerBody->SetMoveFlags(true);
+			objPlayer->SetMoveFlags(true);
 		}
 		stage->SetKeyFlag(Key->KeyFlag);
 	}
@@ -247,14 +261,31 @@ void GameScene2::Update()
 	{
 		if (Box[i]->GetBoxFlag())
 		{
-			FlagCount[i] = 1;
+			if (FlagCount[i] == 0) {
+				FlagCount[i] = 1;
+				stage->BoxCount++;
+				Time = 0;
+			}
+			Time += 1;
+
+			if (Time < 125)
+			{
+				CameraPosition.x = 62;
+				CameraPosition.y = 16;
+				CameraPosition.z = 58;
+				objPlayerBody->SetStartFlag(false);
+				objPlayer->SetStartFlag(false);
+			}
+			else
+			{
+				objPlayerBody->SetStartFlag(true);
+				objPlayer->SetStartFlag(true);
+			}
 			
 		}
-		else
-		{
-			break;  // 1つでもフラグが false の場合はループを終了する
-		}
 	}
+	stage->Stage3();
+	stage->GetCameraPos(CameraPosition);
 	if (FlagCount[0] == 1 && FlagCount[1] == 1 && FlagCount[2] == 1 && FlagCount[3] == 1)
 	{
 		Key->SetKeyFlag(true);
@@ -275,23 +306,28 @@ void GameScene2::Update()
 			SceneManager::GetInstance()->ChangeScene("CLEAR");
 		}
 	}
-	
+	float speed = 0.005;
+	if (post->Time > 170)
+	{
+		AlphaFlag = true;
+	}
+	else
+	{
+		AlphaFlag = false;
+	}
 	if (AlphaFlag)
 	{
 		if (alpha[0] < 1)
 		{
-			alpha[0] += 0.0005;
+			alpha[0] += speed;
 		}
+
 	}
 	if (AlphaFlag == false)
 	{
-		if (alpha[0] > 0.05)
+		if (alpha[0] > 0.005)
 		{
-			alpha[0] -= 0.005;
-		}
-		else
-		{
-			AlphaFlag = true;
+			alpha[0] -= speed;
 		}
 	}
 	if (alpha[0] > 1)
@@ -304,8 +340,6 @@ void GameScene2::Update()
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	particleMan->Update();
-	stage->Stage3();
-	stage->GetCameraPos(CameraPosition);
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
@@ -327,7 +361,9 @@ void GameScene2::Draw()
 		Box[i]->Draw();
 		BBox[i]->Draw();
 	}
-
+	for (int i = 0; i < 8; i++) {
+		Tile[i]->Draw();
+	}
 	stage->StageObjDraw2();
 	Dome->Draw();
 	particleMan->Draw(cmdList);
@@ -366,5 +402,6 @@ void GameScene2::DrawImGui()
 	ImGui::InputFloat3("CameraPosition", CameraPos);
 	ImGui::InputFloat("al", alpha);
 	ImGui::InputFloat3("Box", BatPos);
+	ImGui::InputFloat3("Ttest", tests);
 	ImGui::End();
 }

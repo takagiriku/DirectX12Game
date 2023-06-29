@@ -15,7 +15,7 @@ public:
 	void Update() override;
 
 	void Draw()override;
-	void GetPos(XMFLOAT3 pos);
+	void SetPos(XMFLOAT3 pos);
 	void SetBoxFlag(bool StartFlag) { this->BoxFlag = StartFlag; }
 	bool GetBoxFlag() const { return this->BoxFlag; }
 	XMFLOAT3 pos = { 0,0,0 };

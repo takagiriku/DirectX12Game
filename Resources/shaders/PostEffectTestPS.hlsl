@@ -11,7 +11,7 @@ float4 main(VSOutput input) : SV_TARGET
 
     float sinv = sin(input.uv);  // sin関数に時間係数を乗算
     float steped = step(0.99, sinv * sinv);
-    float vignette = length(float2(0.5, 0.5) - input.uv);
+    float vignette = length(float2(0.5, 0.6) - input.uv);
 
     float effectStrength = timeFactor * 0.5;  // 演出の強さを時間係数に応じて調整
     float effect1 = abs(sin(input.uv.y * 50.0 + timeFactor * 2.0)) * 0.05;
@@ -21,11 +21,11 @@ float4 main(VSOutput input) : SV_TARGET
     float3 finalColor = texcolor.rgb;
     if (start)
     {
-        if (time < 11.5)
+        if (time < 7)
         {
             finalColor -= (1 - steped) * effect1 * effectStrength;
             finalColor -= (1 - steped) * effect2 * effectStrength;
-            finalColor -= vignette * effectStrength / 2;
+            finalColor -= vignette * effectStrength / 5;
             finalColor += steped * 0.1;
         }
         else
@@ -33,10 +33,7 @@ float4 main(VSOutput input) : SV_TARGET
             finalColor -= (1 - steped) * effect1;
             finalColor -= (1 - steped) * effect2;
             vignette = clamp(vignette - 0.2, 0.1, 1);
-            finalColor -= vignette;
-
-            /*finalColor -= vignette * effectStrength / 2;
-            finalColor += steped * 0.1;*/
+            finalColor -= vignette * effectStrength / 5;
         }
     }
     else

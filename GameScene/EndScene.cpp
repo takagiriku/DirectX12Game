@@ -20,7 +20,8 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* in
 	spriteSPACE = new Sprite();
 	spriteSPACE->Create(2);
 	spriteSPACE->SetPosition({ 0,200 });
-	
+	post->ResetTime();
+	audio->SoundLoadWave("se_amc04.wav");
 }
 
 void EndScene::Finalize()
@@ -32,6 +33,8 @@ void EndScene::Finalize()
 
 void EndScene::Update()
 {
+	audio->SoundStop("digitalworld.wav");
+	audio->SoundPlayWave("se_amc04.wav", true);
 	if (input->Push(DIK_SPACE))
 	{
 		SceneManager::GetInstance()->ChangeScene("TITLE");

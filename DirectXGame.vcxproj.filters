@@ -132,7 +132,7 @@
     <ClCompile Include="dynamics\SphereCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GameObj\TouchableObject.cpp">
+    <ClCompile Include="dynamics\TouchableObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameScene\ClearScene.cpp">
@@ -154,6 +154,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameObj\Player\PlayerHead.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObj\Tile\Tile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -287,7 +290,7 @@
     <ClInclude Include="GameObj\Box\Box.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameObj\TouchableObject.h">
+    <ClInclude Include="dynamics\TouchableObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="dynamics\BaseCollider.h">
@@ -342,6 +345,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameObj\Player\PlayerHead.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObj\Tile\Tile.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

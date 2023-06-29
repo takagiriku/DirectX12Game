@@ -117,7 +117,7 @@ void Battery::Draw()
 	}
 }
 
-void Battery::GetPos(XMFLOAT3 pos)
+void Battery::SetPos(XMFLOAT3 pos)
 {
 	this->pos = pos;
 }

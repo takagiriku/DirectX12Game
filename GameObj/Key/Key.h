@@ -28,7 +28,7 @@ public:
 	bool GetKeyFlag() const {
 		return this->KeyFlag;
 	}
-	void GetPos(XMFLOAT3 pos);
+	void SetPos(XMFLOAT3 pos);
 	XMFLOAT3 pos = { 0,0,0 };
 	bool KeyFlag = false;
 protected:

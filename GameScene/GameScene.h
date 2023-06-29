@@ -45,7 +45,7 @@ public:
 private:
 
     bool StartFlag = false;
-    bool AlphaFlag = true;
+    bool AlphaFlag = false;
     bool anyTrue = false; // true‚Ì—v‘f‚ª‘¶İ‚·‚é‚©‚ğ¦‚·•Ï”
     float alpha[3] = { 0,0,0 };
     XMFLOAT3 PBodyPosition = { 6,2,0 };
@@ -105,6 +105,7 @@ private:
     float SpriteY[2] = { 740,0 };
     // ‹“_À•W
     float Eye[3] = { 0, 0, 0 };
+    float Time[1] = { 0 };
     Model* modelPlayerBody = nullptr;
     Model* modelPlayer = nullptr;
     Model* mKey = nullptr;

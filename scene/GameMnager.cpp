@@ -15,7 +15,7 @@ void GameMnager::Initialize()
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
 	SceneManager::GetInstance()->ChangeScene("GAME2");
-	//audio->SoundLoadWave("digitalworld.wav");
+	audio->SoundLoadWave("digitalworld.wav");
 }
 
 void GameMnager::Finalize()

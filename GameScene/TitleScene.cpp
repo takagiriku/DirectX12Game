@@ -95,6 +95,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	post->ResetTime();
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
+	
+	audio->SoundStop("se_amc04.wav");
 }
 
 
@@ -285,8 +287,8 @@ void TitleScene::Update()
 		TitleMove[0]->Update();
 		TitleMove[1]->Update();
 
-	Key->GetPos(PBodyPosition);
-	Battery->GetPos(PBodyPosition);
+	Key->SetPos(PBodyPosition);
+	Battery->SetPos(PBodyPosition);
 	
 	particleMan->Update();
 	Black->SetAlpha(a[0]);
