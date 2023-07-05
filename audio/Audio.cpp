@@ -5,6 +5,27 @@
 
 #pragma comment(lib,"xaudio2.lib")
 
+Audio::~Audio()
+{
+    // サウンドの解放
+    SoundUnload();
+
+    // マスターボイスの解放
+    if (masterVoice)
+    {
+        masterVoice->DestroyVoice();
+        masterVoice = nullptr;
+    }
+
+    // XAudio2の解放
+    if (xAudio2)
+    {
+        xAudio2->Release();
+        xAudio2 = nullptr;
+    }
+}
+
+
 bool Audio::Initialize()
 {
     HRESULT result;

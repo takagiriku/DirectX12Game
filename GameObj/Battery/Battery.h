@@ -48,7 +48,7 @@ protected:
 	float spotLightDir[3] = { 0,-1,0 };
 	float spotLightPos[3] = { 0,5,0 };
 	float spotLightColor[3] = { 0.7f,0.8f,1 };
-	float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
+	float spotLightAtten[3] = { 1.0f,1.0f,1.0f };
 	float spotLightFactorAngle[2] = { 20.0f, 30.0f };
 	
 	float circleShadowDir[3] = { 0,-1,0 };

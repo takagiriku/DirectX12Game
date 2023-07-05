@@ -36,15 +36,7 @@ float4 main(VSOutput input) : SV_TARGET
             finalColor -= vignette * effectStrength / 5;
         }
     }
-    else
-    {
-        // ポストエフェクトを徐々に戻す処理
-        float effectFade = 1.0 - timeFactor;  
-        finalColor += (1 - steped) * effect1 * effectStrength * effectFade;
-        finalColor += (1 - steped) * effect2 * effectStrength * effectFade;
-        finalColor += vignette * effectStrength / 2 * effectFade;
-        finalColor -= steped * 0.1 * effectFade;
-    }
+    
 
     return float4(finalColor, texcolor.a);
 }

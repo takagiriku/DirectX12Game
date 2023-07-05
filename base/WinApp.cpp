@@ -1,7 +1,7 @@
 ﻿#include <imgui_impl_win32.h>
 #include "WinApp.h"
 
-const wchar_t WinApp::windowClassName[] = L"DirectXGame";
+const wchar_t WinApp::windowClassName[] = L"BLACK MAZE";
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // ウィンドウプロシージャ
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

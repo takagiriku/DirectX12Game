@@ -69,6 +69,7 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayer->SetStartFlag(true);
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
+	post->ResetTime();
 }
 
 void ClearScene::Finalize()
@@ -172,6 +173,7 @@ void ClearScene::Update()
 	if (alpha[0] > 1)
 	{
 		stage->StageChange();
+		post->ResetTime();
 		SceneManager::GetInstance()->ChangeScene("END");
 	}
 	inputCamera->SetTarget(CameraPosition);
@@ -227,7 +229,6 @@ void ClearScene::Update()
 
 		if (alpha[0] > 1)
 		{
-			stage->StageChange();
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
 	}

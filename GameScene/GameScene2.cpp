@@ -89,7 +89,7 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	objPlayerBody->SetStartFlag(true);
 	objPlayer->SetStartFlag(true);
-	
+	post->ResetTime();
 	post->SetStartFlag(true);
 	objPlayerBody->SetMoveFlags(true);
 	objPlayer->SetMoveFlags(true);
@@ -303,6 +303,7 @@ void GameScene2::Update()
 		if (SpriteX[0] > 1270)
 		{
 			stage->StageChange();
+			post->ResetTime();
 			SceneManager::GetInstance()->ChangeScene("CLEAR");
 		}
 	}
@@ -333,6 +334,7 @@ void GameScene2::Update()
 	if (alpha[0] > 1)
 	{
 		stage->StageChange();
+		post->ResetTime();
 		SceneManager::GetInstance()->ChangeScene("END");
 	}
 

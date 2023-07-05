@@ -63,9 +63,9 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 		TitleObjs[i]->SetPosition({ -12 + i * 3.f,55,-2 });
 	}
 	TitleMove[0] = Object3d::Create(mTitleMove);
+	TitleMove[0]->SetRotation({ 0,0,0 });
 	TitleMove[0]->SetPosition({ 0,40,0 });
 	TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
-	TitleMove[0]->SetRotation({ 0,0,0 });
 
 	TitleMove[1] = Object3d::Create(mTitleMove);
 	TitleMove[1]->SetRotation({ 0,180,0 });
@@ -97,8 +97,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayer->SetMoveFlags(true);
 	
 	audio->SoundStop("se_amc04.wav");
+	audio->SoundLoadWave("digitalworld.wav");
 }
-
 
 
 void TitleScene::Finalize()
@@ -133,8 +133,7 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
-
-	
+	audio->SoundPlayWave("digitalworld.wav", true);
 	if (input->Trigger(DIK_SPACE))
 	{
 		objPlayerBody->SetStartFlag(true);
@@ -148,6 +147,7 @@ void TitleScene::Update()
 		CameraPosition.x = PBodyPosition.x;
 		CameraPosition.y = PBodyPosition.y - 5;
 		CameraPosition.z = PBodyPosition.z - 15;
+		post->ResetTime();
 	}
 	if(StartFlag)
 	{
@@ -162,54 +162,49 @@ void TitleScene::Update()
 	}
 
 	PBodyPosition = objPlayerBody->GetPosition();
-	if (objPlayerBody->MoveCount == 1)
-		//ƒvƒŒƒCƒ„[‚Ìˆ—
+	if (input->Push(DIK_A) || input->Push(DIK_D))
 	{
-		if (input->Push(DIK_A) || input->Push(DIK_D))
-		{
-			if (input->Push(DIK_D))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,90,0 });
-				PBodyRotation.z -= 5;
-				PBodyRotation.x = 0;
-			}
-			if (input->Push(DIK_A))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
-				//Body‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,270,0 });
-				PBodyRotation.z += 5;
-				PBodyRotation.x = 0;
-			}
-			
-		}
-		else if (input->Push(DIK_S) || input->Push(DIK_W))
-		{
-			if (input->Push(DIK_W))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,0,0 });
-				PBodyRotation.x += 5;
-				PBodyRotation.z = 90;
-			}
-			if (input->Push(DIK_S))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É-1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,180,0 });
-				PBodyRotation.z = 90;
-				PBodyRotation.x -= 5;
-			}
-			
-		}
+		if (input->Push(DIK_D))
+		{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É+1‚·‚é
+			//Body‚ÆHead‚Ì‰ñ“]
+			objPlayer->SetRotation({ 0,90,0 });
+			PlayerBodyRotz -= 5;
+			PlayerBodyRotx = 0;
 
+		}
+		if (input->Push(DIK_A))
+		{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
+			//Body‚Ì‰ñ“]
+			objPlayer->SetRotation({ 0,270,0 });
+			PlayerBodyRotz += 5;
+			PlayerBodyRotx = 0;
+		}
 
 	}
-	
+	else if (input->Push(DIK_S) || input->Push(DIK_W))
+	{
+		if (input->Push(DIK_W))
+		{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É+1‚·‚é
+			//Body‚ÆHead‚Ì‰ñ“]
+			objPlayer->SetRotation({ 0,0,0 });
+			PlayerBodyRotx += 5;
+			PlayerBodyRotz = 90;
+		}
+		if (input->Push(DIK_S))
+		{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É-1‚·‚é
+			//Body‚ÆHead‚Ì‰ñ“]
+			objPlayer->SetRotation({ 0,180,0 });
+			PlayerBodyRotz = 90;
+			PlayerBodyRotx -= 5;
+		}
+
+	}
+
+
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
-
-	objPlayerBody->SetRotation({ PBodyRotation });
+	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
 	objPlayerBody->SetPosition({ PBodyPosition });
 	Key->SetPosition(KeyPosition);
 	Battery->SetPosition(BatteryPosition);
@@ -262,13 +257,17 @@ void TitleScene::Update()
 		if (SpriteX[0] > 1270)
 		{
 			stage->StageChange();
+			post->ResetTime();
 			SceneManager::GetInstance()->ChangeScene("GAME");
 		}
 	}
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	
-	
+	if (post->Time > 160)
+	{
+		post->ResetTime();
+	}
 	
 	alpha[0] += speed;  // ƒAƒ‹ƒtƒ@’l‚ð•Ï‰»‚³‚¹‚é
 
@@ -349,9 +348,11 @@ void TitleScene::FirstDraw2D()
 		spriteSPACE->Draw();
 		TITLE->Draw();
 	}
-	Black->Draw();
+	//Black->Draw();
 	Sprite::PostDraw();
 }
+
+
 void TitleScene::DrawImGui()
 {
 }
