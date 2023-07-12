@@ -8,9 +8,10 @@
 #include"GameObj/Box/Box.h"
 #include"GameObj/Tile/Tile.h"
 #include"ParticleManager.h"
-//#include "PlayerObj.h"
+
 
 class Player;
+class PlayerHead;
 class GameScene2 : public BaseScene
 {
 private:
@@ -135,7 +136,7 @@ private:
     Model* mBBox = nullptr;
     Model* mTile = nullptr;
     Player* objPlayerBody = nullptr;
-    Player* objPlayer = nullptr;
+    PlayerHead* objPlayer = nullptr;
     Key* Key = nullptr;
     Box* Box[4];
     Object3d* BBox[4];

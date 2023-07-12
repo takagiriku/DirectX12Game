@@ -159,6 +159,12 @@
     <ClCompile Include="GameObj\Tile\Tile.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="GameObj\BackObj\BackObj.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -350,6 +356,15 @@
     <ClInclude Include="GameObj\Tile\Tile.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="GameObj\BackObj\BackObj.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="StageData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />
@@ -370,5 +385,10 @@
     <FxCompile Include="Resources\shaders\PostEffectTestVS.hlsl" />
     <FxCompile Include="Resources\shaders\SpritePixelShader.hlsl" />
     <FxCompile Include="Resources\shaders\SpriteVertexShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXGame.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

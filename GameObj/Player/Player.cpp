@@ -153,6 +153,8 @@ void Player::Move()
 							position.x += moveDistance;
 							MoveFlag = 1;
 							MoveCount = 1;
+							rotation.x += moveDistance * 10;
+							rotation.y = 90;
 						}
 					}
 					if (MoveFlag != 6)
@@ -162,6 +164,8 @@ void Player::Move()
 							position.x -= moveDistance;
 							MoveFlag = 2;
 							MoveCount = 1;
+							rotation.x -= moveDistance * 10;
+							rotation.y = 90;
 						}
 					}
 
@@ -175,6 +179,8 @@ void Player::Move()
 							position.z -= moveDistance;
 							MoveFlag = 3;
 							MoveCount = 1;
+							rotation.x -= moveDistance * 10;
+							rotation.y = 0;
 						}
 					}
 					if (MoveFlag != 8)
@@ -184,6 +190,8 @@ void Player::Move()
 							position.z += moveDistance;
 							MoveFlag = 4;
 							MoveCount = 1;
+							rotation.x += moveDistance * 10;
+							rotation.y = 0;
 						}
 					}
 				}
@@ -259,6 +267,9 @@ void Player::Update(Light* light)
 	}
 	collider->Update();
 	Move();
+
+	pos = position;
+	
 	// s—ñ‚ÌXV‚È‚Ç
 	Object3d::Update();
 }

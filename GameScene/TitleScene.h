@@ -3,15 +3,15 @@
 #include <DirectXMath.h>
 #include "BaseScene.h"
 #include "SceneFactory.h"
-#include"GameObj/Stage/Stage.h"
-#include"GameObj/Key/Key.h"
-#include"GameObj/Battery/Battery.h"
 #include"2d/PostEffect.h"
 #include "ParticleManager.h"
-//#include "PlayerObj.h"
 
 class Player;
 class PlayerHead;
+class BackObj;
+class Key;
+class Stage;
+class Battery;
 class GameManager;
 
 class TitleScene : public BaseScene
@@ -103,8 +103,11 @@ private:
     Model* mBattery = nullptr;
     Model* mTitleMove = nullptr;
     
+    Model* mBack = nullptr;
+    
     Player* objPlayerBody = nullptr;
-    Player* objPlayer = nullptr;
+    PlayerHead* objPlayer = nullptr;
+    BackObj* objBack = nullptr;
     Key* Key = nullptr;
     Battery* Battery = nullptr;
     Object3d* TitleObjs[10];
@@ -120,5 +123,5 @@ private:
     Model* mDome = nullptr;
     float alpha[3] = {0,0,0};  // 初期のアルファ
     float speed = 0.005f; // 点滅の速度
-    
+    float count[1]={0};
 };

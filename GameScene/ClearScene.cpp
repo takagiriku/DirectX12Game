@@ -1,5 +1,6 @@
 #include "ClearScene.h"
 #include"GameObj/Player/Player.h"
+#include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
 
@@ -36,7 +37,8 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayerBody = Player::Create(modelPlayerBody);
 	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
 	objPlayerBody->SetPosition({ PBodyPosition });
-	objPlayer = Player::Create(modelPlayer);
+	objPlayer = PlayerHead::Create(modelPlayer);
+	objPlayer->SetPlayer(objPlayerBody);
 	objPlayer->SetScale({ 1.5,1.5,1.5 });
 	objPlayer->SetPosition({ PBodyPosition });
 
@@ -104,48 +106,7 @@ void ClearScene::Update()
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
 	PBodyPosition = objPlayerBody->GetPosition();
-	if (objPlayerBody->MoveCount == 1)
-		//ƒvƒŒƒCƒ„[‚Ìˆ—
-	{
-		if (input->Push(DIK_A) || input->Push(DIK_D))
-		{
-			if (input->Push(DIK_D))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,90,0 });
-				PlayerBodyRotz -= 5;
-				PlayerBodyRotx = 0;
-			}
-			if (input->Push(DIK_A))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
-				//Body‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,270,0 });
-				PlayerBodyRotz += 5;
-				PlayerBodyRotx = 0;
-			}
-		}
-		else if (input->Push(DIK_S) || input->Push(DIK_W))
-		{
-			if (input->Push(DIK_W))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,0,0 });
-				PlayerBodyRotx += 5;
-				PlayerBodyRotz = 90;
-			}
-			if (input->Push(DIK_S))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É-1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,180,0 });
-				PlayerBodyRotz = 90;
-				PlayerBodyRotx -= 5;
-
-			}
-		
-		}
-
-
-	}
+	
 	float speed = 0.005;
 	if (post->Time > 170)
 	{
@@ -179,13 +140,12 @@ void ClearScene::Update()
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
-	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
 	light->Update();
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
 	objPlayerBody->Update(light);
-	objPlayer->Update(light);
+	objPlayer->Update();
 
 	Dome->Update();
 	stage->Stage4();
@@ -229,6 +189,7 @@ void ClearScene::Update()
 
 		if (alpha[0] > 1)
 		{
+			stage->StageChange();
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
 	}

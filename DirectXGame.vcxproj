@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(ProjectDir)GameObj;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)lib\DirectXTex\include;$(ProjectDir)dynamics;$(ProjectDir)light;$(ProjectDir)stage;$(ProjectDir)player;$(ProjectDir)hlsl;$(ProjectDir)imgui;$(ProjectDir)lib\nlohmann;$(ProjectDir)levelloader;$(ProjectDir)GameScene;$(ProjectDir)GameObj;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\DirectXTex\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,6 +157,7 @@
     <ClCompile Include="dynamics\MeshCollider.cpp" />
     <ClCompile Include="dynamics\SphereCollider.cpp" />
     <ClCompile Include="dynamics\TouchableObject.cpp" />
+    <ClCompile Include="GameObj\BackObj\BackObj.cpp" />
     <ClCompile Include="GameObj\Box\Box.cpp" />
     <ClCompile Include="GameObj\Battery\Battery.cpp" />
     <ClCompile Include="GameObj\Key\Key.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="2d\SpriteManager.cpp" />
     <ClCompile Include="GameObj\stage\Stage.cpp" />
     <ClCompile Include="GameObj\Tile\Tile.cpp" />
+    <ClCompile Include="StageData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="dynamics\RaycastHit.h" />
     <ClInclude Include="dynamics\SphereCollider.h" />
     <ClInclude Include="dynamics\TouchableObject.h" />
+    <ClInclude Include="GameObj\BackObj\BackObj.h" />
     <ClInclude Include="GameObj\Box\Box.h" />
     <ClInclude Include="GameObj\Battery\Battery.h" />
     <ClInclude Include="GameObj\Key\Key.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="GameScene\GameScene2.h" />
     <ClInclude Include="GameScene\TitleScene.h" />
     <ClInclude Include="GameObj\Player\PlayerHead.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="scene\AbstractSceneFactory.h" />
     <ClInclude Include="scene\GameBase.h" />
     <ClInclude Include="scene\GameMnager.h" />
@@ -255,6 +259,7 @@
     <ClInclude Include="2d\SpriteManager.h" />
     <ClInclude Include="GameObj\stage\Stage.h" />
     <ClInclude Include="GameObj\Tile\Tile.h" />
+    <ClInclude Include="StageData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />
@@ -320,6 +325,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXGame.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

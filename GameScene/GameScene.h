@@ -6,9 +6,10 @@
 #include"GameObj/Key/Key.h"
 #include"GameObj/Battery/Battery.h"
 #include"ParticleManager.h"
-//#include "PlayerObj.h"
+
 
 class Player;
+class PlayerHead;
 class GameScene : public BaseScene
 {
 private:
@@ -112,7 +113,7 @@ private:
     Model* mBattery = nullptr;
 
     Player* objPlayerBody = nullptr;
-    Player* objPlayer = nullptr;
+    PlayerHead* objPlayer = nullptr;
     Key* Key = nullptr;
     Battery* Battery[10];
     Stage* stage = nullptr;

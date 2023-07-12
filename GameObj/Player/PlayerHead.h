@@ -11,27 +11,19 @@ class PlayerHead :
 public:
 	// 3Dオブジェクト生成
 	static PlayerHead* Create(Model* model = nullptr);
-public:
+	void SetPlayer(Player* player);
 
 	// 初期化
 	bool Initialize() override;
 
 	// 毎フレーム処理
-	void Update() override;
+	void Update();
 
 
-
-	//DirectX::XMFLOAT3 GetPosition() const { return position; }
+	float ppos[3] = { 0,0,0 };
 
 	
 	int GetMoveCount() const { return MoveCount; }
-
-
-	void SetPos(XMFLOAT3 position) { this->position = position; }
-	
-	
-
-	//void Move();
 
 	int scene = 0;
 
@@ -49,9 +41,8 @@ public:
 	bool MoveFlags = false;
 
 	int MoveCount = 0;
-
 private:
-
+	Player* player = nullptr;
 
 	int gameCount = 0;
 
@@ -60,7 +51,7 @@ private:
 
 
 
-	Player* player = nullptr;
+	
 };
 
 

@@ -14,7 +14,7 @@ void GameMnager::Initialize()
 
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
-	SceneManager::GetInstance()->ChangeScene("GAME");
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 	
 }
 
@@ -56,7 +56,7 @@ void GameMnager::Draw()
 	post->PostDrawScene(dxCommon->GetCommandList());
 	
 	dxCommon->PreDraw();
-	//SceneManager::GetInstance()->DrawImGui();
+	SceneManager::GetInstance()->DrawImGui();
 	if (post->GetStartFlag())
 	{
 		post->Draw(dxCommon->GetCommandList());
@@ -64,7 +64,7 @@ void GameMnager::Draw()
 	}
 	else
 	{
-	//	SceneManager::GetInstance()->Draw();
+		SceneManager::GetInstance()->Draw();
 		SceneManager::GetInstance()->Draw2D();
 		SceneManager::GetInstance()->FirstDraw2D();
 	}

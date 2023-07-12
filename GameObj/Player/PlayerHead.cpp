@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Input.h"
 
-
 PlayerHead* PlayerHead::Create(Model* model)
 {
 	// 3Dオブジェクトのインスタンスを生成
@@ -31,19 +30,49 @@ bool PlayerHead::Initialize()
 		return false;
 	}
 
-	player = new Player;
+	
 
 	return true;
 }
 
-
-
 void PlayerHead::Update()
 {
-
+	Input* input = Input::GetInstance();
 	
-	SetPos(player->GetPosition());
+	if (player) {
+		position = player->GetPosition();
+	}
 
-	// 行列の更新など
+	if (input->Push(DIK_A) || input->Push(DIK_D))
+	{
+		if (input->Push(DIK_D))
+		{	
+			rotation.y = 90;
+		}
+		if (input->Push(DIK_A))
+		{
+			rotation.y = 270;
+		}
+
+	}
+	else if (input->Push(DIK_S) || input->Push(DIK_W))
+	{
+		if (input->Push(DIK_W))
+		{
+			rotation.y = 0;
+		}
+		if (input->Push(DIK_S))
+		{
+			rotation.y = 180;
+		}
+
+	}
+	ppos[0] = position.x;
+	ppos[1] = position.y;
+	ppos[2] = position.z;
 	Object3d::Update();
+}
+void PlayerHead::SetPlayer(Player* player)
+{
+	this->player = player;
 }

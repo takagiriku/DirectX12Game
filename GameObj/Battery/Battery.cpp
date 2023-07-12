@@ -76,7 +76,6 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 
 	light->SetPointLightPos(Number, XMFLOAT3(position.x, position.y, position.z - 1));
 	light->SetPointLightColor(Number, XMFLOAT3(spotLightColor));
-	light->SetPointLightAtten(Number, XMFLOAT3(spotLightAtten));
 	light->SetCircleShadowCasterPos(Number, XMFLOAT3(position.x, position.y-1, position.z));
 	light->SetCircleShadowDir(Number, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2], 0 }));
 	light->SetCircleShadowAtten(Number, XMFLOAT3(circleShadowAtten));

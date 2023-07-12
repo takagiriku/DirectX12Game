@@ -26,10 +26,10 @@ public:
 
 	void Move();
 
-
-
+	const XMFLOAT3& GetPositions() { return pos; }
 	int scene = 0;
-
+	
+	XMFLOAT3 pos{};
 	
 	bool StartFlag = false;
 

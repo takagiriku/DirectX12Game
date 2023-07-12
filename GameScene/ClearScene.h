@@ -4,6 +4,7 @@
 #include"GameObj/Stage/Stage.h"
 
 class Player;
+class PlayerHead;
 
 class ClearScene :
     public BaseScene
@@ -87,7 +88,7 @@ private:
     Object3d* TitleMove[2];
     Object3d* Dome = nullptr;
     Player* objPlayerBody = nullptr;
-    Player* objPlayer = nullptr;
+    PlayerHead* objPlayer = nullptr;
     Sprite* spriteSceneChenge = nullptr;
     Sprite* Black = nullptr;
     Light* light = nullptr;

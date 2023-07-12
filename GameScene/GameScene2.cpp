@@ -1,5 +1,6 @@
 #include "GameScene2.h"
 #include"GameObj/Player/Player.h"
+#include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
 
@@ -51,7 +52,8 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	objPlayerBody = Player::Create(modelPlayerBody);
 	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
 	objPlayerBody->SetPosition({ PBodyPosition });
-	objPlayer = Player::Create(modelPlayer);
+	objPlayer = PlayerHead::Create(modelPlayer);
+	objPlayer->SetPlayer(objPlayerBody);
 	objPlayer->SetScale({ 1.5,1.5,1.5 });
 	objPlayer->SetPosition({ PBodyPosition });
 
@@ -133,44 +135,6 @@ void GameScene2::Update()
 
 	PBodyPosition = objPlayerBody->GetPosition();
 	
-		if (input->Push(DIK_A) || input->Push(DIK_D))
-		{
-			if (input->Push(DIK_D))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,90,0 });
-				PlayerBodyRotz -= 5;
-				PlayerBodyRotx = 0;
-
-			}
-			if (input->Push(DIK_A))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åx‚É-1‚·‚é
-				//Body‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,270,0 });
-				PlayerBodyRotz += 5;
-				PlayerBodyRotx = 0;
-			}
-		
-		}
-		else if (input->Push(DIK_S) || input->Push(DIK_W))
-		{
-			if (input->Push(DIK_W))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É+1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,0,0 });
-				PlayerBodyRotx += 5;
-				PlayerBodyRotz = 90;
-			}
-			if (input->Push(DIK_S))
-			{//ƒ‰ƒO‚Ì–â‘è‚Åz‚É-1‚·‚é
-				//Body‚ÆHead‚Ì‰ñ“]
-				objPlayer->SetRotation({ 0,180,0 });
-				PlayerBodyRotz = 90;
-				PlayerBodyRotx -= 5;
-			}
-			
-		}
-
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
@@ -192,7 +156,6 @@ void GameScene2::Update()
 	BatPos[2] = BoxPosition[0].z;
 
 
-	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
 	Dome->Update();
 	light->Update();
 
@@ -219,7 +182,7 @@ void GameScene2::Update()
 	Key->SetPos(PBodyPosition);
 
 	objPlayerBody->Update(light);
-	objPlayer->Update(light);
+	objPlayer->Update();
 
 	test = Tile[0]->GetPosition();
 

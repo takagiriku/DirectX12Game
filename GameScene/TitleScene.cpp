@@ -6,6 +6,8 @@
 #include"GameObj/stage/stage.h"
 #include"GameObj/key/Key.h"
 #include"GameObj/Battery/Battery.h"
+#include"GameObj/BackObj/BackObj.h"
+
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 
@@ -50,6 +52,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	mKey = Model::CreateOBJ("key");
     mBattery = Model::CreateOBJ("battery");
 	mTitleMove = Model::CreateOBJ("titleobj");
+	mBack = Model::CreateOBJ("screw");
 
 	
 	Key = Key::Create(mKey);
@@ -77,11 +80,14 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	Battery->SetScale({ 1.5,1.5,1.5 });
 	Battery->SetPosition(BatteryPosition);
     objPlayerBody = Player::Create(modelPlayerBody);
-    objPlayer = Player::Create(modelPlayer);
-	
+    objPlayer = PlayerHead::Create(modelPlayer);
+	objBack = BackObj::Create(mBack);
+	objPlayer->SetPlayer(objPlayerBody);
+	objBack->SetPlayer(objPlayerBody);
     objPlayerBody->SetScale({ 1.5,1.5,1.5 });
     objPlayer->SetScale({ 1.5,1.5,1.5 });
     
+	
     stage = new Stage();
     stage->Initialize();
 	Key->SetPosition(KeyPosition);
@@ -90,6 +96,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
     inputCamera->SetEye(XMFLOAT3(Eye));
 	objPlayerBody->SetPosition(PBodyPosition);
 	objPlayer->SetPosition(PBodyPosition);
+
 	post->SetStartFlag(false);
 	
 	post->ResetTime();
@@ -123,10 +130,12 @@ void TitleScene::Finalize()
    safe_delete(modelPlayerBody);
    safe_delete(modelPlayer);
    safe_delete(mKey);
+   safe_delete(mBack);
    safe_delete(mBattery);
    safe_delete(mTitleMove);
    safe_delete(TitleMove[0]);
    safe_delete(TitleMove[1]);
+   safe_delete(objBack);
    
 
 }
@@ -162,61 +171,22 @@ void TitleScene::Update()
 	}
 
 	PBodyPosition = objPlayerBody->GetPosition();
-	if (input->Push(DIK_A) || input->Push(DIK_D))
-	{
-		if (input->Push(DIK_D))
-		{//ラグの問題でxに+1する
-			//BodyとHeadの回転
-			objPlayer->SetRotation({ 0,90,0 });
-			PlayerBodyRotz -= 5;
-			PlayerBodyRotx = 0;
-
-		}
-		if (input->Push(DIK_A))
-		{//ラグの問題でxに-1する
-			//Bodyの回転
-			objPlayer->SetRotation({ 0,270,0 });
-			PlayerBodyRotz += 5;
-			PlayerBodyRotx = 0;
-		}
-
-	}
-	else if (input->Push(DIK_S) || input->Push(DIK_W))
-	{
-		if (input->Push(DIK_W))
-		{//ラグの問題でzに+1する
-			//BodyとHeadの回転
-			objPlayer->SetRotation({ 0,0,0 });
-			PlayerBodyRotx += 5;
-			PlayerBodyRotz = 90;
-		}
-		if (input->Push(DIK_S))
-		{//ラグの問題でzに-1する
-			//BodyとHeadの回転
-			objPlayer->SetRotation({ 0,180,0 });
-			PlayerBodyRotz = 90;
-			PlayerBodyRotx -= 5;
-		}
-
-	}
-
-
+	
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
-	objPlayerBody->SetRotation({ PlayerBodyRotx,PlayerBodyRoty,PlayerBodyRotz });
-	objPlayerBody->SetPosition({ PBodyPosition });
+	
 	Key->SetPosition(KeyPosition);
 	Battery->SetPosition(BatteryPosition);
 	Dome->Update();
 	
 	
 	objPlayerBody->Update(light);
-	objPlayer->Update(light);
+	objPlayer->Update();
 	Key->Update(particleMan, light);
 	Battery->Update(particleMan, post, light,2);
 	stage->GetCameraPos(CameraPosition);
-	
+	objBack->Update();
 	light->Update();
 	for (int i = 0; i < 9; i++)
 	{
@@ -292,11 +262,11 @@ void TitleScene::Update()
 	particleMan->Update();
 	Black->SetAlpha(a[0]);
 	stage->Stage0();
+	count[0] = objBack->count[0];
 }
 
 void TitleScene::Draw()
 {
-    
     // コマンドリストの取得
     ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
@@ -318,6 +288,7 @@ void TitleScene::Draw()
 		stage->StageObjDraw0();
 		Battery->Draw();
 		objPlayerBody->Draw();
+		objBack->Draw();
 		objPlayer->Draw();
 		Key->Draw();
 	}
@@ -355,5 +326,10 @@ void TitleScene::FirstDraw2D()
 
 void TitleScene::DrawImGui()
 {
+	ImGui::Begin("pos");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 200));
+	ImGui::InputFloat("count", objBack->count);
+	ImGui::InputFloat3("Player", objPlayer->ppos);
+	ImGui::End();
 }
-
