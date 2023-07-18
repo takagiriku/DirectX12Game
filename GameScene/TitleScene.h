@@ -107,7 +107,8 @@ private:
     
     Player* objPlayerBody = nullptr;
     PlayerHead* objPlayer = nullptr;
-    BackObj* objBack = nullptr;
+    const int obj = 10;
+    BackObj* objBack [10];
     Key* Key = nullptr;
     Battery* Battery = nullptr;
     Object3d* TitleObjs[10];

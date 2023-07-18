@@ -10,8 +10,11 @@ public:
 	static BackObj* Create(Model* model = nullptr);
 
 	void SetPlayer(Player* plyaer);
+
+	void NextBackObj(BackObj* next);
+
 public:
-	float count[1] = {0};
+	float count[2] = {0,0};
 	// èâä˙âª
 	bool Initialize();
 
@@ -21,6 +24,7 @@ public:
 	void Draw();
 private:
 	Player* player = nullptr;
+	BackObj* nextBackObj = nullptr;
 	XMFLOAT3 pos;
 	XMFLOAT3 Ppos;
 	bool flag = false;

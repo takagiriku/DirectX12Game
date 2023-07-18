@@ -81,9 +81,17 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	Battery->SetPosition(BatteryPosition);
     objPlayerBody = Player::Create(modelPlayerBody);
     objPlayer = PlayerHead::Create(modelPlayer);
-	objBack = BackObj::Create(mBack);
+	for (int i = 0; i < obj; i++)
+	{
+		objBack[i] = BackObj::Create(mBack);
+		objBack[i]->SetPlayer(objPlayerBody);
+		if (i > 0) {
+			objBack[i - 1]->NextBackObj(objBack[i]);
+		}
+	}
+	
 	objPlayer->SetPlayer(objPlayerBody);
-	objBack->SetPlayer(objPlayerBody);
+	
     objPlayerBody->SetScale({ 1.5,1.5,1.5 });
     objPlayer->SetScale({ 1.5,1.5,1.5 });
     
@@ -135,7 +143,11 @@ void TitleScene::Finalize()
    safe_delete(mTitleMove);
    safe_delete(TitleMove[0]);
    safe_delete(TitleMove[1]);
-   safe_delete(objBack);
+   for (int i = 0; i < obj; i++)
+   {
+	   safe_delete(objBack[i]);
+   }
+   
    
 
 }
@@ -186,7 +198,11 @@ void TitleScene::Update()
 	Key->Update(particleMan, light);
 	Battery->Update(particleMan, post, light,2);
 	stage->GetCameraPos(CameraPosition);
-	objBack->Update();
+	for (int i = 0; i < obj; i++)
+	{
+		objBack[i]->Update();
+	}
+	
 	light->Update();
 	for (int i = 0; i < 9; i++)
 	{
@@ -262,7 +278,6 @@ void TitleScene::Update()
 	particleMan->Update();
 	Black->SetAlpha(a[0]);
 	stage->Stage0();
-	count[0] = objBack->count[0];
 }
 
 void TitleScene::Draw()
@@ -280,15 +295,19 @@ void TitleScene::Draw()
 	}
 	else
 	{
-		TitleMove[0]->Draw();
-		TitleMove[1]->Draw();
+		/*TitleMove[0]->Draw();
+		TitleMove[1]->Draw();*/
 	}
 	if (StartFlag)
 	{
 		stage->StageObjDraw0();
 		Battery->Draw();
 		objPlayerBody->Draw();
-		objBack->Draw();
+		for (int i = 0; i < obj; i++)
+		{
+			objBack[i]->Draw();
+		}
+		
 		objPlayer->Draw();
 		Key->Draw();
 	}
@@ -329,7 +348,6 @@ void TitleScene::DrawImGui()
 	ImGui::Begin("pos");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::InputFloat("count", objBack->count);
 	ImGui::InputFloat3("Player", objPlayer->ppos);
 	ImGui::End();
 }
