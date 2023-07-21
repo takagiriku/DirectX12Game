@@ -48,6 +48,10 @@ void GameBase::Initialize()
 
 	post = new PostEffect();
 	post->Initialize(dxCommon->GetDevice());
+
+	data = new Data();
+
+
 }
 
 void GameBase::Finalize()

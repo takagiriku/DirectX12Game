@@ -85,9 +85,13 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	{
 		objBack[i] = BackObj::Create(mBack);
 		objBack[i]->SetPlayer(objPlayerBody);
+		if (i == 0) {
+			objBack[i]->SetPosition({ 0, 2.6, 0 });
+		}
 		if (i > 0) {
 			objBack[i - 1]->NextBackObj(objBack[i]);
 		}
+
 	}
 	
 	objPlayer->SetPlayer(objPlayerBody);
@@ -161,15 +165,6 @@ void TitleScene::Update()
 		objPlayer->SetStartFlag(true);
 		StartFlag = true;
 	}
-
-	if (StartFlag == false)
-	{
-		PBodyPosition = { 0,55,-2 };
-		CameraPosition.x = PBodyPosition.x;
-		CameraPosition.y = PBodyPosition.y - 5;
-		CameraPosition.z = PBodyPosition.z - 15;
-		post->ResetTime();
-	}
 	if(StartFlag)
 	{
 		TitleMove[0]->SetPosition({ 0,PBodyPosition.y,6 });
@@ -180,6 +175,14 @@ void TitleScene::Update()
 		CameraPosition.z = PBodyPosition.z - 15;
 		
 
+	}
+	else
+	{
+		PBodyPosition = { 0,55,-2 };
+		CameraPosition.x = PBodyPosition.x;
+		CameraPosition.y = PBodyPosition.y - 5;
+		CameraPosition.z = PBodyPosition.z - 15;
+		post->ResetTime();
 	}
 
 	PBodyPosition = objPlayerBody->GetPosition();
@@ -201,6 +204,11 @@ void TitleScene::Update()
 	for (int i = 0; i < obj; i++)
 	{
 		objBack[i]->Update();
+		
+		if (i > 0) {
+			objBack[i - 1]->NextBackObj(objBack[i]);
+		}
+		
 	}
 	
 	light->Update();
@@ -295,8 +303,8 @@ void TitleScene::Draw()
 	}
 	else
 	{
-		/*TitleMove[0]->Draw();
-		TitleMove[1]->Draw();*/
+		TitleMove[0]->Draw();
+		TitleMove[1]->Draw();
 	}
 	if (StartFlag)
 	{

@@ -12,6 +12,8 @@ public:
 	void SetPlayer(Player* plyaer);
 
 	void NextBackObj(BackObj* next);
+	
+	void GetNextBackObjPos(XMFLOAT3 poss);
 
 public:
 	float count[2] = {0,0};
@@ -28,7 +30,7 @@ private:
 	XMFLOAT3 pos;
 	XMFLOAT3 Ppos;
 	bool flag = false;
-
+	
 	
 };
 

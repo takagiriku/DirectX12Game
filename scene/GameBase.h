@@ -15,6 +15,7 @@
 #include "PostEffect.h"
 #include"SceneManager.h"
 #include"Audio.h"
+#include"Data.h"
 class GameBase
 {
 public:
@@ -45,6 +46,7 @@ protected:
 	SpriteManager* SpriteMan = nullptr;
 	AbstractSceneFactory* sceneFactory = nullptr;
 	Audio* audio = nullptr;
+	Data* data = nullptr;
 	const int textNumber = 2;
 };
 

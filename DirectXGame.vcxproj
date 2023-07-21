@@ -195,7 +195,6 @@
     <ClCompile Include="2d\SpriteManager.cpp" />
     <ClCompile Include="GameObj\stage\Stage.cpp" />
     <ClCompile Include="GameObj\Tile\Tile.cpp" />
-    <ClCompile Include="StageData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -261,7 +260,6 @@
     <ClInclude Include="2d\SpriteManager.h" />
     <ClInclude Include="GameObj\stage\Stage.h" />
     <ClInclude Include="GameObj\Tile\Tile.h" />
-    <ClInclude Include="StageData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />

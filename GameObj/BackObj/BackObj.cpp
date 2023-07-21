@@ -29,33 +29,34 @@ bool BackObj::Initialize()
     {
         return false;
     }
-    position = { 0, 2.6, 0 };
+    
     return true;
 }
 
 void BackObj::Update()
 {
+    //ToDo処理変更
     Input* input = Input::GetInstance();
     if (player) {
         Ppos = player->GetPosition();
         count[0] = Ppos.x - position.x;
         count[1] = Ppos.z - position.z;
     }
+     // プレイヤーとの距離を計算し、一定距離進んだら生成する
+        const float distanceThreshold = 1.0f;
+        if (abs(Ppos.x - position.x) <= distanceThreshold || abs(Ppos.z - position.z) <= distanceThreshold)
+        {
+            // 生成フラグを立てる
+            flag = true;
+                if (nextBackObj) {
+                    nextBackObj->SetPosition(Ppos);
+                }
+            
 
-    // プレイヤーとの距離を計算し、一定距離進んだら生成する
-    const float distanceThreshold = 3.0f;
-    if (abs(Ppos.x - position.x) <= distanceThreshold || abs(Ppos.z - position.z) <= distanceThreshold)
-    {
-        // 生成フラグを立てる
-        flag = true;
-        if (nextBackObj) {
-            nextBackObj->SetPosition(Ppos);
+
         }
-    }
-    else
-    {
-        flag = false;
-    }
+
+    
     rotation = { 90,0,90 };
     Object3d::Update();
 }
@@ -75,4 +76,9 @@ void BackObj::SetPlayer(Player* player)
 void BackObj::NextBackObj(BackObj* next)
 {
     this->nextBackObj = next;
+}
+
+void BackObj::GetNextBackObjPos(XMFLOAT3 poss)
+{
+    this->nextBackObj->position = poss;
 }
