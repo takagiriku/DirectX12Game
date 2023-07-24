@@ -50,7 +50,7 @@ void GameBase::Initialize()
 	post->Initialize(dxCommon->GetDevice());
 
 	data = new Data();
-
+	data->Initialize();
 
 }
 
