@@ -13,6 +13,10 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 
+	data = new Data();
+	data->SetStageCount(0);
+	data->Initialize();
+
 	SpriteMan->LoadTexture(0, L"Resources/SPACE.png");
 	SpriteMan->LoadTexture(1, L"Resources/scenechenge.png");
 	SpriteMan->LoadTexture(2, L"Resources/TITLE.png");
@@ -41,82 +45,74 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	light->SetCircleShadowActive(1, true);
 	light->SetCircleShadowActive(2, true);
 	//Object3d::SetLightGroup(light);
-    mDome = Model::CreateOBJ("skydome");
-    Dome = Object3d::Create(mDome);
-	Dome->SetPosition({ 180,0,0 });
-	Dome->SetRotation({ 0,0,0 });
-	Dome->SetScale({ 3,3,3 });
-    modelPlayerBody = Model::CreateOBJ("playerbody");
-    modelPlayer = Model::CreateOBJ("playerobj");
-	modelTitleObjs = Model::CreateOBJ("TitleObjs");
-	mKey = Model::CreateOBJ("key");
-    mBattery = Model::CreateOBJ("battery");
-	mTitleMove = Model::CreateOBJ("titleobj");
-	mBack = Model::CreateOBJ("screw");
+   
+	data->Dome->SetPosition({ 180,0,0 });
+	data->Dome->SetRotation({ 0,0,0 });
+	data->Dome->SetScale({ 3,3,3 });
+    mBack = Model::CreateOBJ("backobj");
 
 	
-	Key = Key::Create(mKey);
 	// パーティクルマネージャ生成
 	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
 	for (int i = 0; i < 9; i++)
 	{
-		TitleObjs[i] = Object3d::Create(modelTitleObjs);
-		TitleObjs[i]->SetScale({ 1.2,1.2,1.2 });
-		TitleObjs[i]->SetRotation({ 0,180,0 });
-		TitleObjs[i]->SetPosition({ -12 + i * 3.f,55,-2 });
+		data->TitleObjs[i]->SetScale({ 1.2,1.2,1.2 });
+		data->TitleObjs[i]->SetRotation({ 0,180,0 });
+		data->TitleObjs[i]->SetPosition({ -12 + i * 3.f,55,-2 });
 	}
-	TitleMove[0] = Object3d::Create(mTitleMove);
-	TitleMove[0]->SetRotation({ 0,0,0 });
-	TitleMove[0]->SetPosition({ 0,40,0 });
-	TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
+	data->TitleMove[0]->SetRotation({ 0,0,0 });
+	data->TitleMove[0]->SetPosition({ 0,40,0 });
+	data->TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
 
-	TitleMove[1] = Object3d::Create(mTitleMove);
-	TitleMove[1]->SetRotation({ 0,180,0 });
-	TitleMove[1]->SetPosition({ 0,40,0 });
-	TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
+	data->TitleMove[1]->SetRotation({ 0,180,0 });
+	data->TitleMove[1]->SetPosition({ 0,40,0 });
+	data->TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
 	
-	Key->SetScale({ 5,5,5 });
-	Battery = Battery::Create(mBattery);
-	Battery->SetScale({ 1.5,1.5,1.5 });
-	Battery->SetPosition(BatteryPosition);
-    objPlayerBody = Player::Create(modelPlayerBody);
-    objPlayer = PlayerHead::Create(modelPlayer);
-	for (int i = 0; i < obj; i++)
-	{
-		objBack[i] = BackObj::Create(mBack);
-		objBack[i]->SetPlayer(objPlayerBody);
-		if (i == 0) {
-			objBack[i]->SetPosition({ 0, 2.6, 0 });
-		}
-		if (i > 0) {
-			objBack[i - 1]->NextBackObj(objBack[i]);
-		}
+	data->Keys[0]->SetScale({5,5,5});
+	data->battery[0]->SetScale({1.5,1.5,1.5});
+	data->battery[0]->SetPosition(BatteryPosition);
+ //   for (int i = 0; i < obj; i++)
+	//{
+	//	objBack[i] = BackObj::Create(mBack);
+	//	objBack[i]->SetPlayer(objPlayerBody);
+	//	if (i == 0) {
+	//		objBack[i]->SetPosition({ 0, 0, 6 });
+	//	}
+	//	if (i > 0) {
+	//		//Todo全部呼び出されるのでおかしくなる
+	//		//if (objBack[i-1]->nextflag)
+	//		{
+	//			objBack[i - 1]->NextBackObj(objBack[i]);
+	//		}
+	//	}
 
-	}
+	//}
+	//
+	data->objPlayer->SetPlayer(data->objPlayerBody);
 	
-	objPlayer->SetPlayer(objPlayerBody);
-	
-    objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-    objPlayer->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
     
 	
     stage = new Stage();
     stage->Initialize();
-	Key->SetPosition(KeyPosition);
+	data->Keys[0]->SetPosition(KeyPosition);
     inputCamera->SetTarget(CameraPosition);
     inputCamera->SetDistance(3.0f);
     inputCamera->SetEye(XMFLOAT3(Eye));
-	objPlayerBody->SetPosition(PBodyPosition);
-	objPlayer->SetPosition(PBodyPosition);
+	data->objPlayerBody->SetPosition(PBodyPosition);
+	data->objPlayer->SetPosition(PBodyPosition);
 
 	post->SetStartFlag(false);
 	
 	post->ResetTime();
-	objPlayerBody->SetMoveFlags(true);
-	objPlayer->SetMoveFlags(true);
+	data->objPlayerBody->SetMoveFlags(true);
+	data->objPlayer->SetMoveFlags(true);
 	
 	audio->SoundStop("se_amc04.wav");
 	audio->SoundLoadWave("digitalworld.wav");
+
+
 }
 
 
@@ -126,33 +122,12 @@ void TitleScene::Finalize()
    safe_delete(spriteSPACE);
    safe_delete(Black);
    safe_delete(TITLE);
-   safe_delete(Dome);
-   safe_delete(mDome);
    safe_delete(particleMan);
    safe_delete(light);
    safe_delete(stage);
-   for (int i = 0; i < 9; i++)
-   {
-	   safe_delete(TitleObjs[i]);
-   }
-   safe_delete(objPlayerBody);
-   safe_delete(objPlayer);
-   safe_delete(Key);
-   safe_delete(Battery);
-   safe_delete(modelPlayerBody);
-   safe_delete(modelPlayer);
-   safe_delete(mKey);
    safe_delete(mBack);
-   safe_delete(mBattery);
-   safe_delete(mTitleMove);
-   safe_delete(TitleMove[0]);
-   safe_delete(TitleMove[1]);
-   for (int i = 0; i < obj; i++)
-   {
-	   safe_delete(objBack[i]);
-   }
    
-   
+   data->Finalize();
 
 }
 
@@ -161,14 +136,14 @@ void TitleScene::Update()
 	audio->SoundPlayWave("digitalworld.wav", true);
 	if (input->Trigger(DIK_SPACE))
 	{
-		objPlayerBody->SetStartFlag(true);
-		objPlayer->SetStartFlag(true);
+		data->objPlayerBody->SetStartFlag(true);
+		data->objPlayer->SetStartFlag(true);
 		StartFlag = true;
 	}
 	if(StartFlag)
 	{
-		TitleMove[0]->SetPosition({ 0,PBodyPosition.y,6 });
-		TitleMove[1]->SetPosition({ 0,PBodyPosition.y,6 });
+		data->TitleMove[0]->SetPosition({ 0,PBodyPosition.y,6 });
+		data->TitleMove[1]->SetPosition({ 0,PBodyPosition.y,6 });
 		if(PBodyPosition.y<45)
 		CameraPosition.x = PBodyPosition.x;
 		CameraPosition.y = PBodyPosition.y + 5;
@@ -185,41 +160,34 @@ void TitleScene::Update()
 		post->ResetTime();
 	}
 
-	PBodyPosition = objPlayerBody->GetPosition();
+	PBodyPosition = data->objPlayerBody->GetPosition();
 	
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
 	
-	Key->SetPosition(KeyPosition);
-	Battery->SetPosition(BatteryPosition);
-	Dome->Update();
+	data->Keys[0]->SetPosition(KeyPosition);
+	data->battery[0]->SetPosition(BatteryPosition);
+	data->Dome->Update();
 	
 	
-	objPlayerBody->Update(light);
-	objPlayer->Update();
-	Key->Update(particleMan, light);
-	Battery->Update(particleMan, post, light,2);
+	data->objPlayerBody->Update(light);
+	data->objPlayer->Update();
+	data->Keys[0]->Update(particleMan, light);
+	
+	
+	data->battery[0]->Update(particleMan, post, light, 2);
 	stage->GetCameraPos(CameraPosition);
-	for (int i = 0; i < obj; i++)
-	{
-		objBack[i]->Update();
-		
-		if (i > 0) {
-			objBack[i - 1]->NextBackObj(objBack[i]);
-		}
-		
-	}
 	
 	light->Update();
 	for (int i = 0; i < 9; i++)
 	{
-		TitleObjs[i]->Update();
+		data->TitleObjs[i]->Update();
 	}
-	if (Battery->BatFlag == false && PBodyPosition.z > -3 && PBodyPosition.y < 2)
+	if (data->battery[0]->BatFlag == false && PBodyPosition.z > -3 && PBodyPosition.y < 2)
 	{
-		TitleMove[0]->SetRotation({ 0,0,45 });
-		TitleMove[1]->SetRotation({ 0,180,45 });
+		data->TitleMove[0]->SetRotation({ 0,0,45 });
+		data->TitleMove[1]->SetRotation({ 0,180,45 });
 		if (a[0] < 0.3)
 		{
 			a[0] += 0.05;
@@ -227,22 +195,22 @@ void TitleScene::Update()
 		post->SetStartFlag(true);
 	}
 	
-	if (Battery->BatFlag)
+	if (data->battery[0]->BatFlag)
 	{
 		if (a[0] > 0.05)
 		{
 			a[0] -= 0.05;
 		}
 	}
-	if (Key->KeyFlag)
+	if (data->Keys[0]->KeyFlag)
 	{
-		stage->SetKeyFlag(Key->KeyFlag);
+		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
 	}
-
-	if (Key->KeyFlag && PBodyPosition.x > 3 && PBodyPosition.z > 68)
+	
+	if (data->Keys[0]->KeyFlag && PBodyPosition.x > 3 && PBodyPosition.z > 68)
 	{
-		objPlayerBody->SetMoveFlags(false);
-		objPlayer->SetMoveFlags(false);
+		data->objPlayerBody->SetMoveFlags(false);
+		data->objPlayer->SetMoveFlags(false);
 		if (SpriteX[0] < 1280) // SpriteXが画面の中心まで移動するまで
 		{
 			SpriteX[0] += 12.8;
@@ -277,11 +245,11 @@ void TitleScene::Update()
 	}
 		spriteSPACE->SetAlpha(alpha[0]);
 	
-		TitleMove[0]->Update();
-		TitleMove[1]->Update();
+		data->TitleMove[0]->Update();
+		data->TitleMove[1]->Update();
 
-	Key->SetPos(PBodyPosition);
-	Battery->SetPos(PBodyPosition);
+		data->Keys[0]->SetPos(PBodyPosition);
+		data->battery[0]->SetPos(PBodyPosition);
 	
 	particleMan->Update();
 	Black->SetAlpha(a[0]);
@@ -298,29 +266,25 @@ void TitleScene::Draw()
 	{
 		for (int i = 0; i < 9; i++)
 		{
-			TitleObjs[i]->Draw();
+			data->TitleObjs[i]->Draw();
 		}
 	}
 	else
 	{
-		TitleMove[0]->Draw();
-		TitleMove[1]->Draw();
+		data->TitleMove[0]->Draw();
+		data->TitleMove[1]->Draw();
 	}
 	if (StartFlag)
 	{
 		stage->StageObjDraw0();
-		Battery->Draw();
-		objPlayerBody->Draw();
-		for (int i = 0; i < obj; i++)
-		{
-			objBack[i]->Draw();
-		}
+		data->battery[0]->Draw();
+		data->objPlayerBody->Draw();
 		
-		objPlayer->Draw();
-		Key->Draw();
+		data->objPlayer->Draw();
+		data->Keys[0]->Draw();
 	}
 	
-    Dome->Draw();
+	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
 }
@@ -356,6 +320,6 @@ void TitleScene::DrawImGui()
 	ImGui::Begin("pos");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::InputFloat3("Player", objPlayer->ppos);
+	ImGui::InputFloat3("Player", data->objPlayer->ppos);
 	ImGui::End();
 }

@@ -5,7 +5,7 @@
 #include "SceneFactory.h"
 #include"2d/PostEffect.h"
 #include "ParticleManager.h"
-
+#include"Data.h"
 class Player;
 class PlayerHead;
 class BackObj;
@@ -13,7 +13,7 @@ class Key;
 class Stage;
 class Battery;
 class GameManager;
-
+class Data;
 class TitleScene : public BaseScene
 {
 private:
@@ -96,23 +96,10 @@ private:
     float SpriteY[2] = { 0,0 };
     // 視点座標
     float Eye[3] = { 0, 0, 0 };
-    Model* modelPlayerBody = nullptr;
-    Model* modelPlayer = nullptr;
-    Model* modelTitleObjs = nullptr;
-    Model* mKey = nullptr;
-    Model* mBattery = nullptr;
-    Model* mTitleMove = nullptr;
     
     Model* mBack = nullptr;
     
-    Player* objPlayerBody = nullptr;
-    PlayerHead* objPlayer = nullptr;
-    const int obj = 10;
-    BackObj* objBack [10];
-    Key* Key = nullptr;
-    Battery* Battery = nullptr;
-    Object3d* TitleObjs[10];
-    Object3d* TitleMove[2];
+ 
     Stage* stage = nullptr;
     Light* light = nullptr;
     ParticleManager* particleMan = nullptr;
@@ -120,9 +107,10 @@ private:
     Sprite* spriteSPACE = nullptr;
     Sprite* TITLE = nullptr;
     Sprite* Black = nullptr;
-    Object3d* Dome = nullptr;
-    Model* mDome = nullptr;
+  
     float alpha[3] = {0,0,0};  // 初期のアルファ
     float speed = 0.005f; // 点滅の速度
     float count[1]={0};
+
+    Data* data = nullptr;
 };

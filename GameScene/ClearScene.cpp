@@ -3,10 +3,14 @@
 #include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
-
+#include"Data.h"
 void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
+	
+	data = new Data();
+	data->SetStageCount(3);
+	data->Initialize();
 
 	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
 	SpriteMan->LoadTexture(1, L"Resources/Black.png");
@@ -32,33 +36,24 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	light->SetCircleShadowActive(0, true);
 	light->SetCircleShadowActive(1, true);
 	Object3d::SetLightGroup(light);
-	modelPlayerBody = Model::CreateOBJ("playerbody");
-	modelPlayer = Model::CreateOBJ("playerobj");
-	objPlayerBody = Player::Create(modelPlayerBody);
-	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	objPlayerBody->SetPosition({ PBodyPosition });
-	objPlayer = PlayerHead::Create(modelPlayer);
-	objPlayer->SetPlayer(objPlayerBody);
-	objPlayer->SetScale({ 1.5,1.5,1.5 });
-	objPlayer->SetPosition({ PBodyPosition });
+	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayerBody->SetPosition({ PBodyPosition });
+	data->objPlayer->SetPlayer(data->objPlayerBody);
+	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayer->SetPosition({ PBodyPosition });
 
-	mTitleMove = Model::CreateOBJ("titleobj");
-	TitleMove[0] = Object3d::Create(mTitleMove);
-	TitleMove[0]->SetPosition(TitlePosition[0]);
-	TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
-	TitleMove[0]->SetRotation({ 0,0,0 });
-	;
+	data->TitleMove[0]->SetPosition(TitlePosition[0]);
+	data->TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
+	data->TitleMove[0]->SetRotation({ 0,0,0 });	
 
-	TitleMove[1] = Object3d::Create(mTitleMove);
-	TitleMove[1]->SetRotation({ 0,180,0 });
-	TitleMove[1]->SetPosition(TitlePosition[1]);
-	TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
+	
+	data->TitleMove[1]->SetRotation({ 0,180,0 });
+	data->TitleMove[1]->SetPosition(TitlePosition[1]);
+	data->TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
 
-	mDome = Model::CreateOBJ("skydome");
-	Dome = Object3d::Create(mDome);
-	Dome->SetPosition({ 180,0,0 });
-	Dome->SetRotation({ 0,0,0 });
-	Dome->SetScale({ 3,3,3 });
+	data->Dome->SetPosition({ 180,0,0 });
+	data->Dome->SetRotation({ 0,0,0 });
+	data->Dome->SetScale({ 3,3,3 });
 
 	stage = new Stage();
 	stage->Initialize();
@@ -67,26 +62,18 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	inputCamera->SetDistance(3.0f);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 
-	objPlayerBody->SetStartFlag(true);
-	objPlayer->SetStartFlag(true);
-	objPlayerBody->SetMoveFlags(true);
-	objPlayer->SetMoveFlags(true);
+	data->objPlayerBody->SetStartFlag(true);
+	data->objPlayer->SetStartFlag(true);
+	data->objPlayerBody->SetMoveFlags(true);
+	data->objPlayer->SetMoveFlags(true);
 	post->ResetTime();
 }
 
 void ClearScene::Finalize()
 {
 	safe_delete(spriteSceneChenge);
-	safe_delete(Dome);
-	safe_delete(mDome);
 	safe_delete(light);
-	safe_delete(objPlayerBody);
-	safe_delete(objPlayer);
-	safe_delete(modelPlayerBody);
-	safe_delete(modelPlayer);
-	safe_delete(mTitleMove);
-	safe_delete(TitleMove[0]);
-	safe_delete(TitleMove[1]);
+	data->Finalize();
 }
 
 void ClearScene::Update()
@@ -105,7 +92,7 @@ void ClearScene::Update()
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
-	PBodyPosition = objPlayerBody->GetPosition();
+	PBodyPosition = data->objPlayerBody->GetPosition();
 	
 	float speed = 0.005;
 	if (post->Time > 170)
@@ -144,10 +131,10 @@ void ClearScene::Update()
 	inputCamera->SetTarget(CameraPosition);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
-	objPlayerBody->Update(light);
-	objPlayer->Update();
+	data->objPlayerBody->Update(light);
+	data->objPlayer->Update();
 
-	Dome->Update();
+	data->Dome->Update();
 	stage->Stage4();
 	stage->GetCameraPos(CameraPosition);
 
@@ -184,8 +171,8 @@ void ClearScene::Update()
 			PBodyPosition.y += 1;
 			alpha[0] += 0.02;
 		}
-		objPlayerBody->SetPosition(PBodyPosition);
-		objPlayer->SetPosition(PBodyPosition);
+		data->objPlayerBody->SetPosition(PBodyPosition);
+		data->objPlayer->SetPosition(PBodyPosition);
 
 		if (alpha[0] > 1)
 		{
@@ -194,10 +181,10 @@ void ClearScene::Update()
 		}
 	}
 
-	TitleMove[0]->SetPosition({ TitlePosition[0] });
-	TitleMove[1]->SetPosition({ TitlePosition[1] });
-	TitleMove[0]->Update();
-	TitleMove[1]->Update();
+	data->TitleMove[0]->SetPosition({ TitlePosition[0] });
+	data->TitleMove[1]->SetPosition({ TitlePosition[1] });
+	data->TitleMove[0]->Update();
+	data->TitleMove[1]->Update();
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	Black->SetAlpha(alpha[0]);
@@ -214,14 +201,14 @@ void ClearScene::Draw()
 	Object3d::PreDraw(cmdList);
 	if (EndFlag == false)
 	{
-		objPlayerBody->Draw();
-		objPlayer->Draw();
+		data->objPlayerBody->Draw();
+		data->objPlayer->Draw();
 	}
 
 	stage->StageObjDraw();
-	Dome->Draw();
-	TitleMove[0]->Draw();
-	TitleMove[1]->Draw();
+	data->Dome->Draw();
+	data->TitleMove[0]->Draw();
+	data->TitleMove[1]->Draw();
 	Object3d::PostDraw();
 }
 

@@ -3,13 +3,15 @@
 #include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
-
+#include"Data.h"
 
 void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
-
+	data = new Data();
+	data->SetStageCount(2);
+	data->Initialize();
 	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
 	spriteSceneChenge = new Sprite();
 	spriteSceneChenge->Create(0);
@@ -39,47 +41,31 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 		light->SetCircleShadowActive(i, true);
 	}
 	Object3d::SetLightGroup(light);
-	mDome = Model::CreateOBJ("skydome");
-	modelPlayerBody = Model::CreateOBJ("playerbody");
-	modelPlayer = Model::CreateOBJ("playerobj");
-	mKey = Model::CreateOBJ("key");
-	mBattery = Model::CreateOBJ("battery");
-	mBox = Model::CreateOBJ("Box");
-	mBBox = Model::CreateOBJ("blackBox");
+	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayerBody->SetPosition({ PBodyPosition });
 	
-	mTile = Model::CreateOBJ("Gole");
+	data->objPlayer->SetPlayer(data->objPlayerBody);
+	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayer->SetPosition({ PBodyPosition });
 
-	objPlayerBody = Player::Create(modelPlayerBody);
-	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	objPlayerBody->SetPosition({ PBodyPosition });
-	objPlayer = PlayerHead::Create(modelPlayer);
-	objPlayer->SetPlayer(objPlayerBody);
-	objPlayer->SetScale({ 1.5,1.5,1.5 });
-	objPlayer->SetPosition({ PBodyPosition });
-
-	Dome = Object3d::Create(mDome);
-	Dome->SetPosition({ 180,0,0 });
-	Dome->SetRotation({ 0,0,0 });
-	Dome->SetScale({ 3,3,3 });
+	data->Dome->SetPosition({ 180,0,0 });
+	data->Dome->SetRotation({ 0,0,0 });
+	data->Dome->SetScale({ 3,3,3 });
 	for (int i = 0; i < 4; i++)
 	{
-		Battery[i] = Battery::Create(mBattery);
-		Battery[i]->SetScale({ 1.5,1.5,1.5 });
-		Battery[i]->SetPosition(BatteryPosition[i]);
-		Box[i] = Box::Create(mBox);
-		Box[i]->SetPosition(BoxPosition[i]);
-		BBox[i] = Object3d::Create(mBBox);
-		BBox[i]->SetPosition(BBoxPosition[i]);
+		data->battery[i]->SetScale({ 1.5,1.5,1.5 });
+		data->battery[i]->SetPosition(BatteryPosition[i]);
+		
+		data->Box[i]->SetPosition(BoxPosition[i]);
+		data->BBox[i]->SetPosition(BBoxPosition[i]);
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		Tile[i] = Tile::Create(mTile);
-		Tile[i]->SetPosition(TilePosition[i]);
-		Tile[i]->SetScale({ 1.1,1.1,1.1 });
+		data->Tile[i]->SetPosition(TilePosition[i]);
+		data->Tile[i]->SetScale({ 1.1,1.1,1.1 });
 	}
-	Key = Key::Create(mKey);
-	Key->SetScale({ 5,5,5 });
-	Key->SetPosition(KeyPosition);
+	data->Keys[0]->SetScale({5,5,5});
+	data->Keys[0]->SetPosition(KeyPosition);
 
 	stage = new Stage();
 	stage->Initialize();
@@ -89,42 +75,26 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	inputCamera->SetEye(XMFLOAT3(Eye));
 
 
-	objPlayerBody->SetStartFlag(true);
-	objPlayer->SetStartFlag(true);
+	data->objPlayerBody->SetStartFlag(true);
+	data->objPlayer->SetStartFlag(true);
 	post->ResetTime();
 	post->SetStartFlag(true);
-	objPlayerBody->SetMoveFlags(true);
-	objPlayer->SetMoveFlags(true);
+	data->objPlayerBody->SetMoveFlags(true);
+	data->objPlayer->SetMoveFlags(true);
 }
 
 
 void GameScene2::Finalize()
 {
 	safe_delete(spriteSceneChenge);
-	safe_delete(Dome);
-	safe_delete(mDome);
-	safe_delete(mKey);
-	safe_delete(mBattery);
 	safe_delete(light);
 	safe_delete(stage);
-	safe_delete(objPlayerBody);
-	safe_delete(objPlayer);
-	safe_delete(modelPlayerBody);
-	safe_delete(modelPlayer);
-	safe_delete(Key);
-	for (int i = 0; i < 4; i++) {
-		safe_delete(Box[i]);
-		safe_delete(BBox[i]);
-		safe_delete(Battery[i]);
-	}
-	for (int i = 0; i < 8; i++) {
-		safe_delete(Tile[i]);
-	}
+	data->Finalize();
 }
 
 void GameScene2::Update()
 {
-	if (Key->KeyFlag == false)
+	if (data->Keys[0]->KeyFlag == false)
 	{
 		if (SpriteX[0] > 0)
 		{
@@ -133,7 +103,7 @@ void GameScene2::Update()
 		}
 	}
 
-	PBodyPosition = objPlayerBody->GetPosition();
+	PBodyPosition = data->objPlayerBody->GetPosition();
 	
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
@@ -156,41 +126,39 @@ void GameScene2::Update()
 	BatPos[2] = BoxPosition[0].z;
 
 
-	Dome->Update();
+	data->Dome->Update();
 	light->Update();
 
 	for (int i = 0; i < 4; i++)
 	{
-		Battery[i]->Update(particleMan, post, light,i+2);
-		Battery[i]->SetPos(PBodyPosition);
-		//Battery[i]->SetPosition(BatteryPosition[i]);
-		Box[i]->Update();
-		Box[i]->SetPos(PBodyPosition);
-		//Box[i]->SetPosition(BoxPosition[i]);
-		BBox[i]->Update();
+		data->battery[i]->Update(particleMan, post, light,i+2);
+		data->battery[i]->SetPos(PBodyPosition);
+		data->Box[i]->Update();
+		data->Box[i]->SetPos(PBodyPosition);
+		data->BBox[i]->Update();
 	}
 	
 	for (int i = 0; i < 8; i++)
 	{
-		Tile[i]->Update(i);
-		Tile[i]->SetPos(PBodyPosition);
+		data->Tile[i]->Update(i);
+		data->Tile[i]->SetPos(PBodyPosition);
 		
 	}
 
-	Key->SetPosition(KeyPosition);
-	Key->Update(particleMan, light);
-	Key->SetPos(PBodyPosition);
+	data->Keys[0]->SetPosition(KeyPosition);
+	data->Keys[0]->Update(particleMan, light);
+	data->Keys[0]->SetPos(PBodyPosition);
 
-	objPlayerBody->Update(light);
-	objPlayer->Update();
+	data->objPlayerBody->Update(light);
+	data->objPlayer->Update();
 
-	test = Tile[0]->GetPosition();
+	test = data->Tile[0]->GetPosition();
 
 	tests[0] = test.x;
 	tests[1] = test.y;
 	tests[2] = test.z;
 
-	if (Key->KeyFlag)
+	if (data->Keys[0]->KeyFlag)
 	{
 		Time += 1;
 		if (Time < 150)
@@ -199,21 +167,21 @@ void GameScene2::Update()
 			CameraPosition.x = 62;
 			CameraPosition.y = 16;
 			CameraPosition.z = 58;
-			objPlayerBody->SetMoveFlags(false);
-			objPlayer->SetMoveFlags(false);
+			data->objPlayerBody->SetMoveFlags(false);
+			data->objPlayer->SetMoveFlags(false);
 		}
 		else
 		{
-			objPlayerBody->SetMoveFlags(true);
-			objPlayer->SetMoveFlags(true);
+			data->objPlayerBody->SetMoveFlags(true);
+			data->objPlayer->SetMoveFlags(true);
 		}
-		stage->SetKeyFlag(Key->KeyFlag);
+		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
 	}
 	
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (Battery[i]->BatFlag)
+		if (data->battery[i]->BatFlag)
 		{
 			AlphaFlag = false;
 			
@@ -222,7 +190,7 @@ void GameScene2::Update()
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (Box[i]->GetBoxFlag())
+		if (data->Box[i]->GetBoxFlag())
 		{
 			if (FlagCount[i] == 0) {
 				FlagCount[i] = 1;
@@ -236,13 +204,13 @@ void GameScene2::Update()
 				CameraPosition.x = 62;
 				CameraPosition.y = 16;
 				CameraPosition.z = 58;
-				objPlayerBody->SetStartFlag(false);
-				objPlayer->SetStartFlag(false);
+				data->objPlayerBody->SetStartFlag(false);
+				data->objPlayer->SetStartFlag(false);
 			}
 			else
 			{
-				objPlayerBody->SetStartFlag(true);
-				objPlayer->SetStartFlag(true);
+				data->objPlayerBody->SetStartFlag(true);
+				data->objPlayer->SetStartFlag(true);
 			}
 			
 		}
@@ -251,13 +219,13 @@ void GameScene2::Update()
 	stage->GetCameraPos(CameraPosition);
 	if (FlagCount[0] == 1 && FlagCount[1] == 1 && FlagCount[2] == 1 && FlagCount[3] == 1)
 	{
-		Key->SetKeyFlag(true);
+		data->Keys[0]->SetKeyFlag(true);
 	}
-	float Gole = 56;
-	if (Key->KeyFlag && abs(PBodyPosition.x - Gole) <= 10&& PBodyPosition.z > 73)
+	float Gole = 61;
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - Gole) <= 4 && PBodyPosition.z > 73)
 	{
-		objPlayerBody->SetMoveFlags(false);
-		objPlayer->SetMoveFlags(false);
+		data->objPlayerBody->SetMoveFlags(false);
+		data->objPlayer->SetMoveFlags(false);
 		if (SpriteX[0] < 1280) // SpriteX‚ª‰æ–Ê‚Ì’†S‚Ü‚ÅˆÚ“®‚·‚é‚Ü‚Å
 		{
 			SpriteX[0] += 12.8;
@@ -317,20 +285,20 @@ void GameScene2::Draw()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	Object3d::PreDraw(cmdList);
-	objPlayerBody->Draw();
-	objPlayer->Draw();
-	Key->Draw();
+	data->objPlayerBody->Draw();
+	data->objPlayer->Draw();
+	data->Keys[0]->Draw();
 	for (int i = 0; i < 4; i++)
 	{
-		Battery[i]->Draw();
-		Box[i]->Draw();
-		BBox[i]->Draw();
+		data->battery[i]->Draw();
+		data->Box[i]->Draw();
+		data->BBox[i]->Draw();
 	}
 	for (int i = 0; i < 8; i++) {
-		Tile[i]->Draw();
+		data->Tile[i]->Draw();
 	}
 	stage->StageObjDraw2();
-	Dome->Draw();
+	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
 

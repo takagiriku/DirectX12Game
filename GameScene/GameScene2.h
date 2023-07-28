@@ -12,6 +12,7 @@
 
 class Player;
 class PlayerHead;
+class Data;
 class GameScene2 : public BaseScene
 {
 private:
@@ -128,20 +129,7 @@ private:
     float SpriteY[2] = { 740,0 };
     // éãì_ç¿ïW
     float Eye[3] = { 0, 0, 0 };
-    Model* modelPlayerBody = nullptr;
-    Model* modelPlayer = nullptr;
-    Model* mKey = nullptr;
-    Model* mBattery = nullptr;
-    Model* mBox = nullptr;
-    Model* mBBox = nullptr;
-    Model* mTile = nullptr;
-    Player* objPlayerBody = nullptr;
-    PlayerHead* objPlayer = nullptr;
-    Key* Key = nullptr;
-    Box* Box[4];
-    Object3d* BBox[4];
     
-    Tile* Tile[8];
 
     Battery* Battery[4];
     Stage* stage = nullptr;
@@ -149,7 +137,7 @@ private:
     ParticleManager* particleMan = nullptr;
     Sprite* spriteSceneChenge = nullptr;
     Sprite* Black = nullptr;
-    Object3d* Dome = nullptr;
-    Model* mDome = nullptr;
+    
+    Data* data = nullptr;
 };
 

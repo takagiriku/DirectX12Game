@@ -3,13 +3,16 @@
 #include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
-
+#include"Data.h"
 
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
+	data = new Data();
+	data->SetStageCount(1);
+	data->Initialize();
 
 	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
 	spriteSceneChenge = new Sprite();
@@ -40,33 +43,23 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* i
 	
 
 	Object3d::SetLightGroup(light);
-	mDome = Model::CreateOBJ("skydome");
-	Dome = Object3d::Create(mDome);
-	Dome->SetPosition({ 180,0,0 });
-	Dome->SetRotation({ 0,0,0 });
-	Dome->SetScale({ 3,3,3 });
+	data->Dome->SetPosition({ 180,0,0 });
+	data->Dome->SetRotation({ 0,0,0 });
+	data->Dome->SetScale({ 3,3,3 });
 
-	modelPlayerBody = Model::CreateOBJ("playerbody");
-	modelPlayer = Model::CreateOBJ("playerobj");
-	mKey = Model::CreateOBJ("key");
-	mBattery = Model::CreateOBJ("battery");
-
-	objPlayerBody = Player::Create(modelPlayerBody);
-	objPlayer = PlayerHead::Create(modelPlayer);
-	objPlayer->SetPlayer(objPlayerBody);
+	data->objPlayer->SetPlayer(data->objPlayerBody);
 	
-	objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	objPlayer->SetScale({ 1.5,1.5,1.5 });
-	for (int i = 0; i < 10; i++)
+	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
+	for (int i = 0; i < 8; i++)
 	{
-		Battery[i] = Battery::Create(mBattery);
-		Battery[i]->SetScale({1.5,1.5,1.5});
-		Battery[i]->SetPosition(BatteryPosition[i]);
+		data->battery[i]->SetScale({1.5,1.5,1.5});
+		data->battery[i]->SetPosition(BatteryPosition[i]);
 	}
 	
-	Key = Key::Create(mKey);
-	Key->SetScale({ 5,5,5 });
-	Key->SetPosition(KeyPosition);
+	
+	data->Keys[0]->SetScale({5,5,5});
+	data->Keys[0]->SetPosition(KeyPosition);
 
 	stage = new Stage();
 	stage->Initialize();
@@ -76,39 +69,27 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* i
 	inputCamera->SetEye(XMFLOAT3(Eye));
 
 	
-	objPlayerBody->SetStartFlag(true);
-	objPlayer->SetStartFlag(true);
+	data->objPlayerBody->SetStartFlag(true);
+	data->objPlayer->SetStartFlag(true);
 	post->SetStartFlag(true);
 	post->ResetTime();
-	objPlayerBody->SetMoveFlags(true);
-	objPlayer->SetMoveFlags(true);
+	data->objPlayerBody->SetMoveFlags(true);
+	data->objPlayer->SetMoveFlags(true);
 }
 
 
 void GameScene::Finalize()
 {
 	safe_delete(spriteSceneChenge);
-	safe_delete(Dome);
 	safe_delete(particleMan);
-	safe_delete(mDome);
-	safe_delete(mKey);
-	safe_delete(mBattery);
 	safe_delete(light);
 	safe_delete(stage);
-	safe_delete(objPlayerBody);
-	safe_delete(objPlayer);
-	safe_delete(modelPlayerBody);
-	safe_delete(modelPlayer);
-	safe_delete(Key);
-	for (int i = 0; i < 10; i++) {
-		safe_delete(Battery[i]);
-	}
-	
+	data->Finalize();
 }
 
 void GameScene::Update()
 {
-	if (Key->KeyFlag == false)
+	if (data->Keys[0]->KeyFlag == false)
 	{
 		if (SpriteX[0] > 0)
 		{
@@ -119,7 +100,7 @@ void GameScene::Update()
 	
 	
 
-	PBodyPosition = objPlayerBody->GetPosition();
+	PBodyPosition = data->objPlayerBody->GetPosition();
 	
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
@@ -146,33 +127,33 @@ void GameScene::Update()
 	inputCamera->Update();
 	
 	
-	Dome->Update();
+	data->Dome->Update();
 	light->Update();
 	
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 8; i++)
 	{
-		Battery[i]->Update(particleMan, post, light,i+2);
-		Battery[i]->SetPos(PBodyPosition);
-		Battery[i]->SetPosition(BatteryPosition[i]);
+		data->battery[i]->Update(particleMan, post, light,i+2);
+		data->battery[i]->SetPos(PBodyPosition);
+		data->battery[i]->SetPosition(BatteryPosition[i]);
 	}
-	Key->SetPosition(KeyPosition);
-	Key->Update(particleMan, light);
-	Key->SetPos(PBodyPosition);
+	data->Keys[0]->SetPosition(KeyPosition);
+	data->Keys[0]->Update(particleMan, light);
+	data->Keys[0]->SetPos(PBodyPosition);
 	particleMan->Update();
-	objPlayerBody->Update(light);
-	objPlayer->Update();
+	data->objPlayerBody->Update(light);
+	data->objPlayer->Update();
 
 	stage->Stage1();
 	stage->GetCameraPos(CameraPosition);
-	if (Key->KeyFlag)
+	if (data->Keys[0]->KeyFlag)
 	{
-		stage->SetKeyFlag(Key->KeyFlag);
+		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
 	}
 	float Gole = 22;
-	if (Key->KeyFlag && abs(PBodyPosition.x - Gole) <= 5 && PBodyPosition.y > 10 && PBodyPosition.z > 73)
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - Gole) <= 5 && PBodyPosition.y > 10 && PBodyPosition.z > 73)
 	{
-		objPlayerBody->SetMoveFlags(false);
-		objPlayer->SetMoveFlags(false);
+		data->objPlayerBody->SetMoveFlags(false);
+		data->objPlayer->SetMoveFlags(false);
 		if (SpriteX[0] < 1280) // SpriteX‚ª‰æ–Ê‚Ì’†S‚Ü‚ÅˆÚ“®‚·‚é‚Ü‚Å
 		{
 			SpriteX[0] += 12.8;
@@ -231,16 +212,16 @@ void GameScene::Draw()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	Object3d::PreDraw(cmdList);
-	objPlayerBody->Draw();
-	objPlayer->Draw();
-	Key->Draw();
-	for (int i = 0; i < 10; i++)
+	data->objPlayerBody->Draw();
+	data->objPlayer->Draw();
+	data->Keys[0]->Draw();
+	for (int i = 0; i < 8; i++)
 	{
-		Battery[i]->Draw();
+		data->battery[i]->Draw();
 	}
 	
 	stage->StageObjDraw();
-	Dome->Draw();
+	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
 

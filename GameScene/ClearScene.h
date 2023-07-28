@@ -5,7 +5,7 @@
 
 class Player;
 class PlayerHead;
-
+class Data;
 class ClearScene :
     public BaseScene
 {
@@ -81,18 +81,12 @@ private:
     float SpriteX[2] = { 1280,1280 };
     float SpriteY[2] = { 740,0 };
     float PlayerPos[3] = { 0, 0.0f, 0 };
-    Model* modelPlayerBody = nullptr;
-    Model* modelPlayer = nullptr;
-    Model* mDome = nullptr;
-    Model* mTitleMove = nullptr;
-    Object3d* TitleMove[2];
-    Object3d* Dome = nullptr;
-    Player* objPlayerBody = nullptr;
-    PlayerHead* objPlayer = nullptr;
+    
     Sprite* spriteSceneChenge = nullptr;
     Sprite* Black = nullptr;
     Light* light = nullptr;
     Stage* stage = nullptr;
     float alpha[3] = { 0,0,0 };
     float test[1] = {0};
+    Data* data = nullptr;
 };

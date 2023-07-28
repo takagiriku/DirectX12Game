@@ -10,6 +10,7 @@
 
 class Player;
 class PlayerHead;
+class Data;
 class GameScene : public BaseScene
 {
 private:
@@ -107,21 +108,14 @@ private:
     // éãì_ç¿ïW
     float Eye[3] = { 0, 0, 0 };
     float Time[1] = { 0 };
-    Model* modelPlayerBody = nullptr;
-    Model* modelPlayer = nullptr;
-    Model* mKey = nullptr;
-    Model* mBattery = nullptr;
-
-    Player* objPlayerBody = nullptr;
-    PlayerHead* objPlayer = nullptr;
-    Key* Key = nullptr;
-    Battery* Battery[10];
+    
     Stage* stage = nullptr;
     Light* light = nullptr;
     Sprite* spriteSceneChenge = nullptr;
     Sprite* Black = nullptr;
-    Object3d* Dome = nullptr;
-    Model* mDome = nullptr;
+    
     ParticleManager* particleMan = nullptr;
+
+    Data* data = nullptr;
 };
 
