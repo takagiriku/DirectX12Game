@@ -14,7 +14,7 @@ void GameMnager::Initialize()
 
 	sceneFactory = new SceneFactory();
 	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
-	SceneManager::GetInstance()->ChangeScene("GAME2");
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 	
 }
 

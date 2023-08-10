@@ -203,34 +203,34 @@ void Player::Move()
 		// ’n–Ê‚ª‚È‚¢‚Ì‚Å—Ž‰º
 		else
 		{
-			if (MoveFlag == 1)
+			switch (MoveFlag)
 			{
+			case 1:
 				position.x -= BackmoveDistance;
 				MoveFlag = 5;
 				MoveCount = 0;
 				onGround = true;
-			}
-			if (MoveFlag == 2)
-			{
+				break;
+			case 2:
 				position.x += BackmoveDistance;
 				MoveFlag = 6;
 				MoveCount = 0;
 				onGround = true;
-			}
-			if (MoveFlag == 3)
-			{
+				break;
+			case 3:
 				position.z += BackmoveDistance;
 				MoveFlag = 7;
 				MoveCount = 0;
 				onGround = true;
-			}
-			if (MoveFlag == 4)
-			{
+				break;
+			case 4:
 				position.z -= BackmoveDistance;
 				MoveFlag = 8;
 				MoveCount = 0;
 				onGround = true;
-			}
+				break;
+			
+			}			
 			onGround = false;
 			fallV[1] = -1.0f;
 		}

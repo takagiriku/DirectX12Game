@@ -4,14 +4,24 @@
 
 Stage::Stage()
 {
-
+	GenerationFlag = false;
+	stagecount = 0;
+	MaxPos = 0;
 }
 
 Stage::~Stage()
 {
+	// モデルの解放
 	safe_delete(modelGround);
 	safe_delete(modelSpaceWall);
 	safe_delete(modelSpaceWall2);
+
+	// 生成したオブジェクトの解放
+	for (auto& object : objects) {
+		delete object;
+	}
+	objects.clear();
+	GetNames.clear();
 }
 
 void Stage::Initialize()
@@ -45,49 +55,17 @@ void Stage::Initialize()
 }
 void Stage::Generation()
 {
-	const std::vector<std::string> fileNames = { "Stage0-2blend","Stage1-1-2","Stage2","newStage3","stage3-2" };
-	const std::vector<LevelData*>fileDatas = LevelLoader::LoadFile(fileNames);
+	const std::vector<std::string> fileNames = { "Stage0","Stage1","Stage2","Stage3","stage4" };
+	const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(fileNames);
+
 	for (size_t i = 0; i < fileNames.size(); i++) {
 		fileData.insert(std::make_pair(fileNames[i], fileDatas[i]));
 	}
-
-	auto it0 = fileData.find("Stage0-2blend");
-	auto it = fileData.find("Stage1-1-2");
-	auto it2 = fileData.find("Stage2");
-	auto it3 = fileData.find("newStage3");
-	auto it4 = fileData.find("stage3-2");
-
+	auto it = fileData.find(fileNames[stagecount]);
 	if (GenerationFlag == false)
 	{
-
-		if (stagecount == 0)
-		{
-			if (it0 != fileData.end()) {
-				levelData = it0->second;
-			}
-		}
-		if (stagecount == 1)
-		{
-			if (it != fileData.end()) {
-				levelData = it->second;
-			}
-		}
-		else if (stagecount == 2)
-		{
-			if (it2 != fileData.end()) {
-				levelData = it2->second;
-			}
-		}
-		else if (stagecount == 3)
-		{
-			if (it3 != fileData.end()) {
-				levelData = it3->second;
-			}
-		}else if (stagecount == 4)
-		{
-			if (it4 != fileData.end()) {
-				levelData = it4->second;
-			}
+		if (it != fileData.end()) {
+			levelData = it->second;
 		}
 
 
@@ -212,12 +190,6 @@ void Stage::Stage4()
 void Stage::StageChange()
 {
 	GenerationFlag = false;
-	//前のデータ削除
-	for (auto& object : objects) {
-		delete object;
-	}
-	objects.clear();
-	GetNames.clear();
 }
 void Stage::StageObjDraw0()
 {

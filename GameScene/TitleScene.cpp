@@ -71,23 +71,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	data->Keys[0]->SetScale({5,5,5});
 	data->battery[0]->SetScale({1.5,1.5,1.5});
 	data->battery[0]->SetPosition(BatteryPosition);
- //   for (int i = 0; i < obj; i++)
-	//{
-	//	objBack[i] = BackObj::Create(mBack);
-	//	objBack[i]->SetPlayer(objPlayerBody);
-	//	if (i == 0) {
-	//		objBack[i]->SetPosition({ 0, 0, 6 });
-	//	}
-	//	if (i > 0) {
-	//		//Todo‘S•”ŒÄ‚Ño‚³‚ê‚é‚Ì‚Å‚¨‚©‚µ‚­‚È‚é
-	//		//if (objBack[i-1]->nextflag)
-	//		{
-	//			objBack[i - 1]->NextBackObj(objBack[i]);
-	//		}
-	//	}
-
-	//}
-	//
+ 
 	data->objPlayer->SetPlayer(data->objPlayerBody);
 	
 	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });

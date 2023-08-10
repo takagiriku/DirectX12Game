@@ -109,23 +109,6 @@ void GameScene2::Update()
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
 
-	PlayerPos[0] = PBodyPosition.x;
-	PlayerPos[1] = PBodyPosition.y;
-	PlayerPos[2] = PBodyPosition.z;
-
-	CameraPos[0] = CameraPosition.x;
-	CameraPos[1] = CameraPosition.y;
-	CameraPos[2] = CameraPosition.z;
-
-	KeyPos[0] = KeyPosition.x;
-	KeyPos[1] = KeyPosition.y;
-	KeyPos[2] = KeyPosition.z;
-
-	BatPos[0] = BoxPosition[0].x;
-	BatPos[1] = BoxPosition[0].y;
-	BatPos[2] = BoxPosition[0].z;
-
-
 	data->Dome->Update();
 	light->Update();
 
@@ -331,8 +314,6 @@ void GameScene2::DrawImGui()
 	ImGui::Begin("pos");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::InputFloat3("PlayerPosition", PlayerPos);
-	ImGui::InputFloat3("CameraPosition", CameraPos);
 	ImGui::InputFloat("al", alpha);
 	ImGui::InputFloat3("Box", BatPos);
 	ImGui::InputFloat3("Ttest", tests);

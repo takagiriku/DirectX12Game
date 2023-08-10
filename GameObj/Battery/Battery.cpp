@@ -65,15 +65,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 	
 	Object3d::Update();
 
-	if (Input::GetInstance()->Push(DIK_L))
-	{
-		light->SetPointLightActive(Number, false);
-	}
-	else
-	{ 
-		light->SetPointLightActive(Number, true);
-	}
-
+	
 	light->SetPointLightPos(Number, XMFLOAT3(position.x, position.y, position.z - 1));
 	light->SetPointLightColor(Number, XMFLOAT3(spotLightColor));
 	light->SetCircleShadowCasterPos(Number, XMFLOAT3(position.x, position.y-1, position.z));
