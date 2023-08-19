@@ -28,8 +28,6 @@ bool Key::Initialize()
 		return false;
 	}
 	
-	stage = new Stage();
-	
     return true;
 }
 
@@ -51,7 +49,6 @@ void Key::Update(ParticleManager* particleMan, Light* light)
 			CreateParticle(particleMan);
 		}
 	}
-	stage->SetKeyFlag(KeyFlag);
 
 	if (Input::GetInstance()->Push(DIK_L))
 	{
@@ -111,8 +108,6 @@ void Key::Draw()
 		Object3d::Draw();
 	}
 }
-
-
 
 void Key::SetPos(XMFLOAT3 pos)
 {

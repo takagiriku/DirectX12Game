@@ -50,8 +50,6 @@ public:
 	void StageObjDraw();
 	void StageObjDraw2();
 
-	
-
 	void SetGenerationFlag(bool StartFlag) { GenerationFlag = StartFlag; }
 	bool GetGenerationFlag() const { return GenerationFlag; }
 	
@@ -70,6 +68,8 @@ public:
 	bool KeyFlag = false;
 
 	float BoxCount = 0;
+
+	XMFLOAT3 Gole = { 0,0,0 };
 
 private:
 	LevelData* levelData = nullptr;

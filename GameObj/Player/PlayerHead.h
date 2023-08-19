@@ -48,10 +48,6 @@ private:
 
 	int MoveFlag = 0;
 
-
-
-
-	
 };
 
 

@@ -35,7 +35,10 @@ bool Battery::Initialize()
 
 void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* light, int Number)
 {
-	if (BatFlag == false)
+	float Speed = 1;
+	float ResetTime = 400;
+
+	if (!BatFlag)
 	{
 		if (abs(position.x - pos.x) <= 1.f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.f)
 		{
@@ -47,20 +50,22 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 	}
 	else
 	{
-		Time += 1;
-		if (Time < 10)
+		Time += Speed;
+		if (Time < ResetTime/40)
 		{
 			CreateParticle(particleMan);
 		}
 	}
-	if (Time > 400)
+	if (Time > ResetTime)
 	{
 		Time = 0;
 		BatFlag = false;
 		light->SetPointLightActive(Number, true);
 		light->SetCircleShadowActive(Number, true);
 	}
-	rotation.y += 1;
+
+
+	rotation.y += Speed;
 	rotation.x = 30;
 	
 	Object3d::Update();
@@ -111,7 +116,7 @@ void Battery::CreateParticle(ParticleManager* particleMan)
 
 void Battery::Draw()
 {
-	if (BatFlag == false)
+	if (!BatFlag)
 	{
 		Object3d::Draw();
 	}

@@ -60,15 +60,6 @@ void Player::Foll()
 		position.y += fallV[1];
 
 	}
-	// ƒWƒƒƒ“ƒv‘€ì
-	else if (Input::GetInstance()->Push(DIK_SPACE)) {
-		onGround = false;
-		const float jumpVYFist = 0.1f;
-		fallV[0] = { 0 };
-		fallV[1] = { jumpVYFist };
-		fallV[2] = { 0 };
-		fallV[3] = { 0 };
-	}
 }
 
 void Player::Move()

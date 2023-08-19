@@ -133,8 +133,8 @@ void GameScene::Update()
 	{
 		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
 	}
-	float Gole = 22;
-	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - Gole) <= 5 && PBodyPosition.y > 10 && PBodyPosition.z > 73)
+	
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 5 && PBodyPosition.y > 10 && PBodyPosition.z > 73)
 	{
 		data->objPlayerBody->SetMoveFlags(false);
 		data->objPlayer->SetMoveFlags(false);
@@ -240,5 +240,6 @@ void GameScene::DrawImGui()
 	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::InputFloat("al", alpha);
 	ImGui::InputFloat("time", Time);
+	ImGui::InputFloat3("Player", data->objPlayer->ppos);
 	ImGui::End();
 }

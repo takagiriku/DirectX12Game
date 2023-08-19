@@ -32,11 +32,11 @@ public:
 	XMFLOAT3 pos = { 0,0,0 };
 	bool KeyFlag = false;
 protected:
-	float time = 0;
-	Stage* stage = nullptr;
 	float spotLightColor[3] = { 0.7f,0.8f,1 };
 	float circleShadowDir[3] = { 0,-1,0 };
 	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
 	float circleShadowFactorAngle[2] = { 0.0f, 0.5f };
+	
+	float time = 0;
 };
 

@@ -205,7 +205,7 @@ void GameScene2::Update()
 		data->Keys[0]->SetKeyFlag(true);
 	}
 	float Gole = 61;
-	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - Gole) <= 4 && PBodyPosition.z > 73)
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 4 && PBodyPosition.z > 73)
 	{
 		data->objPlayerBody->SetMoveFlags(false);
 		data->objPlayer->SetMoveFlags(false);

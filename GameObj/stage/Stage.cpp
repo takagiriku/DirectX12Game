@@ -1,7 +1,7 @@
 #include"Stage.h"
 #include"GameObj/Player/Player.h"
 #include "LevelLoader.h"
-
+#include <random>
 Stage::Stage()
 {
 	GenerationFlag = false;
@@ -55,19 +55,44 @@ void Stage::Initialize()
 }
 void Stage::Generation()
 {
-	const std::vector<std::string> fileNames = { "Stage0","Stage1","Stage2","Stage3","stage4" };
-	const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(fileNames);
 
-	for (size_t i = 0; i < fileNames.size(); i++) {
-		fileData.insert(std::make_pair(fileNames[i], fileDatas[i]));
-	}
-	auto it = fileData.find(fileNames[stagecount]);
+	
 	if (GenerationFlag == false)
 	{
-		if (it != fileData.end()) {
-			levelData = it->second;
-		}
+		if (!(stagecount == 1))
+		{
+			const std::vector<std::string> fileNames = { "Stage0",  "Stage2", "Stage3", "Stage4" };
+			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(fileNames);
+			for (size_t i = 0; i < fileNames.size(); i++) {
+				fileData.insert(std::make_pair(fileNames[i], fileDatas[i]));
+			}
+			auto it = fileData.find(fileNames[stagecount]);
+			if (it != fileData.end()) {
+				levelData = it->second;
+			}
 
+		}
+		
+		// ランダムなステージ選択
+		if (stagecount == 1) {
+			const std::vector<std::string> stage1Variants = { "Stage1", "Stage1-1", "Stage1-2" };
+			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(stage1Variants);
+
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<> distrib(0, stage1Variants.size() - 1);
+			int randomIndex = distrib(gen);
+
+			
+			std::string selectedStage = stage1Variants[randomIndex];
+			for (size_t i = 0; i < stage1Variants.size(); i++) {
+				fileData.insert(std::make_pair(stage1Variants[i], fileDatas[i]));
+			}
+			auto it = fileData.find(selectedStage);
+			if (it != fileData.end()) {
+				levelData = it->second;
+			}
+		}
 
 		// レベルデータからオブジェクトを生成、配置
 		for (auto& objectData : levelData->objects) {
@@ -128,7 +153,7 @@ void Stage::Update()
 				DirectX::XMFLOAT3 Position = objects[i]->GetPosition();
 				float speed = 0.05;
 				float MoveY = Position.y + speed; // 一定の速度で動く
-
+				Gole = Position;
 
 				if (MoveY < MaxPos)
 				{
@@ -144,6 +169,7 @@ void Stage::Update()
 						objects[i]->SetPosition({ Position.x, MoveY, Position.z });
 					}
 				}
+
 			}
 			objects[i]->Update();
 		}

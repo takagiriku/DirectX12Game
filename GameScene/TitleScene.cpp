@@ -132,8 +132,6 @@ void TitleScene::Update()
 		CameraPosition.x = PBodyPosition.x;
 		CameraPosition.y = PBodyPosition.y + 5;
 		CameraPosition.z = PBodyPosition.z - 15;
-		
-
 	}
 	else
 	{
@@ -263,7 +261,6 @@ void TitleScene::Draw()
 		stage->StageObjDraw0();
 		data->battery[0]->Draw();
 		data->objPlayerBody->Draw();
-		
 		data->objPlayer->Draw();
 		data->Keys[0]->Draw();
 	}
