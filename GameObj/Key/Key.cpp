@@ -50,14 +50,6 @@ void Key::Update(ParticleManager* particleMan, Light* light)
 		}
 	}
 
-	if (Input::GetInstance()->Push(DIK_L))
-	{
-		light->SetPointLightActive(0, false);
-	}
-	else
-	{
-		light->SetPointLightActive(0, true);
-	}
 	light->SetPointLightPos(0, XMFLOAT3(position.x, position.y, position.z - 1));
 	light->SetPointLightColor(0, XMFLOAT3(spotLightColor));
 	

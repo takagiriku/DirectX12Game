@@ -75,7 +75,7 @@ void Stage::Generation()
 		
 		// ランダムなステージ選択
 		if (stagecount == 1) {
-			const std::vector<std::string> stage1Variants = { "Stage1", "Stage1-1", "Stage1-2" };
+			const std::vector<std::string> stage1Variants = { "Stage1"};
 			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(stage1Variants);
 
 			std::random_device rd;
