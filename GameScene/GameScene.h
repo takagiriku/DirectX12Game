@@ -74,35 +74,7 @@ private:
     float PlayerPos[3] = { 0, 0.0f, 0 };
     float CameraPos[3] = { 0, 0.0f, 0 };
     float KeyPos[3] = { 0, 0.0f, 0 };
-    float BatPos[3] = { 0, 0.0f, 0 };
-
-    //影の位置
-    int PlayerShadow[3] = { 0,0,0 };
-    //影の減衰距離
-    int PlayerShadowDir[3] = { 0,0,0 };
-    int PlayerLight[3] = { 0,0,0 };
-    int time = 0;
-    float ambientColor0[3] = { 1,1,1 };
-    // 光線方向初期値
-    float lightDir0[3] = { 0,0,1 };
-    float lightColor0[3] = { 0,1,0 };
-    //方向
-    float lightDir1[3] = { 1,1,0 };
-    float lightColor1[3] = { 0,1,0 };
-    float lightDir2[3] = { 1,0,0 };
-    float lightColor2[3] = { 0,0,1 };
-    float spotLightDir[3] = { 0,-1,0 };
-    float spotLightPos[3] = { 0,5,0 };
-    float spotLightColor[3] = { 0.7f,0.8f,1 };
-    float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
-    float spotLightFactorAngle[2] = { 20.0f, 30.0f };
-
-    float circleShadowDir[3] = { 0,-1,0 };
-    float circleShadowPos[3] = { 1,7,0 };
-    float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
-    float circleShadowFactorAngle[2] = { 0.0f, 0.5f };
-
-
+  
     float SpriteX[2] = { 1280,1280 };
     float SpriteY[2] = { 740,0 };
     // 視点座標

@@ -134,26 +134,28 @@ void Player::Move()
 			if (MoveFlags)
 			{
 				
-
+			
 				if (input->Push(DIK_D) || input->Push(DIK_A))
 				{
-					if (MoveFlag != 5)
+					if (MoveFlag[0] != 5 && MoveFlag[1] != 5)
 					{
 						if (input->Push(DIK_D))
 						{
 							position.x += moveDistance;
-							MoveFlag = 1;
+							MoveFlag[0] = 1;
+							MoveFlag[1] = 0;
 							MoveCount = 1;
 							rotation.x += moveDistance * 10;
 							rotation.y = 90;
 						}
 					}
-					if (MoveFlag != 6)
+					if (MoveFlag[0] != 6 && MoveFlag[1] != 6)
 					{
 						if (input->Push(DIK_A))
 						{
 							position.x -= moveDistance;
-							MoveFlag = 2;
+							MoveFlag[0] = 2;
+							MoveFlag[1] = 0;
 							MoveCount = 1;
 							rotation.x -= moveDistance * 10;
 							rotation.y = 90;
@@ -163,23 +165,25 @@ void Player::Move()
 				}
 				else if (input->Push(DIK_W) || input->Push(DIK_S))
 				{
-					if (MoveFlag != 7)
+					if (MoveFlag[0] != 7 && MoveFlag[1] != 7)
 					{
 						if (input->Push(DIK_S))
 						{
 							position.z -= moveDistance;
-							MoveFlag = 3;
+							MoveFlag[0] = 3;
+							MoveFlag[1] = 0;
 							MoveCount = 1;
 							rotation.x -= moveDistance * 10;
 							rotation.y = 0;
 						}
 					}
-					if (MoveFlag != 8)
+					if (MoveFlag[0] != 8&& MoveFlag[1] != 8)
 					{
 						if (input->Push(DIK_W))
 						{
 							position.z += moveDistance;
-							MoveFlag = 4;
+							MoveFlag[0] = 4;
+							MoveFlag[1] = 0;
 							MoveCount = 1;
 							rotation.x += moveDistance * 10;
 							rotation.y = 0;
@@ -194,29 +198,29 @@ void Player::Move()
 		// ’n–Ê‚ª‚È‚¢‚Ì‚Å—Ž‰º
 		else
 		{
-			switch (MoveFlag)
+			switch (MoveFlag[0])
 			{
 			case 1:
 				position.x -= BackmoveDistance;
-				MoveFlag = 5;
+				MoveFlag[0] = 5;
 				MoveCount = 0;
 				onGround = true;
 				break;
 			case 2:
 				position.x += BackmoveDistance;
-				MoveFlag = 6;
+				MoveFlag[0] = 6;
 				MoveCount = 0;
 				onGround = true;
 				break;
 			case 3:
 				position.z += BackmoveDistance;
-				MoveFlag = 7;
+				MoveFlag[0] = 7;
 				MoveCount = 0;
 				onGround = true;
 				break;
 			case 4:
 				position.z -= BackmoveDistance;
-				MoveFlag = 8;
+				MoveFlag[0] = 8;
 				MoveCount = 0;
 				onGround = true;
 				break;

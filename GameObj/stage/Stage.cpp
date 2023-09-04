@@ -59,9 +59,9 @@ void Stage::Generation()
 	
 	if (GenerationFlag == false)
 	{
-		if (!(stagecount == 1))
+		if (!(stagecount == 3))
 		{
-			const std::vector<std::string> fileNames = { "Stage0",  "Stage2", "Stage3", "Stage4" };
+			const std::vector<std::string> fileNames = { "Stage0",  "Stage1", "Stage2", "Stage3-1","Stage4" };
 			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(fileNames);
 			for (size_t i = 0; i < fileNames.size(); i++) {
 				fileData.insert(std::make_pair(fileNames[i], fileDatas[i]));
@@ -73,26 +73,27 @@ void Stage::Generation()
 
 		}
 		
-		// ランダムなステージ選択
-		if (stagecount == 1) {
-			const std::vector<std::string> stage1Variants = { "Stage1"};
-			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(stage1Variants);
-
+		if (stagecount == 3) {
+			const std::vector<std::string> Stage3 = { "Stage3-1","Stage3-2","Stage3-3","Stage3-4","Stage3-5","Stage3-6" };
+		
+			const std::vector<LevelData*> fileDatas = LevelLoader::LoadFile(Stage3);
+			
 			std::random_device rd;
 			std::mt19937 gen(rd());
-			std::uniform_int_distribution<> distrib(0, stage1Variants.size() - 1);
-			int randomIndex = distrib(gen);
+			std::uniform_int_distribution<> distrib(0, Stage3.size() - 1);
+			int rand = distrib(gen);
 
-			
-			std::string selectedStage = stage1Variants[randomIndex];
-			for (size_t i = 0; i < stage1Variants.size(); i++) {
-				fileData.insert(std::make_pair(stage1Variants[i], fileDatas[i]));
+			std::string selectedStage = Stage3[rand];
+		
+			for (size_t i = 0; i < Stage3.size(); i++) {
+				fileData.insert(std::make_pair(Stage3[i], fileDatas[i]));
 			}
 			auto it = fileData.find(selectedStage);
 			if (it != fileData.end()) {
 				levelData = it->second;
 			}
 		}
+
 
 		// レベルデータからオブジェクトを生成、配置
 		for (auto& objectData : levelData->objects) {
@@ -128,6 +129,7 @@ void Stage::Generation()
 			DirectX::XMStoreFloat3(&scale, objectData.scaling);
 			newObject->SetScale(scale);
 
+			
 			// 配列に登録
 			objects.push_back(newObject);
 			GetNames.push_back(objectData.fileName);
@@ -171,6 +173,7 @@ void Stage::Update()
 				}
 
 			}
+		
 			objects[i]->Update();
 		}
 	}
@@ -179,6 +182,10 @@ void Stage::Update()
 		for (int i = 0; i < GetNames.size(); ++i)
 		{
 			objects[i]->Update();
+			if (GetNames[i] == skipFileTile)
+			{
+				TilePosition.push_back(objects[i]->GetPosition());
+			}
 		}
 	}
 	
@@ -216,6 +223,12 @@ void Stage::Stage4()
 void Stage::StageChange()
 {
 	GenerationFlag = false;
+	// 生成したオブジェクトの解放
+	for (auto& object : objects) {
+		delete object;
+	}
+	objects.clear();
+	GetNames.clear();
 }
 void Stage::StageObjDraw0()
 {
@@ -381,94 +394,5 @@ void Stage::StageObjDraw()
 			objects[i]->Draw();
 		}
 		
-	}
-}
-void Stage::StageObjDraw2()
-{
-	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileSlope) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall0) {
-			//objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall1) {
-			if (camerapos.z < -10 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall2) {
-			if (camerapos.z < 2 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3) {
-			if (camerapos.z < 15 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4) {
-			if (camerapos.z < 18 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5) {
-			if (camerapos.z < 35 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall6) {
-			if (camerapos.z < 38 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}if (GetNames[i] == skipFileWall7) {
-			if (camerapos.z < 55 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}if (GetNames[i] == skipFileWall8) {
-			if (camerapos.z < 55 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall9) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall1Rot90) {
-			if (camerapos.z < 2 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall2Rot90) {
-			if (camerapos.z < 20 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3Rot90) {
-			if (camerapos.z < 38 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4Rot90) {
-			if (camerapos.z < 55 || DrawFlag) {
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5Rot90) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileMoveWallRot90) {
-			objects[i]->Draw();
-		}
 	}
 }

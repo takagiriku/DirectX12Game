@@ -121,6 +121,10 @@ public: // メンバ関数
 
 	// スケールの設定
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	
+	// スケールの設定
+	void SetName(const std::string name) { this->name = name; }
+
 	//アルファ値の設定
 	void SetAlpha(float alpha) { color.w = alpha; }
 	
@@ -153,6 +157,8 @@ protected: // メンバ変数
 	XMFLOAT3 rotation = { 0,90,0 };
 	// ローカル座標
 	XMFLOAT3 position = { 0,0,0 };
+	//名前
+	std::string name = "";
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト

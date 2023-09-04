@@ -41,6 +41,8 @@ public:
 	bool MoveFlags = false;
 
 	int MoveCount = 0;
+	int MoveFlag[2] = {0,0};
+
 
 private:
 
@@ -58,9 +60,7 @@ private:
 
 	// —Ž‰ºƒxƒNƒgƒ‹
 	float fallV[4] = { 0,0,0,0 };
-	int MoveFlag = 0;
 	
-
 };
 
 

@@ -72,7 +72,3 @@ void PlayerHead::Update()
 	ppos[2] = position.z;
 	Object3d::Update();
 }
-void PlayerHead::SetPlayer(Player* player)
-{
-	this->player = player;
-}

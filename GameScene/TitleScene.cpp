@@ -6,7 +6,7 @@
 #include"GameObj/stage/stage.h"
 #include"GameObj/key/Key.h"
 #include"GameObj/Battery/Battery.h"
-#include"GameObj/BackObj/BackObj.h"
+
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
@@ -33,19 +33,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	Black->Create(3);
 
     Object3d::SetCamera(inputCamera);
-    // ライト生成
-	light = Light::Create();
-	// 3Dオブエクトにライトをセット
-	Object3d::SetLightGroup(light);
-	light->SetSpotLightActive(0, true);
-	light->SetPointLightActive(0, true);
-	light->SetPointLightActive(2, true);
-	
-	light->SetCircleShadowActive(0, true);
-	light->SetCircleShadowActive(1, true);
-	light->SetCircleShadowActive(2, true);
-	//Object3d::SetLightGroup(light);
-   
+  
 	data->Dome->SetPosition({ 180,0,0 });
 	data->Dome->SetRotation({ 0,0,0 });
 	data->Dome->SetScale({ 3,3,3 });
@@ -153,15 +141,15 @@ void TitleScene::Update()
 	data->Dome->Update();
 	
 	
-	data->objPlayerBody->Update(light);
+	data->objPlayerBody->Update(data->light);
 	data->objPlayer->Update();
-	data->Keys[0]->Update(particleMan, light);
+	data->Keys[0]->Update(particleMan, data->light);
 	
 	
-	data->battery[0]->Update(particleMan, post, light, 2);
+	data->battery[0]->Update(particleMan, post, data->light, 1);
 	stage->GetCameraPos(CameraPosition);
 	
-	light->Update();
+	data->light->Update();
 	for (int i = 0; i < 9; i++)
 	{
 		data->TitleObjs[i]->Update();

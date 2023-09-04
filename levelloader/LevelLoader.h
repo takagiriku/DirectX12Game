@@ -15,6 +15,7 @@ struct LevelData {
 		DirectX::XMVECTOR rotation;
 		// スケーリング
 		DirectX::XMVECTOR scaling;
+
 	};
 
 	// オブジェクト配列

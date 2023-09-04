@@ -48,7 +48,7 @@ public:
 
 	void StageObjDraw0();
 	void StageObjDraw();
-	void StageObjDraw2();
+	
 
 	void SetGenerationFlag(bool StartFlag) { GenerationFlag = StartFlag; }
 	bool GetGenerationFlag() const { return GenerationFlag; }
@@ -70,7 +70,7 @@ public:
 	float BoxCount = 0;
 
 	XMFLOAT3 Gole = { 0,0,0 };
-
+	std::vector<DirectX::XMFLOAT3> TilePosition;
 private:
 	LevelData* levelData = nullptr;
 	
@@ -88,6 +88,7 @@ private:
 	std::vector<Object3d*> objects;
 
 	//オブジェトの名前
+	std::vector<std::string> ObjNames;
 	std::vector<std::string> GetNames;
 	const std::string skipFileTile = "tile";
 	const std::string skipFileTile2 = "tile2";

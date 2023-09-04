@@ -45,7 +45,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 			BatFlag = true;
 			post->ClearTime();
 			light->SetPointLightActive(Number, false);
-			light->SetCircleShadowActive(Number, false);
+			light->SetCircleShadowActive(Number + 1, false);
 		}
 	}
 	else
@@ -61,7 +61,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 		Time = 0;
 		BatFlag = false;
 		light->SetPointLightActive(Number, true);
-		light->SetCircleShadowActive(Number, true);
+		light->SetCircleShadowActive(Number + 1, true);
 	}
 
 
@@ -73,10 +73,10 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 	
 	light->SetPointLightPos(Number, XMFLOAT3(position.x, position.y, position.z - 1));
 	light->SetPointLightColor(Number, XMFLOAT3(spotLightColor));
-	light->SetCircleShadowCasterPos(Number, XMFLOAT3(position.x, position.y-1, position.z));
-	light->SetCircleShadowDir(Number, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2], 0 }));
-	light->SetCircleShadowAtten(Number, XMFLOAT3(circleShadowAtten));
-	light->SetCircleShadowFactorAngle(Number, XMFLOAT2(circleShadowFactorAngle));
+	light->SetCircleShadowCasterPos(Number + 1, XMFLOAT3(position.x, position.y-1, position.z));
+	light->SetCircleShadowDir(Number + 1, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2], 0 }));
+	light->SetCircleShadowAtten(Number + 1, XMFLOAT3(circleShadowAtten));
+	light->SetCircleShadowFactorAngle(Number + 1, XMFLOAT2(circleShadowFactorAngle));
 	
 }
 void Battery::CreateParticle(ParticleManager* particleMan)

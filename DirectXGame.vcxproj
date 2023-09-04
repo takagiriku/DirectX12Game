@@ -151,6 +151,7 @@
     <ClCompile Include="2d\Sprite.cpp" />
     <ClCompile Include="3d\Material.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
+    <ClCompile Include="GameObj\BlockObj\BlockObj.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="dynamics\Collision.cpp" />
     <ClCompile Include="dynamics\CollisionManager.cpp" />
@@ -158,8 +159,6 @@
     <ClCompile Include="dynamics\MeshCollider.cpp" />
     <ClCompile Include="dynamics\SphereCollider.cpp" />
     <ClCompile Include="dynamics\TouchableObject.cpp" />
-    <ClCompile Include="GameObj\BackObj\BackObj.cpp" />
-    <ClCompile Include="GameObj\Box\Box.cpp" />
     <ClCompile Include="GameObj\Battery\Battery.cpp" />
     <ClCompile Include="GameObj\Key\Key.cpp" />
     <ClCompile Include="GameObj\Player\Player.cpp" />
@@ -194,7 +193,6 @@
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="2d\SpriteManager.cpp" />
     <ClCompile Include="GameObj\stage\Stage.cpp" />
-    <ClCompile Include="GameObj\Tile\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -202,6 +200,7 @@
     <ClInclude Include="2d\Sprite.h" />
     <ClInclude Include="3d\Material.h" />
     <ClInclude Include="audio\Audio.h" />
+    <ClInclude Include="GameObj\BlockObj\BlockObj.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="dynamics\BaseCollider.h" />
     <ClInclude Include="dynamics\Collision.h" />
@@ -215,8 +214,6 @@
     <ClInclude Include="dynamics\RaycastHit.h" />
     <ClInclude Include="dynamics\SphereCollider.h" />
     <ClInclude Include="dynamics\TouchableObject.h" />
-    <ClInclude Include="GameObj\BackObj\BackObj.h" />
-    <ClInclude Include="GameObj\Box\Box.h" />
     <ClInclude Include="GameObj\Battery\Battery.h" />
     <ClInclude Include="GameObj\Key\Key.h" />
     <ClInclude Include="GameObj\Player\Player.h" />
@@ -259,7 +256,6 @@
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="2d\SpriteManager.h" />
     <ClInclude Include="GameObj\stage\Stage.h" />
-    <ClInclude Include="GameObj\Tile\Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />

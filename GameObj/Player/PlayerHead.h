@@ -2,7 +2,6 @@
 #include "Object3d.h"
 #include"Input.h"
 class Player;
-class Game;
 
 class PlayerHead :
 	public Object3d
@@ -11,7 +10,7 @@ class PlayerHead :
 public:
 	// 3Dオブジェクト生成
 	static PlayerHead* Create(Model* model = nullptr);
-	void SetPlayer(Player* player);
+	void SetPlayer(Player* player) { this->player = player; }
 
 	// 初期化
 	bool Initialize() override;

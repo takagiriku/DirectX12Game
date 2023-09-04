@@ -1,54 +1,36 @@
 #include "Data.h"
 #include"GameObj/Key/Key.h"
 #include"GameObj/Battery/Battery.h"
-#include"GameObj/Box/Box.h"
-#include"GameObj/Backobj/Backobj.h"
 #include"GameObj/Player/Player.h"
 #include"GameObj/Player/PlayerHead.h"
-#include"GameObj/Tile/Tile.h"
+#include"GameObj/BlockObj//BlockObj.h"
 #include"2d/SpriteManager.h"
 //ToDo データをまとめる
 StageData stageDatas[StageNum] = {
-    { 1, 1, 9, 2, 0, 0, 0}, // チュートリアル
-    { 8, 1, 0, 0, 0, 0, 0}, // ステージ1
-    { 4, 1, 0, 0, 4, 4, 8},//ステージ2
-    { 0 ,0, 0, 2, 0, 0, 0},//クリアステージ
-    { 0 ,0, 0, 0, 0, 0, 0}//ゲームオーバー
+    { 1, 1, 9, 2},// チュートリアル
+    { 8, 1, 0, 0},// ステージ1
+    { 4, 1, 0, 0},//ステージ2
+    { 0 ,0, 0, 2},//クリアステージ
+    { 0 ,0, 0, 0} //ゲームオーバー
+};
+LightData lightDatas[StageNum] = {
+    { 1, 2, 3},// チュートリアル
+    { 1, 1, 0},// ステージ1
+    { 1, 1, 0},//ステージ2
+    { 1 ,0, 0},//クリアステージ
+    { 1 ,0, 0} //ゲームオーバー
 };
 
 void Data::Initialize()
 {
-
-   /* spriteSceneChenge = new Sprite;
-    spriteSPACE = new Sprite;
-    TITLE = new Sprite;
-    Black = new Sprite;
-    Signal = new Sprite;
-
-    SpriteMan->LoadTexture(0, L"Resources/SPACE.png");
-    SpriteMan->LoadTexture(1, L"Resources/scenechenge.png");
-    SpriteMan->LoadTexture(2, L"Resources/TITLE.png");
-    SpriteMan->LoadTexture(3, L"Resources/black.png");
-    SpriteMan->LoadTexture(4, L"Resources/Signal.png");
-
-    spriteSPACE->Create(0);
-    spriteSceneChenge->Create(1);
-    TITLE->Create(2);
-    Black->Create(3);
-    Signal->Create(4);*/
-    
     mKey = Model::CreateOBJ("key");
     mBattery = Model::CreateOBJ("Battery");
-    mBox = Model::CreateOBJ("Box");
-    mBBox = Model::CreateOBJ("BlackBox");
     mDome = Model::CreateOBJ("skydome");
     mPlayerBody = Model::CreateOBJ("playerbody");
     mPlayer = Model::CreateOBJ("playerobj");
     mTitleObjs = Model::CreateOBJ("TitleObjs");
     mTitleMove = Model::CreateOBJ("titleobj");
-    mTile = Model::CreateOBJ("Gole");
-    //mBack = Model::CreateOBJ("BackObj");
-    
+    mBlockObj = Model::CreateOBJ("Blackobj");
    
 
     int i = StageCount;
@@ -85,34 +67,32 @@ void Data::Initialize()
     {
         TitleMove[i] = nullptr;
     }
-    if (stageDatas[i].BoxNum)
+    for (int i = 0; i < 10; i++)
     {
-        for (int j = 0; j < stageDatas[i].BoxNum; j++) { Box[j] = Box::Create(mBox); }
-    }
-    else
-    {
-        Box[i] = nullptr;
-    }
-    if (stageDatas[i].BBoxNum)
-    {
-        for (int j = 0; j < stageDatas[i].BBoxNum; j++) { BBox[j] = Object3d::Create(mBBox); }
-    }
-    else
-    {
-        BBox[i] = nullptr;
-    }
-    if (stageDatas[i].TileNum)
-    {
-        for (int j = 0; j < stageDatas[i].TileNum; j++) { Tile[j] = Tile::Create(mTile); }
-    }
-    else
-    {
-        Tile[i] = nullptr;
+        objblock[i] = BlockObj::Create(mBlockObj);
     }
     objPlayerBody = Player::Create(mPlayerBody);
     objPlayer = PlayerHead::Create(mPlayer);
     
     Dome = Object3d::Create(mDome);
+    
+
+    // ライト生成
+    light = Light::Create();
+    // 3Dオブエクトにライトをセット
+    Object3d::SetLightGroup(light);
+    if (lightDatas[i].SpotLightNum)
+    {
+        for (int j = 0; j < lightDatas[i].SpotLightNum; j++) { light->SetSpotLightActive(j, true); }
+    }
+    if (lightDatas[i].PointLightNum)
+    {
+        for (int j = 0; j < lightDatas[i].PointLightNum; j++) { light->SetPointLightActive(j, true); }
+    }
+    if (lightDatas[i].ShadowNum)
+    {
+        for (int j = 0; j < lightDatas[i].ShadowNum; j++) { light->SetCircleShadowActive(j, true); }
+    }
     
 }
 
@@ -126,21 +106,19 @@ void Data::Finalize()
     safe_delete(objPlayer);
     safe_delete(mPlayerBody);
     safe_delete(mPlayer);
-    safe_delete(mTile);
-    
-    safe_delete(mBox);
-    safe_delete(mBox);
     safe_delete(mTitleObjs);    
     safe_delete(mTitleMove);
-
+    safe_delete(mBlockObj);
+    safe_delete(light);
     for (int i = 0; i < 10; i++)
     {
-        safe_delete(Box[i]);
-        safe_delete(BBox[i]);
         safe_delete(TitleObjs[i]);
         safe_delete(TitleMove[i]);
-        safe_delete(Tile[i]);
         safe_delete(Keys[i]);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        safe_delete(objblock[i]);
     }
 }
 

@@ -1,6 +1,7 @@
 #include "GameScene2.h"
 #include"GameObj/Player/Player.h"
 #include"GameObj/Player/PlayerHead.h"
+#include"GameObj/BlockObj//BlockObj.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
 #include"Data.h"
@@ -10,62 +11,62 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 	data = new Data();
-	data->SetStageCount(2);
+	data->SetStageCount(1);
 	data->Initialize();
+
 	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
 	spriteSceneChenge = new Sprite();
 	spriteSceneChenge->Create(0);
-	
-	SpriteMan->LoadTexture(1, L"Resources/Black.png");
-	Black = new Sprite();
-	Black->Create(1);
-	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
+
 	SpriteMan->LoadTexture(3, L"Resources/black.png");
-	//Black->Create(3, { 0,0 });
+	Black = new Sprite();
+	Black->Create(3);
+
+	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
 	Object3d::SetCamera(inputCamera);
 	// ライト生成
 	light = Light::Create();
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(light);
 	light->SetSpotLightActive(0, true);
-	light->SetPointLightActive(0, true);
-	
-	
-	
+	light->SetSpotLightActive(1, true);
+
+
+
 	light->SetCircleShadowActive(0, true);
 	light->SetCircleShadowActive(1, true);
-
-	for (int i = 2; i < 5; i++)
+	for (int i = 2; i < 11; i++)
 	{
 		light->SetPointLightActive(i, true);
 		light->SetCircleShadowActive(i, true);
 	}
-	Object3d::SetLightGroup(light);
-	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	data->objPlayerBody->SetPosition({ PBodyPosition });
-	
-	data->objPlayer->SetPlayer(data->objPlayerBody);
-	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
-	data->objPlayer->SetPosition({ PBodyPosition });
 
+
+	Object3d::SetLightGroup(light);
 	data->Dome->SetPosition({ 180,0,0 });
 	data->Dome->SetRotation({ 0,0,0 });
 	data->Dome->SetScale({ 3,3,3 });
-	for (int i = 0; i < 4; i++)
+
+	data->objPlayer->SetPlayer(data->objPlayerBody);
+
+	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
+	for (int i = 0; i < 10; i++)
+	{
+		data->objblock[i]->SetPlayer(data->objPlayerBody);
+		
+	}
+	
+
+	for (int i = 0; i < 8; i++)
 	{
 		data->battery[i]->SetScale({ 1.5,1.5,1.5 });
 		data->battery[i]->SetPosition(BatteryPosition[i]);
-		
-		data->Box[i]->SetPosition(BoxPosition[i]);
-		data->BBox[i]->SetPosition(BBoxPosition[i]);
 	}
-	for (int i = 0; i < 8; i++)
-	{
-		data->Tile[i]->SetPosition(TilePosition[i]);
-		data->Tile[i]->SetScale({ 1.1,1.1,1.1 });
-	}
-	data->Keys[0]->SetScale({5,5,5});
-	data->Keys[0]->SetPosition(KeyPosition);
+
+
+	data->Keys[0]->SetScale({ 5,5,5 });
+	
 
 	stage = new Stage();
 	stage->Initialize();
@@ -77,16 +78,18 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 	data->objPlayerBody->SetStartFlag(true);
 	data->objPlayer->SetStartFlag(true);
-	post->ResetTime();
 	post->SetStartFlag(true);
+	post->ResetTime();
 	data->objPlayerBody->SetMoveFlags(true);
 	data->objPlayer->SetMoveFlags(true);
+	
 }
 
 
 void GameScene2::Finalize()
 {
 	safe_delete(spriteSceneChenge);
+	safe_delete(particleMan);
 	safe_delete(light);
 	safe_delete(stage);
 	data->Finalize();
@@ -104,108 +107,46 @@ void GameScene2::Update()
 	}
 
 	PBodyPosition = data->objPlayerBody->GetPosition();
-	
+
 	CameraPosition.x = PBodyPosition.x;
 	CameraPosition.y = PBodyPosition.y + 5;
 	CameraPosition.z = PBodyPosition.z - 15;
 
+	inputCamera->SetTarget(CameraPosition);
+	inputCamera->SetEye(XMFLOAT3(Eye));
+	inputCamera->Update();
+
+
 	data->Dome->Update();
 	light->Update();
 
-	for (int i = 0; i < 4; i++)
-	{
-		data->battery[i]->Update(particleMan, post, light,i+2);
-		data->battery[i]->SetPos(PBodyPosition);
-		data->Box[i]->Update();
-		data->Box[i]->SetPos(PBodyPosition);
-		data->BBox[i]->Update();
-	}
-	
 	for (int i = 0; i < 8; i++)
 	{
-		data->Tile[i]->Update(i);
-		data->Tile[i]->SetPos(PBodyPosition);
-		
+		data->battery[i]->Update(particleMan, post, light, i + 2);
+		data->battery[i]->SetPos(PBodyPosition);
+		data->battery[i]->SetPosition(BatteryPosition[i]);
 	}
 
-	data->Keys[0]->SetPosition(KeyPosition);
-	data->Keys[0]->Update(particleMan, light);
-	data->Keys[0]->SetPos(PBodyPosition);
-
+	particleMan->Update();
 	data->objPlayerBody->Update(light);
 	data->objPlayer->Update();
 
-	test = data->Tile[0]->GetPosition();
-
-	tests[0] = test.x;
-	tests[1] = test.y;
-	tests[2] = test.z;
-
-	if (data->Keys[0]->KeyFlag)
-	{
-		Time += 1;
-		if (Time < 150)
-		{
-			
-			CameraPosition.x = 62;
-			CameraPosition.y = 16;
-			CameraPosition.z = 58;
-			data->objPlayerBody->SetMoveFlags(false);
-			data->objPlayer->SetMoveFlags(false);
-		}
-		else
-		{
-			data->objPlayerBody->SetMoveFlags(true);
-			data->objPlayer->SetMoveFlags(true);
-		}
-		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
-	}
-	
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (data->battery[i]->BatFlag)
-		{
-			AlphaFlag = false;
-			
-		}
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (data->Box[i]->GetBoxFlag())
-		{
-			if (FlagCount[i] == 0) {
-				FlagCount[i] = 1;
-				stage->BoxCount++;
-				Time = 0;
-			}
-			Time += 1;
-
-			if (Time < 125)
-			{
-				CameraPosition.x = 62;
-				CameraPosition.y = 16;
-				CameraPosition.z = 58;
-				data->objPlayerBody->SetStartFlag(false);
-				data->objPlayer->SetStartFlag(false);
-			}
-			else
-			{
-				data->objPlayerBody->SetStartFlag(true);
-				data->objPlayer->SetStartFlag(true);
-			}
-			
-		}
-	}
 	stage->Stage3();
 	stage->GetCameraPos(CameraPosition);
-	if (FlagCount[0] == 1 && FlagCount[1] == 1 && FlagCount[2] == 1 && FlagCount[3] == 1)
+	for (int i = 0; i < 10; i++)
 	{
-		data->Keys[0]->SetKeyFlag(true);
+		data->objblock[i]->SetTilePos(stage->TilePosition);
+		data->objblock[i]->Update();
 	}
-	float Gole = 61;
-	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 4 && PBodyPosition.z > 73)
+	data->Keys[0]->SetTilePos(stage->TilePosition);
+	data->Keys[0]->Update(particleMan, light);
+	data->Keys[0]->SetPos(PBodyPosition);
+	if (data->Keys[0]->KeyFlag)
+	{
+		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
+	}
+
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 5 && PBodyPosition.z > 73)
 	{
 		data->objPlayerBody->SetMoveFlags(false);
 		data->objPlayer->SetMoveFlags(false);
@@ -221,6 +162,8 @@ void GameScene2::Update()
 			SceneManager::GetInstance()->ChangeScene("CLEAR");
 		}
 	}
+	Time[0] = post->Time;
+
 	float speed = 0.005;
 	if (post->Time > 170)
 	{
@@ -255,10 +198,7 @@ void GameScene2::Update()
 	Black->SetAlpha(alpha[0]);
 	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
 	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
-	particleMan->Update();
-	inputCamera->SetTarget(CameraPosition);
-	inputCamera->SetEye(XMFLOAT3(Eye));
-	inputCamera->Update();
+
 }
 
 void GameScene2::Draw()
@@ -271,16 +211,17 @@ void GameScene2::Draw()
 	data->objPlayerBody->Draw();
 	data->objPlayer->Draw();
 	data->Keys[0]->Draw();
-	for (int i = 0; i < 4; i++)
+	
+	for (int i = 0; i < 8; i++)
 	{
 		data->battery[i]->Draw();
-		data->Box[i]->Draw();
-		data->BBox[i]->Draw();
 	}
-	for (int i = 0; i < 8; i++) {
-		data->Tile[i]->Draw();
+	for (int i = 0; i < 10; i++)
+	{
+		data->objblock[i]->Draw();
 	}
-	stage->StageObjDraw2();
+
+	stage->StageObjDraw();
 	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
@@ -315,7 +256,7 @@ void GameScene2::DrawImGui()
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::InputFloat("al", alpha);
-	ImGui::InputFloat3("Box", BatPos);
-	ImGui::InputFloat3("Ttest", tests);
+	ImGui::InputFloat("time", Time);
+	ImGui::InputFloat3("Player", data->objPlayer->ppos);
 	ImGui::End();
 }

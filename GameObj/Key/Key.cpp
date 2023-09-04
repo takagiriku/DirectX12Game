@@ -1,5 +1,5 @@
 #include "Key.h"
-
+#include<random>
 Key* Key::Create(Model* model)
 {
 	// 3Dオブジェクトのインスタンスを生成
@@ -34,7 +34,16 @@ bool Key::Initialize()
 void Key::Update(ParticleManager* particleMan, Light* light)
 {
 	Object3d::Update();
-	
+	if (!SetPosFlag && TilePos.size())
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distrib(0, TilePos.size() - 1);
+		int rand = distrib(gen);
+		position = TilePos[rand];
+		position.y = 5;
+		SetPosFlag = true;
+	}
 	if (abs(position.x - pos.x) <= 1.0f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.0f)
 	{
 		KeyFlag = true;

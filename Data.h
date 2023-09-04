@@ -6,23 +6,22 @@
 #include "BaseScene.h"
 class Key;
 class Battery;
-class Box;
 class Player;
 class PlayerHead;
-class BackObj;
-class Tile;
-
+class BlockObj;
 // ステージデータ
 struct StageData {
     uint32_t BatteryNum;
     uint32_t KeyNum;
     uint32_t TitleObjNum;
     uint32_t TitleMoveNum;
-    uint32_t BoxNum;
-    uint32_t BBoxNum;
-    uint32_t TileNum;
-
 };
+struct LightData {
+    uint32_t SpotLightNum;
+    uint32_t PointLightNum;
+    uint32_t ShadowNum;
+};
+
 // ステージ数
 const uint32_t StageNum = 5;
 
@@ -42,32 +41,27 @@ public:
     void SetStageCount(uint32_t Count) { this->StageCount = Count; }
     uint32_t StageCount = 0;
 
+    Light* light = nullptr;
 
     Model* mKey = nullptr;
     Model* mBattery = nullptr;
-    Model* mBox = nullptr;
-    Model* mBBox = nullptr;
     Model* mDome = nullptr;
     Model* mPlayerBody = nullptr;
     Model* mPlayer = nullptr;
     Model* mTitleObjs = nullptr;
     Model* mTitleMove = nullptr;
-    Model* mTile = nullptr;
-    //Model* mBack = nullptr;
+    Model* mBlockObj = nullptr;
 
     Key* Keys[obj];
     Battery* battery[obj];
-    Box* Box[obj];
     Object3d* TitleObjs[obj];
     Object3d* TitleMove[obj];
-    Object3d* BBox[obj];
-    Tile* Tile[obj];
-
+    
     Player* objPlayerBody = nullptr;
     PlayerHead* objPlayer = nullptr;
     const int obj = 10;
-    //BackObj* objBack[10];
     
+    BlockObj* objblock[10];
     
     Object3d* Dome = nullptr;
 
