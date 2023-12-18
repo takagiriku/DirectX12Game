@@ -7,12 +7,11 @@
 #include"GameObj/Battery/Battery.h"
 #include"ParticleManager.h"
 
-
 class Player;
 class PlayerHead;
 class Data;
-class BlackObj;
-class GameScene2 : public BaseScene
+class SpriteData;
+class NormalStageScene : public BaseScene
 {
 private:
     // エイリアス
@@ -37,59 +36,53 @@ public:
 
     // 描画
     void Draw() override;
-
+    
     void Draw2D() override;
-
+    
     void FirstDraw2D() override;
-
+    
     void DrawImGui() override;
 
-
+    
 private:
 
     bool StartFlag = false;
     bool AlphaFlag = false;
-    bool anyTrue = false; // trueの要素が存在するかを示す変数
     float alpha[3] = { 0,0,0 };
+    //各座標
     XMFLOAT3 PBodyPosition = { 6,2,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
-    XMFLOAT3 CameraPosition = { -15,3,-25 };
-    XMFLOAT3 KeyPosition = { 242,5,10 };
+    XMFLOAT3 CameraPosition = { -15,15,-15 };
+    XMFLOAT3 KeyPosition = { 60,15,10 };
     XMFLOAT3 BatteryPosition[10] = {
-    { 5,3,72 },
-    { 5,3,0 },
     { 120,3,0 },
     { 120,3,72 },
-    { 240,3,72 },
-    { 240,3,0 },
-    { 360,3,0 },
-    { 360,3,72 },
-    { 480,3,0 },
-    { 480,3,72 }
+    { 5,3,72 },
+    { 65,3,6 },
+    { 103,3,67 },
+    { 3,13,0 },
+    { 121,13,0 },
+    { 120,13,72 },
+    { 83,13,31 },
+    { 83,13,67 }
     };
 
-    float PlayerBodyRotx = 0;
-    float PlayerBodyRoty = 0;
-    float PlayerBodyRotz = 0;
-
+    //ImGui用
     float PlayerPos[3] = { 0, 0.0f, 0 };
     float CameraPos[3] = { 0, 0.0f, 0 };
     float KeyPos[3] = { 0, 0.0f, 0 };
-    
-
+  
     float SpriteX[2] = { 1280,1280 };
     float SpriteY[2] = { 740,0 };
     // 視点座標
     float Eye[3] = { 0, 0, 0 };
     float Time[1] = { 0 };
-
+    
     Stage* stage = nullptr;
-    Light* light = nullptr;
-    Sprite* spriteSceneChenge = nullptr;
-    Sprite* Black = nullptr;
-
+    
     ParticleManager* particleMan = nullptr;
 
     Data* data = nullptr;
+    SpriteData* spritedata = nullptr;
 };
 

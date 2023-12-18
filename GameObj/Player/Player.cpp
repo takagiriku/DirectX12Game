@@ -64,7 +64,6 @@ void Player::Foll()
 
 void Player::Move()
 {
-	Input* input = Input::GetInstance();
 
 	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
 	assert(sphereCollider);
@@ -111,7 +110,13 @@ void Player::Move()
 	// ワールド行列更新
 	UpdateWorldMatrix();
 	collider->Update();
+	GroundCollision(sphereCollider);
+	
+}
 
+void Player::GroundCollision(SphereCollider* sphereCollider)
+{
+	Input* input = Input::GetInstance();
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
@@ -131,73 +136,14 @@ void Player::Move()
 		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_GROUND, &raycastHit, sphereCollider->GetRadius() * 3.0f + adsDistance)) {
 			onGround = true;
 			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
-			if (MoveFlags)
-			{
-				
-			
-				if (input->Push(DIK_D) || input->Push(DIK_A))
-				{
-					if (MoveFlag[0] != 5 && MoveFlag[1] != 5)
-					{
-						if (input->Push(DIK_D))
-						{
-							position.x += moveDistance;
-							MoveFlag[0] = 1;
-							MoveFlag[1] = 0;
-							MoveCount = 1;
-							rotation.x += moveDistance * 10;
-							rotation.y = 90;
-						}
-					}
-					if (MoveFlag[0] != 6 && MoveFlag[1] != 6)
-					{
-						if (input->Push(DIK_A))
-						{
-							position.x -= moveDistance;
-							MoveFlag[0] = 2;
-							MoveFlag[1] = 0;
-							MoveCount = 1;
-							rotation.x -= moveDistance * 10;
-							rotation.y = 90;
-						}
-					}
-
-				}
-				else if (input->Push(DIK_W) || input->Push(DIK_S))
-				{
-					if (MoveFlag[0] != 7 && MoveFlag[1] != 7)
-					{
-						if (input->Push(DIK_S))
-						{
-							position.z -= moveDistance;
-							MoveFlag[0] = 3;
-							MoveFlag[1] = 0;
-							MoveCount = 1;
-							rotation.x -= moveDistance * 10;
-							rotation.y = 0;
-						}
-					}
-					if (MoveFlag[0] != 8&& MoveFlag[1] != 8)
-					{
-						if (input->Push(DIK_W))
-						{
-							position.z += moveDistance;
-							MoveFlag[0] = 4;
-							MoveFlag[1] = 0;
-							MoveCount = 1;
-							rotation.x += moveDistance * 10;
-							rotation.y = 0;
-						}
-					}
-				}
-			}
-			
+			PlayerMove(input);
 
 		}
 
 		// 地面がないので落下
 		else
 		{
+			//戻り
 			switch (MoveFlag[0])
 			{
 			case 1:
@@ -224,8 +170,8 @@ void Player::Move()
 				MoveCount = 0;
 				onGround = true;
 				break;
-			
-			}			
+
+			}
 			onGround = false;
 			fallV[1] = -1.0f;
 		}
@@ -239,6 +185,67 @@ void Player::Move()
 			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
 		}
 	}
+}
+
+void Player::MoveInputZ(float moveDistance, int moveFlag1, int moveFlag2, int moveCount)
+{//Zの移動
+	position.z += moveDistance;
+	MoveFlag[0] = moveFlag1;
+	MoveFlag[1] = moveFlag2;
+	MoveCount = moveCount;
+}
+
+void Player::MoveInputX(float moveDistance, int moveFlag1, int moveFlag2, int moveCount)
+{//Xの移動
+	position.x += moveDistance;
+	MoveFlag[0] = moveFlag1;
+	MoveFlag[1] = moveFlag2;
+	MoveCount = moveCount;
+}
+
+void Player::PlayerMove(Input* input)
+{
+	Sphere* sphere = dynamic_cast<Sphere*>(collider);
+
+	
+	if (MoveFlags)
+	{
+		//移動
+		const float moveDistance = 0.5f;
+		const float backMoveDistance = 0.5f;
+		if (input->Push(DIK_D) || input->Push(DIK_A))
+		{
+			if (input->Push(DIK_D) && MoveFlag[0] != 5 && MoveFlag[1] != 5)
+			{
+				MoveInputX(moveDistance, 1, 0, 1);
+				rotation.x += moveDistance * 10;
+				rotation.y = 90;
+			}
+			if (input->Push(DIK_A) && MoveFlag[0] != 6 && MoveFlag[1] != 6)
+			{
+				MoveInputX(-moveDistance, 2, 0, 1);
+				rotation.x -= moveDistance * 10;
+				rotation.y = 90;
+			}
+		}
+		else if (input->Push(DIK_W) || input->Push(DIK_S))
+		{
+			if (input->Push(DIK_S) && MoveFlag[0] != 7 && MoveFlag[1] != 7)
+			{
+				MoveInputZ(-moveDistance, 3, 0, 1);
+				rotation.x -= moveDistance * 10;
+				rotation.y = 0;
+			}
+			if (input->Push(DIK_W) && MoveFlag[0] != 8 && MoveFlag[1] != 8)
+			{
+				MoveInputZ(moveDistance, 4, 0, 1);
+				rotation.x += moveDistance * 10;
+				rotation.y = 0;
+			}
+		}		
+	}
+	
+	
 }
 
 

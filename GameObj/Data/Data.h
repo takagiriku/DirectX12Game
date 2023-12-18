@@ -4,17 +4,21 @@
 #include <3d/Model.h>
 #include "3d/Object3d.h"
 #include "BaseScene.h"
+
 class Key;
 class Battery;
 class Player;
 class PlayerHead;
 class BlockObj;
+class ParticleManager;
+class PostEffect;
 // ステージデータ
 struct StageData {
-    uint32_t BatteryNum;
-    uint32_t KeyNum;
-    uint32_t TitleObjNum;
-    uint32_t TitleMoveNum;
+    uint32_t BatteryNum;  //class Battery
+    uint32_t KeyNum;      //class Key
+    uint32_t TitleObjNum; //object TitleObjs
+    uint32_t TitleMoveNum;//object TitleMove
+    uint32_t RandBlockNum;//class BlockObj;
 };
 struct LightData {
     uint32_t SpotLightNum;
@@ -36,13 +40,17 @@ public:
     void Finalize();
 
     // 毎フレーム
-    void Update();
+    void Update(PostEffect* post, ParticleManager* particleMan);
     
+    //ステージカウント
     void SetStageCount(uint32_t Count) { this->StageCount = Count; }
     uint32_t StageCount = 0;
 
     Light* light = nullptr;
+    ParticleManager* particleMan = nullptr;
+    PostEffect* post = nullptr;
 
+    //モデル
     Model* mKey = nullptr;
     Model* mBattery = nullptr;
     Model* mDome = nullptr;
@@ -52,26 +60,20 @@ public:
     Model* mTitleMove = nullptr;
     Model* mBlockObj = nullptr;
 
+    //オブジェクト
     Key* Keys[obj];
     Battery* battery[obj];
     Object3d* TitleObjs[obj];
     Object3d* TitleMove[obj];
-    
+    Object3d* Dome = nullptr;
     Player* objPlayerBody = nullptr;
     PlayerHead* objPlayer = nullptr;
-    const int obj = 10;
-    
     BlockObj* objblock[10];
     
-    Object3d* Dome = nullptr;
-
-
-    Sprite* spriteSceneChenge = nullptr;
-    Sprite* spriteSPACE = nullptr;
-    Sprite* TITLE = nullptr;
-    Sprite* Black = nullptr;
-    Sprite* Signal = nullptr;
-  
+    
+    
     SpriteManager* SpriteMan = nullptr;
+
+    const int obj = 10;
 };
 

@@ -35,7 +35,7 @@ void Key::Update(ParticleManager* particleMan, Light* light)
 {
 	Object3d::Update();
 	if (!SetPosFlag && TilePos.size())
-	{
+	{//床の座標が送られてるなら
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> distrib(0, TilePos.size() - 1);
@@ -51,7 +51,7 @@ void Key::Update(ParticleManager* particleMan, Light* light)
 		light->SetCircleShadowActive(1, false);
 	}
 	if (KeyFlag)
-	{
+	{//取ったらパーティクル
 		if (time < 10)
 		{
 			time += 1;
@@ -104,7 +104,7 @@ void Key::CreateParticle(ParticleManager* particleMan)
 
 void Key::Draw()
 {
-	if (KeyFlag == false)
+	if (!KeyFlag)
 	{
 		Object3d::Draw();
 	}

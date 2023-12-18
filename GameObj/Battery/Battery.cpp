@@ -41,7 +41,7 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 	if (!BatFlag)
 	{
 		if (abs(position.x - pos.x) <= 1.f && abs(position.y - pos.y) <= 5.0f && abs(position.z - pos.z) <= 1.f)
-		{
+		{//取ったら消す
 			BatFlag = true;
 			post->ClearTime();
 			light->SetPointLightActive(Number, false);
@@ -52,12 +52,12 @@ void Battery::Update(ParticleManager* particleMan, PostEffect* post, Light* ligh
 	{
 		Time += Speed;
 		if (Time < ResetTime/40)
-		{
+		{//取ったらパーティクル
 			CreateParticle(particleMan);
 		}
 	}
 	if (Time > ResetTime)
-	{
+	{//復活
 		Time = 0;
 		BatFlag = false;
 		light->SetPointLightActive(Number, true);

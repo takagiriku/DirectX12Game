@@ -1060,7 +1060,7 @@
             "name": "wall3.001",
             "transform": {
                 "translation": [
-                    28.185434341430664,
+                    28.968429565429688,
                     80.52887725830078,
                     3.086172103881836
                 ],
@@ -2285,7 +2285,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -2307,7 +2307,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -2857,7 +2857,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -3341,7 +3341,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -3693,7 +3693,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -3715,7 +3715,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7516,7 +7516,7 @@
                     90.00000762939453
                 ],
                 "scaling": [
-                    57.66352844238281,
+                    58.91403579711914,
                     1.100000023841858,
                     1.0
                 ]
@@ -7543,7 +7543,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7565,7 +7565,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -7587,7 +7587,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7609,7 +7609,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7653,7 +7653,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -7675,7 +7675,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7697,7 +7697,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7719,7 +7719,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7785,7 +7785,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7829,7 +7829,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7851,7 +7851,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7868,54 +7868,12 @@
                     90.00000762939453
                 ],
                 "scaling": [
-                    57.66352844238281,
+                    58.91403579711914,
                     1.100000023841858,
                     1.0
                 ]
             },
             "file_name": "tile"
-        },
-        {
-            "type": "LIGHT",
-            "name": "Light.001",
-            "transform": {
-                "translation": [
-                    4.076245307922363,
-                    133.98609924316406,
-                    5.903861999511719
-                ],
-                "rotation": [
-                    37.261043548583984,
-                    3.1637072563171387,
-                    106.93630981445312
-                ],
-                "scaling": [
-                    1.0,
-                    0.9999999403953552,
-                    1.0
-                ]
-            }
-        },
-        {
-            "type": "CAMERA",
-            "name": "Camera.001",
-            "transform": {
-                "translation": [
-                    -16.95468521118164,
-                    128.13087463378906,
-                    4.958309173583984
-                ],
-                "rotation": [
-                    63.559303283691406,
-                    -2.664711473698844e-06,
-                    46.69194793701172
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            }
         },
         {
             "type": "MESH",
@@ -11457,7 +11415,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11479,7 +11437,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11501,7 +11459,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11523,7 +11481,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11567,7 +11525,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11699,7 +11657,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11722,27 +11680,6 @@
                 ]
             },
             "file_name": "tile"
-        },
-        {
-            "type": "LIGHT",
-            "name": "Light.003",
-            "transform": {
-                "translation": [
-                    4.076245307922363,
-                    266.4785461425781,
-                    5.903861999511719
-                ],
-                "rotation": [
-                    37.261043548583984,
-                    3.1637072563171387,
-                    106.93630981445312
-                ],
-                "scaling": [
-                    1.0,
-                    0.9999999403953552,
-                    1.0
-                ]
-            }
         }
     ]
 }

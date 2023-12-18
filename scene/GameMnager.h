@@ -1,4 +1,4 @@
-#include"GameScene.h"
+#include"NormalStageScene.h"
 #include"GameBase.h"
 #include"TitleScene.h"
 #include<vector>

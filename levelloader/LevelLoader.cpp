@@ -83,13 +83,10 @@ std::vector<LevelData*> LevelLoader::LoadFile(const std::vector<std::string>& fi
 				objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
 				objectData.scaling.m128_f32[3] = 0.0f;
 
-				// TODO: コライダーのパラメータ読み込み
+				
 			}
 
-			// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する
-			if (object.contains("children")) {
-
-			}
+			
 		}
 
 		levelDatas.push_back(levelData);

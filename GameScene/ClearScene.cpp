@@ -3,7 +3,8 @@
 #include"GameObj/Player/PlayerHead.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
-#include"Data.h"
+#include"GameObj/Data/Data.h"
+#include"GameObj/SpriteData/SpriteData.h"
 void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
@@ -11,19 +12,13 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	data = new Data();
 	data->SetStageCount(3);
 	data->Initialize();
+	
+	spritedata = new SpriteData();
+	spritedata->SetStageCount(3);
+	spritedata->Initialize(SpriteMan);
 
-	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
-	SpriteMan->LoadTexture(1, L"Resources/Black.png");
 	
-	spriteSceneChenge = new Sprite;
-	spriteSceneChenge->Create(0);
-	
-	Black = new Sprite;
-	Black->Create(1);
-	
-	
-	
-	spriteSceneChenge->SetSize({ 1280,720 });
+	spritedata->spriteSceneChenge->SetSize({ 1280,720 });
 	
 	
 	Object3d::SetCamera(inputCamera);
@@ -36,24 +31,18 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	light->SetCircleShadowActive(0, true);
 	light->SetCircleShadowActive(1, true);
 	Object3d::SetLightGroup(light);
-	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
+	
 	data->objPlayerBody->SetPosition({ PBodyPosition });
 	data->objPlayer->SetPlayer(data->objPlayerBody);
-	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
 	data->objPlayer->SetPosition({ PBodyPosition });
 
 	data->TitleMove[0]->SetPosition(TitlePosition[0]);
-	data->TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
 	data->TitleMove[0]->SetRotation({ 0,0,0 });	
-
-	
 	data->TitleMove[1]->SetRotation({ 0,180,0 });
 	data->TitleMove[1]->SetPosition(TitlePosition[1]);
-	data->TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
-
+	
 	data->Dome->SetPosition({ 180,0,0 });
-	data->Dome->SetRotation({ 0,0,0 });
-	data->Dome->SetScale({ 3,3,3 });
+	
 
 	stage = new Stage();
 	stage->Initialize();
@@ -71,7 +60,6 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 
 void ClearScene::Finalize()
 {
-	safe_delete(spriteSceneChenge);
 	safe_delete(light);
 	data->Finalize();
 }
@@ -185,11 +173,11 @@ void ClearScene::Update()
 	data->TitleMove[1]->SetPosition({ TitlePosition[1] });
 	data->TitleMove[0]->Update();
 	data->TitleMove[1]->Update();
-	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
-	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
-	Black->SetAlpha(alpha[0]);
+	spritedata->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
+	spritedata->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	spritedata->Black->SetAlpha(alpha[0]);
 
-	test[0] = post->Time;
+	PostTime[0] = post->Time;
 }
 
 void ClearScene::Draw()
@@ -219,7 +207,7 @@ void ClearScene::Draw2D()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	Sprite::PreDraw(cmdList);
-	spriteSceneChenge->Draw();
+	spritedata->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 
@@ -229,7 +217,7 @@ void ClearScene::FirstDraw2D()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	Sprite::PreDraw(cmdList);
-	Black->Draw();
+	spritedata->Black->Draw();
 	Sprite::PostDraw();
 }
 
@@ -239,6 +227,6 @@ void ClearScene::DrawImGui()
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::InputFloat3("PlayerPosition", PlayerPos);
-	ImGui::InputFloat("time", test);
+	ImGui::InputFloat("time", PostTime);
 	ImGui::End();
 }

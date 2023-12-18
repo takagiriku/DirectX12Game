@@ -152,7 +152,7 @@
     <ClCompile Include="3d\Material.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="GameObj\BlockObj\BlockObj.cpp" />
-    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="GameObj\Data\Data.cpp" />
     <ClCompile Include="dynamics\Collision.cpp" />
     <ClCompile Include="dynamics\CollisionManager.cpp" />
     <ClCompile Include="dynamics\CollisionPrimitive.cpp" />
@@ -164,8 +164,8 @@
     <ClCompile Include="GameObj\Player\Player.cpp" />
     <ClCompile Include="GameScene\ClearScene.cpp" />
     <ClCompile Include="GameScene\EndScene.cpp" />
-    <ClCompile Include="GameScene\GameScene.cpp" />
-    <ClCompile Include="GameScene\GameScene2.cpp" />
+    <ClCompile Include="GameScene\NormalStageScene.cpp" />
+    <ClCompile Include="GameScene\RandomStageScene.cpp" />
     <ClCompile Include="GameScene\TitleScene.cpp" />
     <ClCompile Include="GameObj\Player\PlayerHead.cpp" />
     <ClCompile Include="scene\GameBase.cpp" />
@@ -193,6 +193,7 @@
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="2d\SpriteManager.cpp" />
     <ClCompile Include="GameObj\stage\Stage.cpp" />
+    <ClCompile Include="GameObj\SpriteData\SpriteData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -201,7 +202,7 @@
     <ClInclude Include="3d\Material.h" />
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="GameObj\BlockObj\BlockObj.h" />
-    <ClInclude Include="Data.h" />
+    <ClInclude Include="GameObj\Data\Data.h" />
     <ClInclude Include="dynamics\BaseCollider.h" />
     <ClInclude Include="dynamics\Collision.h" />
     <ClInclude Include="dynamics\CollisionAttribute.h" />
@@ -219,8 +220,8 @@
     <ClInclude Include="GameObj\Player\Player.h" />
     <ClInclude Include="GameScene\ClearScene.h" />
     <ClInclude Include="GameScene\EndScene.h" />
-    <ClInclude Include="GameScene\GameScene.h" />
-    <ClInclude Include="GameScene\GameScene2.h" />
+    <ClInclude Include="GameScene\NormalStageScene.h" />
+    <ClInclude Include="GameScene\RandomStageScene.h" />
     <ClInclude Include="GameScene\TitleScene.h" />
     <ClInclude Include="GameObj\Player\PlayerHead.h" />
     <ClInclude Include="resource.h" />
@@ -256,6 +257,7 @@
     <ClInclude Include="scene\SceneManager.h" />
     <ClInclude Include="2d\SpriteManager.h" />
     <ClInclude Include="GameObj\stage\Stage.h" />
+    <ClInclude Include="GameObj\SpriteData\SpriteData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini" />

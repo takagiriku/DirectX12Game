@@ -239,7 +239,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -1075,7 +1075,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -1273,7 +1273,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -2835,7 +2835,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -2879,7 +2879,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -2945,7 +2945,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -3187,7 +3187,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -3627,7 +3627,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -3825,7 +3825,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -4023,7 +4023,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -4045,7 +4045,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7560,7 +7560,7 @@
                     90.00000762939453
                 ],
                 "scaling": [
-                    57.37188720703125,
+                    60.64033508300781,
                     1.100000023841858,
                     1.0
                 ]
@@ -7719,7 +7719,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7785,7 +7785,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7829,7 +7829,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -7851,7 +7851,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -7868,33 +7868,12 @@
                     90.00000762939453
                 ],
                 "scaling": [
-                    57.37188720703125,
+                    60.64033508300781,
                     1.100000023841858,
                     1.0
                 ]
             },
             "file_name": "tile"
-        },
-        {
-            "type": "LIGHT",
-            "name": "Light.001",
-            "transform": {
-                "translation": [
-                    4.076245307922363,
-                    133.39288330078125,
-                    5.903861999511719
-                ],
-                "rotation": [
-                    37.261043548583984,
-                    3.1637072563171387,
-                    106.93630981445312
-                ],
-                "scaling": [
-                    1.0,
-                    0.9999999403953552,
-                    1.0
-                ]
-            }
         },
         {
             "type": "CAMERA",
@@ -11457,7 +11436,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11479,7 +11458,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11501,7 +11480,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11523,7 +11502,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11567,7 +11546,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile3"
         },
         {
             "type": "MESH",
@@ -11699,7 +11678,7 @@
                     1.0
                 ]
             },
-            "file_name": "tile"
+            "file_name": "tile2"
         },
         {
             "type": "MESH",
@@ -11722,27 +11701,6 @@
                 ]
             },
             "file_name": "tile"
-        },
-        {
-            "type": "LIGHT",
-            "name": "Light.003",
-            "transform": {
-                "translation": [
-                    4.076245307922363,
-                    266.4785461425781,
-                    5.903861999511719
-                ],
-                "rotation": [
-                    37.261043548583984,
-                    3.1637072563171387,
-                    106.93630981445312
-                ],
-                "scaling": [
-                    1.0,
-                    0.9999999403953552,
-                    1.0
-                ]
-            }
         }
     ]
 }

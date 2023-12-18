@@ -1,34 +1,27 @@
 #include "EndScene.h"
 #include"SceneManager.h"
 #include "SafeDelete.h"
-
+#include"GameObj/SpriteData/SpriteData.h"
 
 void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 
-
-	SpriteMan->LoadTexture(0, L"Resources/No Signal.png");
-	Signal = new Sprite();
-	Signal->Create(0);
-	Signal->SetPosition({ 100,100 });
-	SpriteMan->LoadTexture(1, L"Resources/scenechenge.png");
-	spriteSceneChenge = new Sprite();
-	spriteSceneChenge->Create(1);
-
-	SpriteMan->LoadTexture(2, L"Resources/SPACE.png");
-	spriteSPACE = new Sprite();
-	spriteSPACE->Create(2);
-	spriteSPACE->SetPosition({ 0,200 });
+	spritedata = new SpriteData();
+	spritedata->SetStageCount(4);
+	spritedata->Initialize(SpriteMan);
+	
+	spritedata->Signal->SetPosition({ 100,100 });
+	spritedata->spriteSPACE->SetPosition({ 0,200 });
+	
 	post->ResetTime();
+	
 	audio->SoundLoadWave("se_amc04.wav");
 }
 
 void EndScene::Finalize()
 {
-	safe_delete(Signal);
-	safe_delete(spriteSPACE);
-	safe_delete(spriteSceneChenge);
+	
 }
 
 void EndScene::Update()
@@ -52,8 +45,8 @@ void EndScene::Update()
 		alpha[0] = 0.0f;
 		speed *= -1;  // アルファ値が0.0を下回った場合も反転する
 	}
-	Signal->SetAlpha(alpha[0]);
-	spriteSPACE->SetAlpha(alpha[0]);
+	spritedata->Signal->SetAlpha(alpha[0]);
+	spritedata->spriteSPACE->SetAlpha(alpha[0]);
 }
 
 void EndScene::Draw()
@@ -67,7 +60,7 @@ void EndScene::Draw2D()
 	//
 	Sprite::PreDraw(cmdList);
 
-	spriteSceneChenge->Draw();
+	spritedata->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 
@@ -77,8 +70,8 @@ void EndScene::FirstDraw2D()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	//
 	Sprite::PreDraw(cmdList);
-	Signal->Draw();
-	spriteSPACE->Draw();
+	spritedata->Signal->Draw();
+	spritedata->spriteSPACE->Draw();
 	Sprite::PostDraw();
 }
 

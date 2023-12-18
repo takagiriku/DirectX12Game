@@ -34,6 +34,7 @@ void Stage::Initialize()
 
 	models.insert(std::make_pair("tile", modelGround));
 	models.insert(std::make_pair("tile2", modelGround));
+	models.insert(std::make_pair("tile3", modelGround));
 	models.insert(std::make_pair("SpaceWall0", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWall1", modelSpaceWall));
 	models.insert(std::make_pair("SpaceWall2", modelSpaceWall));
@@ -107,7 +108,7 @@ void Stage::Generation()
 			// モデルを指定して3Dオブジェクトを生成
 			Object3d* newObject;
 
-			if (objectData.fileName == skipFileTile || objectData.fileName == skipFileTile2) {
+			if (objectData.fileName == skipFileTile || objectData.fileName == skipFileTile2 || objectData.fileName == skipFileTile3) {
 				newObject = TouchableObject::Create(model);
 			}
 			else {
@@ -186,6 +187,10 @@ void Stage::Update()
 			{
 				TilePosition.push_back(objects[i]->GetPosition());
 			}
+			if (GetNames[i] == skipFileTile3)
+			{
+				TilePosition3.push_back(objects[i]->GetPosition());
+			}
 		}
 	}
 	
@@ -222,7 +227,6 @@ void Stage::Stage4()
 }
 void Stage::StageChange()
 {
-	GenerationFlag = false;
 	// 生成したオブジェクトの解放
 	for (auto& object : objects) {
 		delete object;
@@ -233,7 +237,7 @@ void Stage::StageChange()
 void Stage::StageObjDraw0()
 {
 	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileSlope) {
+		if (GetNames[i] == skipFileTile) {
 			objects[i]->Draw();
 		}
 		if (GetNames[i] == skipFileWall0) {
@@ -244,7 +248,7 @@ void Stage::StageObjDraw0()
 			{
 				objects[i]->Draw();
 			}
-		
+
 		}
 		if (GetNames[i] == skipFileWall2) {
 			if (StagePos.z < 6 || DrawFlag)
@@ -276,7 +280,7 @@ void Stage::StageObjDraw0()
 				objects[i]->Draw();
 			}
 		}
-		
+
 		if (GetNames[i] == skipFileWall1Rot90) {
 			if (StagePos.z < 6 || DrawFlag)
 			{
@@ -312,11 +316,12 @@ void Stage::StageObjDraw0()
 
 	}
 }
+
 void Stage::StageObjDraw()
 {
 
 	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileTile2) {
+		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileTile2 || GetNames[i] == skipFileTile3) {
 			objects[i]->Draw();
 		}
 		if (GetNames[i] == skipFileWall0) {

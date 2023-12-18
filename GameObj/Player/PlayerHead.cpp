@@ -38,7 +38,7 @@ bool PlayerHead::Initialize()
 void PlayerHead::Update()
 {
 	Input* input = Input::GetInstance();
-	
+	//プレイヤーの座標に合わせる
 	if (player) {
 		position = player->GetPosition();
 	}

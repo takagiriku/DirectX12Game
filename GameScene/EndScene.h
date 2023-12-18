@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseScene.h"
+class SpriteData;
 class EndScene :
     public BaseScene
 {
@@ -34,9 +35,7 @@ public:
     void DrawImGui() override;
 
 private:
-    Sprite* Signal = nullptr;
-    Sprite* spriteSceneChenge = nullptr;
-    Sprite* spriteSPACE = nullptr;
+    SpriteData* spritedata = nullptr;
     float alpha[3] = { 0,0,0 };  // 初期のアルファ
     float speed = 0.005f; // 点滅の速度
 };

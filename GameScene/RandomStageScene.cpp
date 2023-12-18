@@ -1,72 +1,30 @@
-#include "GameScene2.h"
+#include "RandomStageScene.h"
 #include"GameObj/Player/Player.h"
 #include"GameObj/Player/PlayerHead.h"
 #include"GameObj/BlockObj//BlockObj.h"
 #include"SceneManager.h"
 #include <base/SafeDelete.h>
-#include"Data.h"
-
-void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
+#include"GameObj/Data/Data.h"
+#include"GameObj/SpriteData/SpriteData.h"
+void RandomStageScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
 
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 	data = new Data();
-	data->SetStageCount(1);
+	data->SetStageCount(2);
 	data->Initialize();
 
-	SpriteMan->LoadTexture(0, L"Resources/scenechenge.png");
-	spriteSceneChenge = new Sprite();
-	spriteSceneChenge->Create(0);
-
-	SpriteMan->LoadTexture(3, L"Resources/black.png");
-	Black = new Sprite();
-	Black->Create(3);
-
+	spritedata = new SpriteData();
+	spritedata->SetStageCount(2);
+	spritedata->Initialize(SpriteMan);
+	
 	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
 	Object3d::SetCamera(inputCamera);
-	// ライト生成
-	light = Light::Create();
-	// 3Dオブエクトにライトをセット
-	Object3d::SetLightGroup(light);
-	light->SetSpotLightActive(0, true);
-	light->SetSpotLightActive(1, true);
-
-
-
-	light->SetCircleShadowActive(0, true);
-	light->SetCircleShadowActive(1, true);
-	for (int i = 2; i < 11; i++)
-	{
-		light->SetPointLightActive(i, true);
-		light->SetCircleShadowActive(i, true);
-	}
-
-
-	Object3d::SetLightGroup(light);
-	data->Dome->SetPosition({ 180,0,0 });
-	data->Dome->SetRotation({ 0,0,0 });
-	data->Dome->SetScale({ 3,3,3 });
-
-	data->objPlayer->SetPlayer(data->objPlayerBody);
-
-	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
-	for (int i = 0; i < 10; i++)
-	{
-		data->objblock[i]->SetPlayer(data->objPlayerBody);
-		
-	}
 	
-
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		data->battery[i]->SetScale({ 1.5,1.5,1.5 });
 		data->battery[i]->SetPosition(BatteryPosition[i]);
 	}
-
-
-	data->Keys[0]->SetScale({ 5,5,5 });
-	
 
 	stage = new Stage();
 	stage->Initialize();
@@ -75,37 +33,23 @@ void GameScene2::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	inputCamera->SetDistance(3.0f);
 	inputCamera->SetEye(XMFLOAT3(Eye));
 
-
 	data->objPlayerBody->SetStartFlag(true);
 	data->objPlayer->SetStartFlag(true);
 	post->SetStartFlag(true);
-	post->ResetTime();
-	data->objPlayerBody->SetMoveFlags(true);
-	data->objPlayer->SetMoveFlags(true);
-	
+	post->ResetTime();	
 }
 
 
-void GameScene2::Finalize()
+void RandomStageScene::Finalize()
 {
-	safe_delete(spriteSceneChenge);
 	safe_delete(particleMan);
 	safe_delete(light);
 	safe_delete(stage);
 	data->Finalize();
 }
 
-void GameScene2::Update()
+void RandomStageScene::Update()
 {
-	if (data->Keys[0]->KeyFlag == false)
-	{
-		if (SpriteX[0] > 0)
-		{
-			SpriteX[0] -= 12.8;
-			SpriteY[0] -= 7.4;
-		}
-	}
-
 	PBodyPosition = data->objPlayerBody->GetPosition();
 
 	CameraPosition.x = PBodyPosition.x;
@@ -116,38 +60,18 @@ void GameScene2::Update()
 	inputCamera->SetEye(XMFLOAT3(Eye));
 	inputCamera->Update();
 
-
-	data->Dome->Update();
-	light->Update();
-
-	for (int i = 0; i < 8; i++)
-	{
-		data->battery[i]->Update(particleMan, post, light, i + 2);
-		data->battery[i]->SetPos(PBodyPosition);
-		data->battery[i]->SetPosition(BatteryPosition[i]);
-	}
-
-	particleMan->Update();
-	data->objPlayerBody->Update(light);
-	data->objPlayer->Update();
-
 	stage->Stage3();
 	stage->GetCameraPos(CameraPosition);
+	stage->SetKeyFlag(data->Keys[0]->KeyFlag);
+
 	for (int i = 0; i < 10; i++)
 	{
 		data->objblock[i]->SetTilePos(stage->TilePosition);
-		data->objblock[i]->Update();
 	}
-	data->Keys[0]->SetTilePos(stage->TilePosition);
-	data->Keys[0]->Update(particleMan, light);
-	data->Keys[0]->SetPos(PBodyPosition);
-	if (data->Keys[0]->KeyFlag)
-	{
-		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
-	}
-
+	data->Keys[0]->SetTilePos(stage->TilePosition3);
+		
 	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 5 && PBodyPosition.z > 73)
-	{
+	{//キーを取って動いたオブジェクトの座標に近づいたら
 		data->objPlayerBody->SetMoveFlags(false);
 		data->objPlayer->SetMoveFlags(false);
 		if (SpriteX[0] < 1280) // SpriteXが画面の中心まで移動するまで
@@ -160,6 +84,14 @@ void GameScene2::Update()
 			stage->StageChange();
 			post->ResetTime();
 			SceneManager::GetInstance()->ChangeScene("CLEAR");
+		}
+	}
+	else
+	{
+		if (SpriteX[0] > 0)
+		{
+			SpriteX[0] -= 12.8;
+			SpriteY[0] -= 7.4;
 		}
 	}
 	Time[0] = post->Time;
@@ -195,24 +127,26 @@ void GameScene2::Update()
 		SceneManager::GetInstance()->ChangeScene("END");
 	}
 
-	Black->SetAlpha(alpha[0]);
-	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
-	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	spritedata->Black->SetAlpha(alpha[0]);
+	spritedata->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
+	spritedata->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	
+	
+	particleMan->Update();
+	data->Update(post, particleMan);
 
 }
 
-void GameScene2::Draw()
+void RandomStageScene::Draw()
 {
-
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-
 	Object3d::PreDraw(cmdList);
 	data->objPlayerBody->Draw();
 	data->objPlayer->Draw();
 	data->Keys[0]->Draw();
 	
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		data->battery[i]->Draw();
 	}
@@ -220,37 +154,32 @@ void GameScene2::Draw()
 	{
 		data->objblock[i]->Draw();
 	}
-
 	stage->StageObjDraw();
 	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
 
-
 }
 
-void GameScene2::Draw2D()
+void RandomStageScene::Draw2D()
 {
-
-	// コマンドリストの取得
-	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-
-	Sprite::PreDraw(cmdList);
-	spriteSceneChenge->Draw();
-	Sprite::PostDraw();
-}
-
-void GameScene2::FirstDraw2D()
-{
-
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	Sprite::PreDraw(cmdList);
-	Black->Draw();
+	spritedata->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 
-void GameScene2::DrawImGui()
+void RandomStageScene::FirstDraw2D()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+	Sprite::PreDraw(cmdList);
+	spritedata->Black->Draw();
+	Sprite::PostDraw();
+}
+
+void RandomStageScene::DrawImGui()
 {
 	ImGui::Begin("pos");
 	ImGui::SetWindowPos(ImVec2(0, 0));

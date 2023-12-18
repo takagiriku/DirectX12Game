@@ -47,6 +47,7 @@ public:
 	void StageChange();
 
 	void StageObjDraw0();
+	
 	void StageObjDraw();
 	
 
@@ -71,6 +72,8 @@ public:
 
 	XMFLOAT3 Gole = { 0,0,0 };
 	std::vector<DirectX::XMFLOAT3> TilePosition;
+	
+	std::vector<DirectX::XMFLOAT3> TilePosition3;
 private:
 	LevelData* levelData = nullptr;
 	
@@ -92,6 +95,7 @@ private:
 	std::vector<std::string> GetNames;
 	const std::string skipFileTile = "tile";
 	const std::string skipFileTile2 = "tile2";
+	const std::string skipFileTile3 = "tile3";
 	const std::string skipFileSlope = "slope";
 	const std::string skipFileWall0 = "SpaceWall0";
 	const std::string skipFileWall1 = "SpaceWall1";
@@ -111,9 +115,6 @@ private:
 	const std::string skipFileMoveWallRot90 = "moveWallRot90";
 	const std::string skipFileWallsousa = "SpaceWallsousa";
 
-
-
-	
 	bool DrawFlag = false;
 
 	bool GenerationFlag = false;

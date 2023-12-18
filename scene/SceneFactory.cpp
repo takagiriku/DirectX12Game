@@ -1,7 +1,7 @@
 #include "SceneFactory.h"
 #include "TitleScene.h"
-#include "GameScene.h"
-#include "GameScene2.h"
+#include "NormalStageScene.h"
+#include "RandomStageScene.h"
 #include"EndScene.h"
 #include"ClearScene.h"
 
@@ -13,12 +13,12 @@ BaseScene* SceneFactory::CreateScene(const std::string& sceneName)
     {
         newScene = new TitleScene();
     }
-    else if (sceneName == "GAME")
+    else if (sceneName == "NORMAL")
     {
-        newScene = new GameScene();
-    } else if (sceneName == "GAME2")
+        newScene = new NormalStageScene();
+    } else if (sceneName == "RANDOM")
     {
-        newScene = new GameScene2();
+        newScene = new RandomStageScene();
     }
     else if (sceneName == "END")
     {

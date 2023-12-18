@@ -5,7 +5,6 @@
 #include "SceneFactory.h"
 #include"2d/PostEffect.h"
 #include "ParticleManager.h"
-#include"Data.h"
 class Player;
 class PlayerHead;
 class Key;
@@ -13,6 +12,7 @@ class Stage;
 class Battery;
 class GameManager;
 class Data;
+class SpriteData;
 class TitleScene : public BaseScene
 {
 private:
@@ -48,6 +48,8 @@ public:
 private:
     bool StartFlag = false;
     float a[3] = { 0,0,0 };
+
+    //各座標
     XMFLOAT3 PBodyPosition = { 0,70,7 };
     XMFLOAT3 PBodyRotation = { 0,0,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
@@ -55,33 +57,25 @@ private:
     XMFLOAT3 KeyPosition = { -8,5,67 };
     XMFLOAT3 BatteryPosition = { 8,3,45};
    
-    float PlayerBodyRotx = 0;
-    float PlayerBodyRoty = 0;
-    float PlayerBodyRotz = 0;
-
+    //ImGui用
     float PlayerPos[3] = { 0, 0, 0 };
     float CameraPos[3] = { 0, 0, 0 }; 
     float KeyPos[3] = { 0, 0, 0 };
-    
     float SpriteX[2] = { 0,1280 };
     float SpriteY[2] = { 0,0 };
     // 視点座標
     float Eye[3] = { 0, 0, 0 };
     
-    Model* mBack = nullptr;
-    
- 
     Stage* stage = nullptr;
-    Light* light = nullptr;
     ParticleManager* particleMan = nullptr;
     Sprite* spriteSceneChenge = nullptr;
     Sprite* spriteSPACE = nullptr;
     Sprite* TITLE = nullptr;
-    Sprite* Black = nullptr;
   
     float alpha[3] = {0,0,0};  // 初期のアルファ
     float speed = 0.005f; // 点滅の速度
     float count[1]={0};
 
     Data* data = nullptr;
+    SpriteData* spritedata = nullptr;
 };

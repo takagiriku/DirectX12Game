@@ -138,10 +138,10 @@
     <ClCompile Include="GameScene\EndScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene\GameScene.cpp">
+    <ClCompile Include="GameScene\NormalStageScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene\GameScene2.cpp">
+    <ClCompile Include="GameScene\RandomStageScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameScene\TitleScene.cpp">
@@ -153,10 +153,13 @@
     <ClCompile Include="GameObj\Player\PlayerHead.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Data.cpp">
+    <ClCompile Include="GameObj\Data\Data.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameObj\BlockObj\BlockObj.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObj\SpriteData\SpriteData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -329,10 +332,10 @@
     <ClInclude Include="GameScene\EndScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene\GameScene.h">
+    <ClInclude Include="GameScene\NormalStageScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene\GameScene2.h">
+    <ClInclude Include="GameScene\RandomStageScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameScene\TitleScene.h">
@@ -347,10 +350,13 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Data.h">
+    <ClInclude Include="GameObj\Data\Data.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GameObj\BlockObj\BlockObj.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObj\SpriteData\SpriteData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,7 @@
 class Player;
 class PlayerHead;
 class Data;
+class SpriteData;
 class ClearScene :
     public BaseScene
 {
@@ -43,26 +44,26 @@ private:
     bool StartFlag = false;
     bool EndFlag = false;
     bool AlphaFlag = true;
+    //各座標
     XMFLOAT3 PBodyPosition = { 1,1,0 };
     XMFLOAT3 PHeadPosition = { 0,0,0 };
     XMFLOAT3 CameraPosition = { -15,15,-15 };
     XMFLOAT3 TitlePosition[2] = { { -1,3,60 },{2,3,60} };
-    float PlayerBodyRotx = 0;
-    float PlayerBodyRoty = 0;
-    float PlayerBodyRotz = 0;
     float Time = 0;
   
+    //ImGui用
     // 視点座標
     float Eye[3] = { 0, 0, 0 };
     float SpriteX[2] = { 1280,1280 };
     float SpriteY[2] = { 740,0 };
     float PlayerPos[3] = { 0, 0.0f, 0 };
     
-    Sprite* spriteSceneChenge = nullptr;
-    Sprite* Black = nullptr;
+    
     Light* light = nullptr;
     Stage* stage = nullptr;
+
     float alpha[3] = { 0,0,0 };
-    float test[1] = {0};
+    float PostTime[1] = {0};
     Data* data = nullptr;
+    SpriteData* spritedata = nullptr;
 };

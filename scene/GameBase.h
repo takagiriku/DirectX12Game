@@ -15,7 +15,7 @@
 #include "PostEffect.h"
 #include"SceneManager.h"
 #include"Audio.h"
-#include"Data.h"
+#include"GameObj/Data/Data.h"
 class GameBase
 {
 public:

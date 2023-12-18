@@ -6,7 +6,8 @@
 #include"GameObj/stage/stage.h"
 #include"GameObj/key/Key.h"
 #include"GameObj/Battery/Battery.h"
-
+#include"GameObj/Data/Data.h"
+#include"GameObj/SpriteData/SpriteData.h"
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
 {
@@ -17,88 +18,41 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	data->SetStageCount(0);
 	data->Initialize();
 
-	SpriteMan->LoadTexture(0, L"Resources/SPACE.png");
-	SpriteMan->LoadTexture(1, L"Resources/scenechenge.png");
-	SpriteMan->LoadTexture(2, L"Resources/TITLE.png");
-	SpriteMan->LoadTexture(3, L"Resources/black.png");
+	spritedata = new SpriteData();
+	spritedata->SetStageCount(0);
+	spritedata->Initialize(SpriteMan);
 	
-	spriteSceneChenge = new Sprite;
-	spriteSPACE = new Sprite;
-	TITLE = new Sprite;
-	Black = new Sprite;
-	
-	spriteSPACE->Create(0);
-	spriteSceneChenge->Create(1);
-	TITLE->Create(2);
-	Black->Create(3);
-
+	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
     Object3d::SetCamera(inputCamera);
   
-	data->Dome->SetPosition({ 180,0,0 });
-	data->Dome->SetRotation({ 0,0,0 });
-	data->Dome->SetScale({ 3,3,3 });
-    mBack = Model::CreateOBJ("backobj");
-
-	
-	// パーティクルマネージャ生成
-	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
-	for (int i = 0; i < 9; i++)
-	{
-		data->TitleObjs[i]->SetScale({ 1.2,1.2,1.2 });
-		data->TitleObjs[i]->SetRotation({ 0,180,0 });
-		data->TitleObjs[i]->SetPosition({ -12 + i * 3.f,55,-2 });
-	}
 	data->TitleMove[0]->SetRotation({ 0,0,0 });
-	data->TitleMove[0]->SetPosition({ 0,40,0 });
-	data->TitleMove[0]->SetScale({ 1.5,1.5,1.5 });
-
 	data->TitleMove[1]->SetRotation({ 0,180,0 });
-	data->TitleMove[1]->SetPosition({ 0,40,0 });
-	data->TitleMove[1]->SetScale({ 1.5,1.5,1.5 });
 	
-	data->Keys[0]->SetScale({5,5,5});
-	data->battery[0]->SetScale({1.5,1.5,1.5});
+	data->Keys[0]->SetPosition(KeyPosition);
 	data->battery[0]->SetPosition(BatteryPosition);
  
-	data->objPlayer->SetPlayer(data->objPlayerBody);
-	
-	data->objPlayerBody->SetScale({ 1.5,1.5,1.5 });
-	data->objPlayer->SetScale({ 1.5,1.5,1.5 });
-    
+	data->objPlayerBody->SetPosition(PBodyPosition);	
+	data->objPlayer->SetPosition(PBodyPosition);
 	
     stage = new Stage();
     stage->Initialize();
-	data->Keys[0]->SetPosition(KeyPosition);
+	
     inputCamera->SetTarget(CameraPosition);
     inputCamera->SetDistance(3.0f);
     inputCamera->SetEye(XMFLOAT3(Eye));
-	data->objPlayerBody->SetPosition(PBodyPosition);
-	data->objPlayer->SetPosition(PBodyPosition);
-
-	post->SetStartFlag(false);
 	
+	post->SetStartFlag(false);
 	post->ResetTime();
-	data->objPlayerBody->SetMoveFlags(true);
-	data->objPlayer->SetMoveFlags(true);
 	
 	audio->SoundStop("se_amc04.wav");
 	audio->SoundLoadWave("digitalworld.wav");
 
-
 }
-
 
 void TitleScene::Finalize()
 {
-   safe_delete(spriteSceneChenge);
-   safe_delete(spriteSPACE);
-   safe_delete(Black);
-   safe_delete(TITLE);
    safe_delete(particleMan);
-   safe_delete(light);
    safe_delete(stage);
-   safe_delete(mBack);
-   
    data->Finalize();
 
 }
@@ -106,6 +60,11 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	audio->SoundPlayWave("digitalworld.wav", true);
+
+	inputCamera->SetTarget(CameraPosition);
+	inputCamera->SetEye(XMFLOAT3(Eye));
+	inputCamera->Update();
+
 	if (input->Trigger(DIK_SPACE))
 	{
 		data->objPlayerBody->SetStartFlag(true);
@@ -132,30 +91,9 @@ void TitleScene::Update()
 
 	PBodyPosition = data->objPlayerBody->GetPosition();
 	
-	inputCamera->SetTarget(CameraPosition);
-	inputCamera->SetEye(XMFLOAT3(Eye));
-	inputCamera->Update();
-	
-	data->Keys[0]->SetPosition(KeyPosition);
-	data->battery[0]->SetPosition(BatteryPosition);
-	data->Dome->Update();
-	
-	
-	data->objPlayerBody->Update(data->light);
-	data->objPlayer->Update();
-	data->Keys[0]->Update(particleMan, data->light);
-	
-	
-	data->battery[0]->Update(particleMan, post, data->light, 1);
-	stage->GetCameraPos(CameraPosition);
-	
-	data->light->Update();
-	for (int i = 0; i < 9; i++)
-	{
-		data->TitleObjs[i]->Update();
-	}
+
 	if (data->battery[0]->BatFlag == false && PBodyPosition.z > -3 && PBodyPosition.y < 2)
-	{
+	{//落下後動けるように
 		data->TitleMove[0]->SetRotation({ 0,0,45 });
 		data->TitleMove[1]->SetRotation({ 0,180,45 });
 		if (a[0] < 0.3)
@@ -164,21 +102,8 @@ void TitleScene::Update()
 		}	
 		post->SetStartFlag(true);
 	}
-	
-	if (data->battery[0]->BatFlag)
-	{
-		if (a[0] > 0.05)
-		{
-			a[0] -= 0.05;
-		}
-	}
-	if (data->Keys[0]->KeyFlag)
-	{
-		stage->SetKeyFlag(data->Keys[0]->KeyFlag);
-	}
-	
-	if (data->Keys[0]->KeyFlag && PBodyPosition.x > 3 && PBodyPosition.z > 68)
-	{
+	if (data->Keys[0]->KeyFlag && abs(PBodyPosition.x - stage->Gole.x) <= 5&& PBodyPosition.z > 68)
+	{//キーを取って動いたオブジェクトの座標に近づいたら
 		data->objPlayerBody->SetMoveFlags(false);
 		data->objPlayer->SetMoveFlags(false);
 		if (SpriteX[0] < 1280) // SpriteXが画面の中心まで移動するまで
@@ -190,11 +115,11 @@ void TitleScene::Update()
 		{
 			stage->StageChange();
 			post->ResetTime();
-			SceneManager::GetInstance()->ChangeScene("GAME");
+			SceneManager::GetInstance()->ChangeScene("NORMAL");
 		}
 	}
-	spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
-	spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	spritedata->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
+	spritedata->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	
 	if (post->Time > 160)
 	{
@@ -213,24 +138,20 @@ void TitleScene::Update()
 		alpha[0] = 0.0f;
 		speed *= -1;  // アルファ値が0.0を下回った場合も反転する
 	}
-		spriteSPACE->SetAlpha(alpha[0]);
-	
-		data->TitleMove[0]->Update();
-		data->TitleMove[1]->Update();
-
-		data->Keys[0]->SetPos(PBodyPosition);
-		data->battery[0]->SetPos(PBodyPosition);
+	spritedata->spriteSPACE->SetAlpha(alpha[0]);
 	
 	particleMan->Update();
-	Black->SetAlpha(a[0]);
+	
+	stage->GetCameraPos(CameraPosition);
+	stage->SetKeyFlag(data->Keys[0]->KeyFlag);
 	stage->Stage0();
+	data->Update(post,particleMan);
 }
 
 void TitleScene::Draw()
 {
     // コマンドリストの取得
     ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-
 	Object3d::PreDraw(cmdList);
 	if (StartFlag == false)
 	{
@@ -252,7 +173,6 @@ void TitleScene::Draw()
 		data->objPlayer->Draw();
 		data->Keys[0]->Draw();
 	}
-	
 	data->Dome->Draw();
 	particleMan->Draw(cmdList);
 	Object3d::PostDraw();
@@ -262,11 +182,8 @@ void TitleScene::Draw2D()
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-	//
 	Sprite::PreDraw(cmdList);
-	
-	spriteSceneChenge->Draw();
-	//spritepos->Draw();
+	spritedata->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 void TitleScene::FirstDraw2D()
@@ -276,13 +193,11 @@ void TitleScene::FirstDraw2D()
 	Sprite::PreDraw(cmdList);
 	if (StartFlag == false)
 	{
-		spriteSPACE->Draw();
-		TITLE->Draw();
+		spritedata->spriteSPACE->Draw();
+		spritedata->TITLE->Draw();
 	}
-	//Black->Draw();
 	Sprite::PostDraw();
 }
-
 
 void TitleScene::DrawImGui()
 {
