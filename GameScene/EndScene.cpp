@@ -7,12 +7,12 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* in
 {
 	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
 
-	spritedata = new SpriteData();
-	spritedata->SetStageCount(4);
-	spritedata->Initialize(SpriteMan);
+	spriteData = new SpriteData();
+	spriteData->SetStageCount(4);
+	spriteData->Initialize(SpriteMan);
 	
-	spritedata->Signal->SetPosition({ 100,100 });
-	spritedata->spriteSPACE->SetPosition({ 0,200 });
+	spriteData->Signal->SetPosition({ 100,100 });
+	spriteData->spriteSPACE->SetPosition({ 0,200 });
 	
 	post->ResetTime();
 	
@@ -45,8 +45,8 @@ void EndScene::Update()
 		alpha[0] = 0.0f;
 		speed *= -1;  // アルファ値が0.0を下回った場合も反転する
 	}
-	spritedata->Signal->SetAlpha(alpha[0]);
-	spritedata->spriteSPACE->SetAlpha(alpha[0]);
+	spriteData->Signal->SetAlpha(alpha[0]);
+	spriteData->spriteSPACE->SetAlpha(alpha[0]);
 }
 
 void EndScene::Draw()
@@ -60,7 +60,7 @@ void EndScene::Draw2D()
 	//
 	Sprite::PreDraw(cmdList);
 
-	spritedata->spriteSceneChenge->Draw();
+	spriteData->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 
@@ -70,8 +70,8 @@ void EndScene::FirstDraw2D()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	//
 	Sprite::PreDraw(cmdList);
-	spritedata->Signal->Draw();
-	spritedata->spriteSPACE->Draw();
+	spriteData->Signal->Draw();
+	spriteData->spriteSPACE->Draw();
 	Sprite::PostDraw();
 }
 

@@ -6,13 +6,14 @@ void GameBase::Run()
 	// メインループ
 	while (true)
 	{
+
+		Update();
 		//Escapeキーでループを抜ける
 		if (input->Push(DIK_ESCAPE))
 		{
-			return;
+			break;
 		}
 
-		Update();
 		Draw();
 
 	}
@@ -58,7 +59,7 @@ void GameBase::Finalize()
 	safe_delete(input);
 	safe_delete(dxCommon);
 	safe_delete(light);
-
+	dxCommon->fpsFixedFinalize();
 
 	delete(sceneFactory);
 	// ゲームウィンドウの破棄

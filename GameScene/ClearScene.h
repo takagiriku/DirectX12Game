@@ -65,5 +65,5 @@ private:
     float alpha[3] = { 0,0,0 };
     float PostTime[1] = {0};
     Data* data = nullptr;
-    SpriteData* spritedata = nullptr;
+    SpriteData* spriteData = nullptr;
 };

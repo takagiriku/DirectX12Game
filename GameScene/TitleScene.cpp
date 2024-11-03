@@ -9,52 +9,49 @@
 #include"GameObj/Data/Data.h"
 #include"GameObj/SpriteData/SpriteData.h"
 
-void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* SpriteMan, Audio* audio)
+void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* inputCamera, DebugText* text, PostEffect* post, SpriteManager* spriteMan, Audio* audio)
 {
-
-	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, SpriteMan, audio);
+	BaseScene::Initialize(dxCommon, input, inputCamera, text, post, spriteMan, audio);
 
 	data = new Data();
 	data->SetStageCount(0);
 	data->Initialize();
 
-	spritedata = new SpriteData();
-	spritedata->SetStageCount(0);
-	spritedata->Initialize(SpriteMan);
-	
+	spriteData = new SpriteData();
+	spriteData->SetStageCount(0);
+	spriteData->Initialize(spriteMan);
+
 	particleMan = ParticleManager::Create(dxCommon->GetDevice(), inputCamera);
-    Object3d::SetCamera(inputCamera);
-  
-	data->TitleMove[0]->SetRotation({ 0,0,0 });
-	data->TitleMove[1]->SetRotation({ 0,180,0 });
-	
+	Object3d::SetCamera(inputCamera);
+
+	data->TitleMove[0]->SetRotation({ 0, 0, 0 });
+	data->TitleMove[1]->SetRotation({ 0, 180, 0 });
+
 	data->Keys[0]->SetPosition(KeyPosition);
 	data->battery[0]->SetPosition(BatteryPosition);
- 
-	data->objPlayerBody->SetPosition(PBodyPosition);	
+
+	data->objPlayerBody->SetPosition(PBodyPosition);
 	data->objPlayer->SetPosition(PBodyPosition);
-	
-    stage = new Stage();
-    stage->Initialize();
-	
-    inputCamera->SetTarget(CameraPosition);
-    inputCamera->SetDistance(3.0f);
-    inputCamera->SetEye(XMFLOAT3(Eye));
-	
+
+	stage = new Stage();
+	stage->Initialize();
+
+	inputCamera->SetTarget(CameraPosition);
+	inputCamera->SetDistance(3.0f);
+	inputCamera->SetEye(XMFLOAT3(Eye));
+
 	post->SetStartFlag(false);
 	post->ResetTime();
-	
+
 	audio->SoundStop("se_amc04.wav");
 	audio->SoundLoadWave("digitalworld.wav");
-
 }
 
 void TitleScene::Finalize()
 {
-   safe_delete(particleMan);
-   safe_delete(stage);
-   data->Finalize();
-
+	safe_delete(particleMan);
+	safe_delete(stage);
+	data->Finalize();
 }
 
 void TitleScene::Update()
@@ -118,8 +115,8 @@ void TitleScene::Update()
 			SceneManager::GetInstance()->ChangeScene("NORMAL");
 		}
 	}
-	spritedata->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
-	spritedata->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	spriteData->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
+	spriteData->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
 	
 	if (post->Time > 160)
 	{
@@ -138,7 +135,7 @@ void TitleScene::Update()
 		alpha[0] = 0.0f;
 		speed *= -1;  // アルファ値が0.0を下回った場合も反転する
 	}
-	spritedata->spriteSPACE->SetAlpha(alpha[0]);
+	spriteData->spriteSPACE->SetAlpha(alpha[0]);
 	
 	particleMan->Update();
 	
@@ -183,7 +180,7 @@ void TitleScene::Draw2D()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	Sprite::PreDraw(cmdList);
-	spritedata->spriteSceneChenge->Draw();
+	spriteData->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 void TitleScene::FirstDraw2D()
@@ -193,8 +190,8 @@ void TitleScene::FirstDraw2D()
 	Sprite::PreDraw(cmdList);
 	if (StartFlag == false)
 	{
-		spritedata->spriteSPACE->Draw();
-		spritedata->TITLE->Draw();
+		spriteData->spriteSPACE->Draw();
+		spriteData->TITLE->Draw();
 	}
 	Sprite::PostDraw();
 }

@@ -35,7 +35,7 @@ public:
     void DrawImGui() override;
 
 private:
-    SpriteData* spritedata = nullptr;
+    SpriteData* spriteData = nullptr;
     float alpha[3] = { 0,0,0 };  // 初期のアルファ
     float speed = 0.005f; // 点滅の速度
 };

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <imgui.h>
 #include "WinApp.h"
+#include "FPSFixed.h"
 
 // DirectX汎用
 class DirectXCommon
@@ -38,7 +39,9 @@ public: // メンバ関数
 	//static ID3D12Device* GetDevice() { return dev.Get(); }
 	// 描画コマンドリストの取得
 	ID3D12GraphicsCommandList* GetCommandList() { return cmdList.Get(); }
-
+	
+	// 終了処理
+	void fpsFixedFinalize();
 private: // メンバ変数
 	// ウィンドウズアプリケーション管理
 	WinApp* winApp;
@@ -58,7 +61,8 @@ private: // メンバ変数
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 	ComPtr<ID3D12DescriptorHeap> imguiHeap;
-
+	
+	FPSFixed* fpsFixed = nullptr;
 private: // メンバ関数
 
 	// DXGIデバイス初期化

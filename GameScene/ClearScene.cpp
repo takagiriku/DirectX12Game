@@ -13,12 +13,12 @@ void ClearScene::Initialize(DirectXCommon* dxCommon, Input* input, InputCamera* 
 	data->SetStageCount(3);
 	data->Initialize();
 	
-	spritedata = new SpriteData();
-	spritedata->SetStageCount(3);
-	spritedata->Initialize(SpriteMan);
+	spriteData = new SpriteData();
+	spriteData->SetStageCount(3);
+	spriteData->Initialize(SpriteMan);
 
 	
-	spritedata->spriteSceneChenge->SetSize({ 1280,720 });
+	spriteData->spriteSceneChenge->SetSize({ 1280,720 });
 	
 	
 	Object3d::SetCamera(inputCamera);
@@ -173,9 +173,9 @@ void ClearScene::Update()
 	data->TitleMove[1]->SetPosition({ TitlePosition[1] });
 	data->TitleMove[0]->Update();
 	data->TitleMove[1]->Update();
-	spritedata->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
-	spritedata->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
-	spritedata->Black->SetAlpha(alpha[0]);
+	spriteData->spriteSceneChenge->SetPosition({ 640 - SpriteX[0], 360 - SpriteY[0] });
+	spriteData->spriteSceneChenge->SetSize({ SpriteX[0] * 2.0f, SpriteY[0] * 2.0f });
+	spriteData->Black->SetAlpha(alpha[0]);
 
 	PostTime[0] = post->Time;
 }
@@ -207,7 +207,7 @@ void ClearScene::Draw2D()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	Sprite::PreDraw(cmdList);
-	spritedata->spriteSceneChenge->Draw();
+	spriteData->spriteSceneChenge->Draw();
 	Sprite::PostDraw();
 }
 
@@ -217,7 +217,7 @@ void ClearScene::FirstDraw2D()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	Sprite::PreDraw(cmdList);
-	spritedata->Black->Draw();
+	spriteData->Black->Draw();
 	Sprite::PostDraw();
 }
 

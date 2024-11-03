@@ -18,6 +18,10 @@ void DirectXCommon::Initialize(WinApp* winApp)
 
 	this->winApp = winApp;
 
+	// FPS固定初期化
+	fpsFixed = new FPSFixed();
+	fpsFixed->InitializeFixFPS();
+
 	// DXGIデバイス初期化
 	InitializeDXGIDevice();
 	// コマンド関連初期化
@@ -94,6 +98,8 @@ void DirectXCommon::PostDraw()
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+	// FPS固定
+	fpsFixed->UpdateFixFPS();
 
 	cmdAllocator->Reset(); // キューをクリア
 	cmdList->Reset(cmdAllocator.Get(), nullptr);	// 再びコマンドリストを貯める準備
@@ -347,4 +353,8 @@ void DirectXCommon::InitImgui()
 	{
 		assert(0);
 	}
+}
+
+void DirectXCommon::fpsFixedFinalize() {
+	safe_delete(fpsFixed);
 }

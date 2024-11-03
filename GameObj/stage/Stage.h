@@ -46,9 +46,14 @@ public:
 	
 	void StageChange();
 
-	void StageObjDraw0();
+	bool ObjDraw0(const std::string& objectName) const;
 	
+	void StageObjDraw0();
+
+	bool ObjDraw(const std::string& objectName) const;
+
 	void StageObjDraw();
+
 	
 
 	void SetGenerationFlag(bool StartFlag) { GenerationFlag = StartFlag; }
@@ -63,7 +68,6 @@ public:
 	void GetCameraPos(XMFLOAT3 camerapos){ this->camerapos = camerapos; };
 	XMFLOAT3 camerapos = { 0,0,0 };
 
-	float Gimmick = 0;
 
 	
 	bool KeyFlag = false;

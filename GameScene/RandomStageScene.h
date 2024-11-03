@@ -89,6 +89,6 @@ private:
     ParticleManager* particleMan = nullptr;
 
     Data* data = nullptr;
-    SpriteData* spritedata = nullptr;
+    SpriteData* spriteData = nullptr;
 };
 

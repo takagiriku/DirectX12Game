@@ -237,167 +237,100 @@ void Stage::StageChange()
 void Stage::StageObjDraw0()
 {
 	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile) {
+		if (ObjDraw0(GetNames[i])) {
 			objects[i]->Draw();
 		}
-		if (GetNames[i] == skipFileWall0) {
-			//objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall1) {
-			if (StagePos.z < -9 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-
-		}
-		if (GetNames[i] == skipFileWall2) {
-			if (StagePos.z < 6 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3) {
-			if (StagePos.z < 15 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4) {
-			if (StagePos.z < 18 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5) {
-			if (StagePos.z < 50 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall6) {
-			if (StagePos.z < 55 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-
-		if (GetNames[i] == skipFileWall1Rot90) {
-			if (StagePos.z < 6 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall2Rot90) {
-			if (StagePos.z < 28 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3Rot90) {
-			if (StagePos.z < 50 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4Rot90) {
-			if (StagePos.z < 55 || DrawFlag) {
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5Rot90) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileMoveWallRot90) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWallsousa) {
-			objects[i]->Draw();
-		}
-
 	}
+}
+
+bool Stage::ObjDraw0(const std::string& objectName) const
+{
+	if (objectName == skipFileWall0) {
+		return false;
+	}
+
+	bool shouldDraw = false;
+	if (objectName == skipFileTile || objectName == skipFileWall5Rot90 || objectName == skipFileMoveWallRot90 || objectName == skipFileWallsousa) {
+		shouldDraw = true;
+	}
+	else if (objectName == skipFileWall1) {
+		shouldDraw = StagePos.z < -9 || DrawFlag;
+	}
+	else if (objectName == skipFileWall2) {
+		shouldDraw = StagePos.z < 6 || DrawFlag;
+	}
+	else if (objectName == skipFileWall3) {
+		shouldDraw = StagePos.z < 15 || DrawFlag;
+	}
+	else if (objectName == skipFileWall4) {
+		shouldDraw = StagePos.z < 18 || DrawFlag;
+	}
+	else if (objectName == skipFileWall6) {
+		shouldDraw = StagePos.z < 55 || DrawFlag;
+	}
+	else if (objectName == skipFileWall1Rot90) {
+		shouldDraw = StagePos.z < 6 || DrawFlag;
+	}
+	else if (objectName == skipFileWall2Rot90) {
+		shouldDraw = StagePos.z < 28 || DrawFlag;
+	}
+	else if (objectName == skipFileWall3Rot90) {
+		shouldDraw = StagePos.z < 50 || DrawFlag;
+	}
+	else if (objectName == skipFileWall4Rot90) {
+		shouldDraw = StagePos.z < 55 || DrawFlag;
+	}
+	return shouldDraw;
 }
 
 void Stage::StageObjDraw()
 {
-
 	for (int i = 0; i < GetNames.size(); ++i) {
-		if (GetNames[i] == skipFileTile || GetNames[i] == skipFileTile2 || GetNames[i] == skipFileTile3) {
+		if (ObjDraw(GetNames[i])) {
 			objects[i]->Draw();
 		}
-		if (GetNames[i] == skipFileWall0) {
-			//objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall1) {
-			if (StagePos.z < -11 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall2) {
-			if (StagePos.z < 7 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3) {
-			if (StagePos.z < 14 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4) {
-			if (StagePos.z < 18 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5) {
-			if (StagePos.z < 40 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall6) {
-			if (StagePos.z < 55 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall7) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWall1Rot90) {
-			if (StagePos.z < 7 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall2Rot90) {
-			if (StagePos.z < 15 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall3Rot90) {
-			if (StagePos.z < 50 || DrawFlag)
-			{
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall4Rot90) {
-			if (StagePos.z < 55 || DrawFlag) {
-				objects[i]->Draw();
-			}
-		}
-		if (GetNames[i] == skipFileWall5Rot90) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileMoveWallRot90) {
-			objects[i]->Draw();
-		}
-		if (GetNames[i] == skipFileWallsousa) {
-			objects[i]->Draw();
-		}
-		
 	}
+}
+
+bool Stage::ObjDraw(const std::string& objectName) const
+{
+	if (objectName == skipFileWall0) {
+		return false;
+	}
+
+	bool shouldDraw = false;
+	if (objectName == skipFileTile || objectName == skipFileTile2 || objectName == skipFileTile3 || objectName == skipFileWall5Rot90 || objectName == skipFileMoveWallRot90 || objectName == skipFileWallsousa) {
+		shouldDraw = true;
+	}
+	else if (objectName == skipFileWall1) {
+		shouldDraw = StagePos.z < -11 || DrawFlag;
+	}
+	else if (objectName == skipFileWall2) {
+		shouldDraw = StagePos.z < 7 || DrawFlag;
+	}
+	else if (objectName == skipFileWall3) {
+		shouldDraw = StagePos.z < 14 || DrawFlag;
+	}
+	else if (objectName == skipFileWall4) {
+		shouldDraw = StagePos.z < 18 || DrawFlag;
+	}
+	else if (objectName == skipFileWall6) {
+		shouldDraw = StagePos.z < 55 || DrawFlag;
+	} 
+	else if (objectName == skipFileWall7) {
+		shouldDraw = StagePos.z > 1 || DrawFlag; 
+	}
+	else if (objectName == skipFileWall1Rot90) {
+		shouldDraw = StagePos.z < 7 || DrawFlag;
+	}
+	else if (objectName == skipFileWall2Rot90) {
+		shouldDraw = StagePos.z < 15 || DrawFlag;
+	}
+	else if (objectName == skipFileWall3Rot90) {
+		shouldDraw = StagePos.z < 50 || DrawFlag;
+	}
+	else if (objectName == skipFileWall4Rot90) {
+		shouldDraw = StagePos.z < 55 || DrawFlag;
+	}
+	return shouldDraw;
 }
